@@ -1,7 +1,6 @@
 import 'package:app_coffee/successful/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
-import 'package:flutter_svg/svg.dart';
 
 class OTPWidget extends StatefulWidget {
   const OTPWidget({super.key});
