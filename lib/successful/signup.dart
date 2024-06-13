@@ -1,10 +1,34 @@
+import 'package:app_coffee/signIn/signIn.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class SignupSuccessful extends StatelessWidget {
+class SignupSuccessful extends StatefulWidget {
   const SignupSuccessful({super.key});
 
+  @override
+  State<SignupSuccessful> createState() => _SignupSuccessfulState();
+}
+
+class _SignupSuccessfulState extends State<SignupSuccessful> 
+  with SingleTickerProviderStateMixin{
+  @override
+  void initState() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    Future.delayed(const Duration(seconds: 2), (){
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (_) => const SignInWidget(),
+      ));
+    });
+    super.initState();
+  }
+  @override
+  void dispose(){
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: SystemUiOverlay.values
+    );
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

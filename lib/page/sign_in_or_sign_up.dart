@@ -1,3 +1,5 @@
+import 'package:app_coffee/signIn/signIn.dart';
+import 'package:app_coffee/signUp/signUp.dart';
 import 'package:flutter/material.dart';
 
 class SignInOrSignUp extends StatelessWidget {
@@ -26,7 +28,7 @@ class SignInOrSignUp extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 height: 0.1,
                 fontSize: 16,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
             Container(
@@ -34,7 +36,9 @@ class SignInOrSignUp extends StatelessWidget {
                 height: 140,
                 padding: const EdgeInsets.only(bottom: 0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder:(context) => const SignInWidget()));
+                  },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(15),
                     minimumSize: const Size(400, 10),
@@ -56,7 +60,9 @@ class SignInOrSignUp extends StatelessWidget {
                 height: 80,
                 padding: const EdgeInsets.only(bottom: 0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder:(context) => const SignUpWidget()));
+                  },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(15),
                     minimumSize: const Size(400, 10),
@@ -85,7 +91,7 @@ class SignInOrSignUp extends StatelessWidget {
                   fontSize: 12,
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w400,
-                  color: Colors.white,
+                  color: Colors.black,
                   height: 1.7,
                 ),
               ),

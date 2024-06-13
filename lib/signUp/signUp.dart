@@ -1,4 +1,6 @@
+import 'package:app_coffee/page/sign_in_or_sign_up.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SignUpWidget extends StatefulWidget {
@@ -33,13 +35,12 @@ class _SignUpWidgetWidgetState extends State<SignUpWidget> {
                 const SizedBox(height: 25),
                 Row(
                   children: [
-                    const Icon(Icons.arrow_back),
                     Expanded(
                       child: Container(
                         alignment: Alignment.center,
                         padding: const EdgeInsets.only(right: 20),
                         child: const Text(
-                        'Sign in',
+                        'Sign up',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 32,
@@ -119,17 +120,26 @@ class _SignUpWidgetWidgetState extends State<SignUpWidget> {
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: confirmpassController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
+                  obscureText: hidden,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      padding: const EdgeInsetsDirectional.only(end: 12),
+                      icon: hidden? const Icon(Icons.visibility_off,) : const Icon(Icons.visibility,),
+                      onPressed: (){
+                        setState(() {
+                          hidden =! hidden;
+                        });
+                      },
+                    ),
+                    focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black)
                     ),
-                    enabledBorder: UnderlineInputBorder(
+                    enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.black),
                     ),
                     labelText: "Nhập lại mật khẩu",
-                    icon: Icon(Icons.lock, color: Colors.black,),
-                    labelStyle: TextStyle(
+                    icon: const Icon(Icons.lock, color: Colors.black,),
+                    labelStyle: const TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                     )  

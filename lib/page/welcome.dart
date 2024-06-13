@@ -1,3 +1,4 @@
+import 'package:app_coffee/page/sign_in_or_sign_up.dart';
 import 'package:flutter/material.dart';
 
 class Welcome extends StatelessWidget {
@@ -11,7 +12,6 @@ class Welcome extends StatelessWidget {
             color: Color(0xFFC3916B),
           ),
           width: double.maxFinite,
-          
           child: Column(
             children:[
               Container(
@@ -47,7 +47,7 @@ class Welcome extends StatelessWidget {
                 style: TextStyle(
                   height: 3.1,
                   letterSpacing: 2,
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 34,
                   fontFamily: 'Inter',
                 ),
@@ -59,6 +59,7 @@ class Welcome extends StatelessWidget {
                   height: -0.5,
                   letterSpacing: 2,
                   color: Color(0xFFAD4B4B),
+                  fontWeight: FontWeight.bold,
                   fontSize: 30,
                   fontFamily: 'Inter',
                 ),
@@ -71,7 +72,7 @@ class Welcome extends StatelessWidget {
                   fontSize: 14,
                   height: 5,
                   letterSpacing: 1,
-                  color: Color(0xFFD0CDCD)
+                  color: Colors.black,
                 ),
               ),
               Container(
@@ -80,7 +81,9 @@ class Welcome extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 0),
                 child: ElevatedButton.icon(
                   icon: const Icon(Icons.arrow_circle_right, color: Colors.black,),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder:(context) => const SignInOrSignUp()));
+                  },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(15),
                     minimumSize: const Size(400, 10),
@@ -91,7 +94,7 @@ class Welcome extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w400,
-                    fontSize: 12,
+                    fontSize: 17,
                     height: 1.7,
                     color: Color(0xFF000000),
                   ),),
