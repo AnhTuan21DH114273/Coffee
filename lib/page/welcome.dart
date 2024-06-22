@@ -1,8 +1,25 @@
 import 'package:app_coffee/page/sign_in_or_sign_up.dart';
+import 'package:app_coffee/screen/language.dart';
 import 'package:flutter/material.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});
+
+  void _showModalBottomSheet(BuildContext context){
+    showModalBottomSheet(
+      context: context, 
+      isScrollControlled: true,
+      backgroundColor: Color(0xFF6F4E37),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(32),
+        ),
+      ),
+      builder: (context) => const SingleChildScrollView(
+        child: Language(),
+      )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +28,7 @@ class Welcome extends StatelessWidget {
           decoration: const BoxDecoration(
             color: Color(0xFFC3916B),
           ),
-          width: double.maxFinite,
+         
           child: Column(
             children:[
               Container(
@@ -19,7 +36,7 @@ class Welcome extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 20, right:10,),
                 child: TextButton.icon(
                   icon: const Icon(Icons.language_rounded,color: Colors.white,),
-                  onPressed: () {},
+                  onPressed: () => _showModalBottomSheet(context),
                   style: ButtonStyle(
                     padding: WidgetStateProperty.all<EdgeInsets>(const EdgeInsets.fromLTRB(9.5, 1, 7.2, 1)),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(

@@ -1,3 +1,4 @@
+import 'package:app_coffee/page/sign_in_or_sign_up.dart';
 import 'package:flutter/material.dart';
 
 class SignInWidget extends StatefulWidget {
@@ -25,17 +26,45 @@ class _SignInWidgetState extends State<SignInWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  alignment: Alignment.topCenter,
-                  padding: const EdgeInsets.only(top:40),
-                  child: const Text(
-                    'Sign in',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                const SizedBox(height: 35,),
+                Row(
+                  children: [
+                    Expanded(child: 
+                      Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.only(right: 100),
+                        child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder:(context) => const SignInOrSignUp()));
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.all(1),
+                            minimumSize: const Size(0, 0),
+                            backgroundColor: const Color(0xFFC3916B),
+                            side: BorderSide.none,
+                          ),
+                          child: const Icon(Icons.arrow_back, color: Colors.black,) 
+                        ),
+                      ),
                     ),
-                ),
+                    const SizedBox(width: 21,),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.only(left: 6),
+                        child: const Text(
+                        'Sign In',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                        ),
+                      )
+                    ),
+                    const SizedBox(width: 140,)
+                  ],
+                ), 
                 const SizedBox(height: 20,),
                 TextFormField(
                   controller: nameController,

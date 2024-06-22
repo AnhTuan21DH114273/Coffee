@@ -1,3 +1,4 @@
+import 'package:app_coffee/page/sign_in_or_sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -33,10 +34,29 @@ class _SignUpWidgetWidgetState extends State<SignUpWidget> {
                 const SizedBox(height: 25),
                 Row(
                   children: [
+                    Expanded(child: 
+                      Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.only(right: 100),
+                        child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder:(context) => const SignInOrSignUp()));
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.all(1),
+                            minimumSize: const Size(0, 0),
+                            backgroundColor: const Color(0xFFC3916B),
+                            side: BorderSide.none,
+                          ),
+                          child: const Icon(Icons.arrow_back, color: Colors.black,) 
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 21,),
                     Expanded(
                       child: Container(
                         alignment: Alignment.center,
-                        padding: const EdgeInsets.only(right: 20),
+                        padding: const EdgeInsets.only(left: 6),
                         child: const Text(
                         'Sign up',
                         textAlign: TextAlign.center,
@@ -47,8 +67,9 @@ class _SignUpWidgetWidgetState extends State<SignUpWidget> {
                         ),
                       )
                     ),
+                    const SizedBox(width: 140,)
                   ],
-                ),
+                ), 
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: nameController,
@@ -178,7 +199,7 @@ class _SignUpWidgetWidgetState extends State<SignUpWidget> {
                     fontSize: 12,
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w400,
-                    color: Colors.white,
+                    color: Colors.black,
                     height: 1.7,
                   ),
                 ),

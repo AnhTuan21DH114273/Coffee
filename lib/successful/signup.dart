@@ -10,9 +10,8 @@ class SignupSuccessful extends StatefulWidget {
   State<SignupSuccessful> createState() => _SignupSuccessfulState();
 }
 
-class _SignupSuccessfulState extends State<SignupSuccessful> 
-  with SingleTickerProviderStateMixin{
-  @override
+class _SignupSuccessfulState extends State<SignupSuccessful> {
+  /*@override
   void initState() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     Future.delayed(const Duration(seconds: 2), (){
@@ -28,7 +27,7 @@ class _SignupSuccessfulState extends State<SignupSuccessful>
       overlays: SystemUiOverlay.values
     );
     super.dispose();
-  }
+  }*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,35 +39,61 @@ class _SignupSuccessfulState extends State<SignupSuccessful>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(top: 140, left: 20),
-              child: SvgPicture.asset("assets/vectors/Leaf_1.svg",),
-            ),            
-            Container(
+            const SizedBox(height: 185,),
+            Stack(
               alignment: Alignment.center,
-              padding: const EdgeInsets.only(top: 50),
-              child: SvgPicture.asset("assets/vectors/tick.svg",width: 92, height: 92,),
+              children: [
+              const Positioned(
+                child: SizedBox(
+                  height: 297.63,
+                  width: 430,
+                )
+              ),
+              Positioned(
+                top: 100,
+                bottom: 0,
+                child: SvgPicture.asset("assets/vectors/tick.svg",width: 92, height: 92,),
+              ),
+              Positioned(
+                top: 220,
+                left: 40,
+                bottom: 0,
+                child: SvgPicture.asset("assets/vectors/Leaf.svg",width: 59.26, height: 60.63,),
+              ),
+              Positioned(
+                top: 0,
+                left: 10,
+                bottom: 200,
+                child: SvgPicture.asset("assets/vectors/Leaf_1.svg",width: 66.39, height: 68.74,),
+              ),
+              Positioned(
+                top: 0,
+                right: 0,
+                bottom: 0,
+                child: SvgPicture.asset("assets/vectors/Leaf_2.svg",width: 137.02, height: 233.45,),
+              ),
+              const Positioned(
+                top: 250,
+                bottom: 0,
+                child: Align(alignment: Alignment.center,
+                  child: Text("Successful Authentication",
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 17,
+                    height: 3,
+                    color: Colors.white,
+                    ),
+                  ),
+                ),
+                ),
+              ],
             ),
-            const Text("Successful Authentication",
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w600,
-                fontSize: 17,
-                height: 4,
-                color: Colors.white,
-             ),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(top: 0, left: 50),
-              child: SvgPicture.asset("assets/vectors/Leaf.svg",),
-            ),
-            Expanded(child: Container(
-              alignment: Alignment.bottomCenter,
-              
-              child: Image.asset("assets/images/SignUpSuccessful.png")
-            ),)
+            const Image(
+              image: 
+              AssetImage("assets/images/SignUpSuccessful.png"
+              )
+            )
           ],
         ),
       ),
