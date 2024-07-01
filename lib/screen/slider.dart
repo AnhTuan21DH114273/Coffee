@@ -40,7 +40,7 @@ class _SliderPState extends State<SliderP> {
                     onPageChanged: (index, reason) =>
                         setState(() => activeIndex = index))),
             ),
-            const SizedBox(height: 8),
+            
             buildIndicator()
           ],
         ),
