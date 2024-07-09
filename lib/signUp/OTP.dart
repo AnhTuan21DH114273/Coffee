@@ -1,15 +1,22 @@
-import 'package:app_coffee/successful/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:pinput/pinput.dart';
+import 'package:app_coffee/signIn/signIn.dart';
+import '../data/config/config_manager.dart';
 
 class OTPWidget extends StatefulWidget {
-  const OTPWidget({super.key});
+  final String phoneNumber;
+
+  OTPWidget({required this.phoneNumber});
 
   @override
-  State<OTPWidget> createState() => _OTPWidgetState();
+  _OTPWidgetState createState() => _OTPWidgetState();
 }
 
 class _OTPWidgetState extends State<OTPWidget> {
+  final TextEditingController otpController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
@@ -24,58 +31,76 @@ class _OTPWidgetState extends State<OTPWidget> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(4),
         border: Border.all(color: Colors.black),
-      )
+      ),
     );
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-            color: Color(0xFFC3916B),
-          ),
+          color: Color(0xFFC3916B),
+        ),
         width: double.maxFinite,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.only(top: 5, left: 20),
-              child: const Icon(Icons.arrow_back, color: Colors.black, size: 30,)
-            ),        
-            const SizedBox(height: 60,),    
-            const Text("OTP Verification",
+              child: const Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+                size: 30,
+              ),
+            ),
+            const SizedBox(
+              height: 60,
+            ),
+            const Text(
+              "OTP Verification",
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontWeight: FontWeight.w700,
                 fontSize: 25,
                 color: Colors.black,
-             ),
+              ),
             ),
-            const SizedBox(height: 15,),
+            const SizedBox(
+              height: 15,
+            ),
             Container(
               width: 279.81,
               padding: const EdgeInsets.only(bottom: 5),
-              child: const Text("Enter the code from the sms we sent to +84 123 456 789",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w700,
-                fontSize: 16,
-                color: Colors.black,
+              child: Text(
+                "Enter the code from the sms we sent to +84 ${widget.phoneNumber}",
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                  color: Colors.black,
                 ),
               ),
             ),
-            const SizedBox(height: 70,),
+            const SizedBox(
+              height: 70,
+            ),
             Pinput(
               length: 6,
+              controller: otpController,
               defaultPinTheme: defaultPinTheme,
               focusedPinTheme: defaultPinTheme.copyWith(
                 decoration: defaultPinTheme.decoration!.copyWith(
                   border: Border.all(color: Colors.white),
-                )
+                ),
               ),
               onCompleted: (pin) => debugPrint(pin),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.only(right: 55),
@@ -88,43 +113,101 @@ class _OTPWidgetState extends State<OTPWidget> {
                 ),
               ),
             ),
-            const SizedBox(height: 80,),
+            const SizedBox(
+              height: 80,
+            ),
             Container(
               alignment: Alignment.bottomCenter,
               padding: const EdgeInsets.only(bottom: 0),
               child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder:(context) => const SignupSuccessful()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(15),
-                    minimumSize: const Size(400, 10),
-                    backgroundColor: const Color(0xFFFFBE98),
-                  ),
-                  child: const Text(
-                  "CONTINUE",
+                onPressed: () async {
+                  try {
+                    print('Verifying OTP...');
+                    final response = await http.post(
+                      Uri.parse('$baseURL/api/verify-otp'),
+                      headers: <String, String>{
+                        'Content-Type': 'application/json; charset=UTF-8',
+                      },
+                      body: jsonEncode(<String, String>{
+                        'phoneNumber': widget.phoneNumber,
+                        'otp': otpController.text,
+                      }),
+                    );
+
+                    print('Response status: ${response.statusCode}');
+                    print('Response body: ${response.body}');
+
+                    if (response.statusCode == 200) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Success"),
+                            content: Text("Registration Successful!"),
+                            actions: [
+                              TextButton(
+                                child: Text("OK"),
+                                onPressed: () {
+                                  Navigator.pop(context); // Đóng hộp thoại
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SignInWidget(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Error: ${response.body}")),
+                      );
+                    }
+                  } catch (e) {
+                    print('Error: $e');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Error: $e")),
+                    );
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(15),
+                  minimumSize: const Size(400, 10),
+                  backgroundColor: const Color(0xFFFFBE98),
+                ),
+                child: const Text(
+                  "VERIFY",
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                     height: 1.7,
                     color: Color(0xFF000000),
-                ),),
+                  ),
+                ),
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("I didn't receive any code.",
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                )  
+                const Text(
+                  "I didn't receive any code.",
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    // Logic để gửi lại OTP ở đây
+                  },
                   child: const Text(
                     "Resend",
                     style: TextStyle(
@@ -135,10 +218,10 @@ class _OTPWidgetState extends State<OTPWidget> {
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
-                  )
+                  ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

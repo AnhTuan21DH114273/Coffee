@@ -1,14 +1,8 @@
-import 'package:app_coffee/home/details.dart';
 import 'package:app_coffee/home/home.dart';
-import 'package:app_coffee/page/sign_in_or_sign_up.dart';
-import 'package:app_coffee/page/welcome.dart';
-import 'package:app_coffee/screen/language.dart';
 import 'package:app_coffee/screen/splashscreen.dart';
 import 'package:app_coffee/signIn/signIn.dart';
-import 'package:app_coffee/signUp/OTP.dart';
 import 'package:app_coffee/signUp/signUp.dart';
-import 'package:app_coffee/successful/order.dart';
-import 'package:app_coffee/successful/signup.dart';
+import 'package:app_coffee/screen/slider.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,7 +15,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: MyFoodScreen(),
+      home: HomePage(),
     );
   }
 }
