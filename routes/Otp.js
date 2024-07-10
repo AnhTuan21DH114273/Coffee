@@ -5,9 +5,9 @@ const twilio = require("twilio");
 
 module.exports = function (db) {
   // Initialize Twilio client
-  const accountSid = "AC45616eb63576cb47b002cff234fe415d"; // Replace with your Twilio account SID
-  const authToken = "ba4dd82601eaf00862eafb4ed540e89d"; // Replace with your Twilio auth token
-  const serviceSid = "VA3e4573a28c5e13b0d195966298b8b090"; // Replace with your Twilio Verify service SID
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const serviceSid = process.env.TWILIO_SERVICE_SID;
   const client = twilio(accountSid, authToken);
 
   // Function to generate OTP
