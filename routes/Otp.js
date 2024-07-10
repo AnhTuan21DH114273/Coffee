@@ -67,6 +67,5 @@ module.exports = function (db) {
       res.status(500).json({ error: "Failed to verify OTP" });
     }
   });
-
   return router;
 };
