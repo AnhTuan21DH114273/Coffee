@@ -1,5 +1,8 @@
 import 'package:app_coffee/page/sign_in_or_sign_up.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import '../data/config/config_manager.dart';
 
 class SignInWidget extends StatefulWidget {
   const SignInWidget({super.key});
@@ -108,7 +111,54 @@ class _SignInWidgetState extends State<SignInWidget> {
                   alignment: Alignment.bottomCenter,
                   padding: const EdgeInsets.only(bottom: 0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      try {
+                        print('Sending login request...');
+                        final response = await http.post(
+                          Uri.parse('$baseURL/api/auth/signin'),
+                          headers: <String, String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: jsonEncode(<String, String>{
+                            'name': nameController.text,
+                            'password': passwordController.text,
+                          }),
+                        );
+
+                        print('Response status: ${response.statusCode}');
+                        print('Response body: ${response.body}');
+
+                        if (response.statusCode == 200) {
+                          final responseData = jsonDecode(response.body);
+                          final userData = responseData['user'];
+                          print('User data: $userData'); // Log user data
+
+                          if (userData != null && userData['name'] != null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text("Welcome ${userData['name']}")),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text(
+                                      "User data is missing or malformed")),
+                            );
+                          }
+                        } 
+                        
+                        else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Error: ${response.body}")),
+                          );
+                        }
+                      } catch (e) {
+                        print('Error: $e');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Error: $e")),
+                        );
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(15),
                       minimumSize: const Size(400, 10),
