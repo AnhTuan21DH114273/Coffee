@@ -25,7 +25,9 @@ class _VoucherState extends State<Voucher> {
                 Positioned(
                   top: 30,
                   child: IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }, icon: const Icon(Icons.arrow_back)),
                 ),
                 const Positioned(
                     top: 38,

@@ -23,7 +23,7 @@
             "id": 3,
             "name": "Cappuchino",
             "price": 60000,
-            "img": "CappuchinoCold.png",
+            "img": "CappuchinoHot.png",
             "des": "Hot(M)",
             "catId": 1,
             "catName": "Cappuchino"  

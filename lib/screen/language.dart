@@ -101,6 +101,5 @@ class _LanguageState extends State<Language> {
             const SizedBox(height: 35,),
           ],
         );
-   
   }
 }

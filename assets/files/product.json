@@ -8,6 +8,10 @@
             "img": "CappuchinoMilk.png",
             "des": "with chocolate",
             "catId": 1,
+            "a": 255,
+            "r": 207,
+            "g": 176,
+            "b": 122,
             "catName": "Cappuchino"    
         },
         {
@@ -17,15 +21,23 @@
             "img": "CappuchinoCold.png",
             "des": "Cold",
             "catId": 1,
+            "a": 181,
+            "r": 122,
+            "g": 81,
+            "b": 1,
             "catName": "Cappuchino"
         },
         {
             "id": 3,
             "name": "Cappuchino",
             "price": 60000,
-            "img": "CappuchinoCold.png",
+            "img": "CappuchinoHot.png",
             "des": "Hot(M)",
             "catId": 1,
+            "a": 255,
+            "r": 195,
+            "g": 170,
+            "b": 142,
             "catName": "Cappuchino"  
         },
         {
@@ -35,6 +47,10 @@
             "img": "CappuchinoHot.png",
             "des": "Hot(L)",
             "catId": 1,
+            "a": 255,
+            "r": 207,
+            "g": 176,
+            "b": 122,
             "catName": "Cappuchino" 
         },
         {
@@ -44,6 +60,10 @@
             "img": "Machiato_1.png",
             "des": "With Milk",
             "catId": 2,
+            "a": 255,
+            "r": 207,
+            "g": 176,
+            "b": 122,
             "catName": "Machiato" 
         },
         {
@@ -53,6 +73,10 @@
             "img": "Machiato_2.png",
             "des": "Cold",
             "catId": 2,
+            "a": 181,
+            "r": 122,
+            "g": 81,
+            "b": 1,
             "catName": "Machiato" 
         },
         {
@@ -62,6 +86,10 @@
             "img": "Machiato_3.png",
             "des": "Hot(M)",
             "catId": 2,
+            "a": 255,
+            "r": 195,
+            "g": 170,
+            "b": 142,
             "catName": "Machiato" 
         },
         {
@@ -71,6 +99,10 @@
             "img": "Machiato_4.png",
             "des": "Cold",
             "catId": 2,
+            "a": 255,
+            "r": 207,
+            "g": 176,
+            "b": 122,
             "catName": "Machiato" 
         },
         {

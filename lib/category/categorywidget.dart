@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:app_coffee/congf/const.dart';
+import 'package:app_coffee/data/provider/cart_provider.dart';
 import 'package:app_coffee/data/provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,7 +76,6 @@ class _CategoryWidgetState extends State<CategoryWidget> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -137,6 +137,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
 
   Widget itemProdView(products, BuildContext context) {
     final provider = FavoriteProvider.of(context);
+    final provider_1 = CartProvider.of(context);
     return Container(
       height: 294,
       width: 184,
@@ -228,7 +229,9 @@ class _CategoryWidgetState extends State<CategoryWidget> {
               Padding(
                 padding: EdgeInsets.only(top: 0.1),
                 child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      provider_1.addToCart(products);
+                    },
                     style: ButtonStyle(
                         padding: WidgetStateProperty.all<EdgeInsets>(
                             const EdgeInsets.all(3)),

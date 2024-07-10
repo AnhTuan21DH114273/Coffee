@@ -10,10 +10,9 @@ class MyFoodScreen extends StatefulWidget {
   State<MyFoodScreen> createState() => _MyFoodScreenState();
 }
 
-class _MyFoodScreenState extends State<MyFoodScreen>
-    with SingleTickerProviderStateMixin {
+class _MyFoodScreenState extends State<MyFoodScreen> with SingleTickerProviderStateMixin {
   late PageController _pageController;
-  List<FoodModel> _foodlist = foodList;
+  final List<FoodModel> _foodlist = foodList;
 
   double get _currentOffset {
     bool inited = _pageController.hasClients &&
@@ -30,7 +29,7 @@ class _MyFoodScreenState extends State<MyFoodScreen>
     );
     super.initState();
   }
-
+  
   @override
   void dispose() {
     _pageController.dispose();

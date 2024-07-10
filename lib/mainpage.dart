@@ -30,6 +30,7 @@ class _MainpageState extends State<Mainpage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+      drawer: Drawer(),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

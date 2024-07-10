@@ -1,17 +1,8 @@
-import 'package:app_coffee/category/categorywidget.dart';
+import 'package:app_coffee/data/provider/cart_provider.dart';
 import 'package:app_coffee/data/provider/favorite_provider.dart';
-import 'package:app_coffee/home/details.dart';
-import 'package:app_coffee/home/home.dart';
+import 'package:app_coffee/data/provider/order_provider.dart';
 import 'package:app_coffee/mainpage.dart';
-import 'package:app_coffee/page/sign_in_or_sign_up.dart';
-import 'package:app_coffee/page/welcome.dart';
-import 'package:app_coffee/screen/language.dart';
-import 'package:app_coffee/screen/splashscreen.dart';
-import 'package:app_coffee/signIn/signIn.dart';
-import 'package:app_coffee/signUp/OTP.dart';
-import 'package:app_coffee/signUp/signUp.dart';
 import 'package:app_coffee/successful/order.dart';
-import 'package:app_coffee/successful/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +17,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => FavoriteProvider())
+        ChangeNotifierProvider(create: (context) => FavoriteProvider()),
+        ChangeNotifierProvider(create: (context) => CartProvider()),
+        ChangeNotifierProvider(create: (context) => CartCounter()),
+        ChangeNotifierProvider(create: (context) => OrderProvider()),
       ],
       child: const MaterialApp(
       home: Mainpage(),

@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(
                 height: 180,
-                child: Expanded(child: SliderP()),
+                child: SliderP(),
               ),
               Expanded(child: CategoryWidget()),
             ],
