@@ -1,3 +1,4 @@
+import 'package:app_coffee/home/home.dart';
 import 'package:app_coffee/page/sign_in_or_sign_up.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -138,6 +139,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                               SnackBar(
                                   content: Text("Welcome ${userData['name']}")),
                             );
+
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -145,6 +147,12 @@ class _SignInWidgetState extends State<SignInWidget> {
                                       "User data is missing or malformed")),
                             );
                           }
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(),
+                            ),
+                          );
                         } 
                         
                         else {

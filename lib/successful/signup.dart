@@ -11,7 +11,7 @@ class SignupSuccessful extends StatefulWidget {
 }
 
 class _SignupSuccessfulState extends State<SignupSuccessful> {
-  /*@override
+  @override
   void initState() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     Future.delayed(const Duration(seconds: 2), (){
@@ -27,7 +27,7 @@ class _SignupSuccessfulState extends State<SignupSuccessful> {
       overlays: SystemUiOverlay.values
     );
     super.dispose();
-  }*/
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

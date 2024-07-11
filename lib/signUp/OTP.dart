@@ -1,3 +1,4 @@
+import 'package:app_coffee/successful/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -138,28 +139,11 @@ class _OTPWidgetState extends State<OTPWidget> {
                     print('Response body: ${response.body}');
 
                     if (response.statusCode == 200) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Success"),
-                            content: Text("Registration Successful!"),
-                            actions: [
-                              TextButton(
-                                child: Text("OK"),
-                                onPressed: () {
-                                  Navigator.pop(context); // Đóng hộp thoại
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SignInWidget(),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          );
-                        },
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignupSuccessful(),
+                        ),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
