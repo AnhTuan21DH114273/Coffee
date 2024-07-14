@@ -45,7 +45,7 @@ class SignInOrSignUp extends StatelessWidget {
                     backgroundColor: const Color(0xFFFFBE98),
                   ),
                   child: const Text(
-                  "Sign In",
+                  "Đăng nhập",
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w600,
@@ -69,7 +69,7 @@ class SignInOrSignUp extends StatelessWidget {
                     backgroundColor: const Color(0xFFECB176),
                   ),
                   child: const Text(
-                  "Sign Up",
+                  "Đăng ký",
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w600,

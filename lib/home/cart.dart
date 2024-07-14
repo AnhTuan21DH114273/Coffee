@@ -35,17 +35,17 @@ class _CartState extends State<Cart> {
                     icon: Icon(Icons.arrow_back),
                   ),
                   const SizedBox(
-                    width: 130,
+                    width: 120,
                   ),
                   const Text(
-                    "Cart",
+                    "Giỏ hàng",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(
-                    width: 140,
+                    width: 100,
                   ),
                   ElevatedButton(
                       onPressed: () {},
@@ -54,7 +54,7 @@ class _CartState extends State<Cart> {
                         minimumSize: const Size(44, 44),
                         backgroundColor: const Color(0xFF533A28),
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.delete_outline,
                         color: Colors.white,
                       )),
@@ -70,7 +70,7 @@ class _CartState extends State<Cart> {
                   return Container(
                     height: 92,
                     width: 412,
-                    margin: EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10)),
@@ -78,7 +78,7 @@ class _CartState extends State<Cart> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Checkbox(
-                          activeColor: Color(0xFFC3916B),
+                          activeColor: const Color(0xFFC3916B),
                           value: checkboxValue1,
                           onChanged: (value) {
                             setState(() {
@@ -87,7 +87,7 @@ class _CartState extends State<Cart> {
                           },
                         ),
                         Image.asset(urlimg + cartList["img"]),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Column(
@@ -135,7 +135,7 @@ class _CartState extends State<Cart> {
                   backgroundColor: const Color(0xFFC67C4E),
                 ),
                 child: const Text(
-                  "CONTINUE",
+                  "Tiếp tục",
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.bold,

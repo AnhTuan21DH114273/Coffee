@@ -1,3 +1,4 @@
+import 'package:app_coffee/order/map.dart';
 import 'package:app_coffee/order/review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -73,7 +74,7 @@ class OrderSuccessful extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Review()));
+                    context, MaterialPageRoute(builder: (context) => MapScreen()));
               },
               style: ButtonStyle(
                   padding: WidgetStateProperty.all<EdgeInsets>(

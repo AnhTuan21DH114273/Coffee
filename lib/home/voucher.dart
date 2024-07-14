@@ -18,7 +18,7 @@ class _VoucherState extends State<Voucher> {
       body: Column(
         children: [
           Container(
-            height: 340,
+            height: 280,
             decoration: const BoxDecoration(color: Color(0xFFC3916B)),
             child: Stack(
               children: [
@@ -31,9 +31,9 @@ class _VoucherState extends State<Voucher> {
                 ),
                 const Positioned(
                     top: 38,
-                    right: 170,
+                    right: 140,
                     child: Text(
-                      "Voucher",
+                      "Mã Giảm Giá",
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -49,7 +49,7 @@ class _VoucherState extends State<Voucher> {
                     left: 0,
                     child: Image.asset("assets/images/VoucherImg_2.png")),
                 Positioned(
-                    top: 160,
+                    top: 100,
                     left: 13,
                     child: Container(
                       height: 26,
@@ -59,7 +59,7 @@ class _VoucherState extends State<Voucher> {
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: const Center(
                         child: Text(
-                          "0 bean",
+                          "0 hạt",
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.black,
@@ -69,11 +69,11 @@ class _VoucherState extends State<Voucher> {
                       ),
                     )),
                 Positioned(
-                    top: 160,
+                    top: 100,
                     right: 13,
                     child: Container(
                       height: 26,
-                      width: 115,
+                      width: 110,
                       decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -88,7 +88,7 @@ class _VoucherState extends State<Voucher> {
                             width: 5,
                           ),
                           Text(
-                            "Your voucher",
+                            "Mã của bạn",
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.black,
@@ -99,7 +99,7 @@ class _VoucherState extends State<Voucher> {
                       )),
                     )),
                 Positioned(
-                    top: 200,
+                    top: 140,
                     left: 10,
                     child: Container(
                       height: 93.16,
@@ -126,13 +126,13 @@ class _VoucherState extends State<Voucher> {
                       )),
                     )),
                 Positioned(
-                    top: 300,
+                    top: 240,
                     left: 10,
                     child: Container(
-                      width: 187,
+                      width: 189,
                       color: Colors.transparent,
                       child: const Text(
-                        "100 more beans left and you will advance. Redeeming gifts does not affect promotion.",
+                        "Còn 100 hạt đậu nữa và bạn sẽ tiến lên. Việc đổi quà không ảnh hưởng tới khuyến mãi.",
                         style: TextStyle(
                           color: Color(0xFFD9D9D9),
                           fontSize: 9,
@@ -143,15 +143,12 @@ class _VoucherState extends State<Voucher> {
             ),
           ),
           SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            height: 250,
+            height: 220,
             child: GridView.builder(
                 itemCount: voucherGrid.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 2.3,
+                    childAspectRatio: 2.65,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 20),
                 itemBuilder: (context, index) {
@@ -194,14 +191,29 @@ class _VoucherState extends State<Voucher> {
                   );
                 }),
           ),
+          const Padding(padding: EdgeInsets.only(right: 320),
+            child: Text("Mã giảm giá",
+            style: TextStyle(
+              color: Color(0xFF7F4C2A),
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          Container(
+              margin: const EdgeInsets.only(left: 9.0, right: 9.0),
+              child: const Divider(
+                color: Colors.grey,
+                height: 1,
+            )),
           Expanded(
-              child: ListView.builder(
+            child: ListView.builder(
             itemCount: 5,
             itemBuilder: (context, index) {
               return Container(
                   width: 412,
-                  height: 106,
-                  margin: EdgeInsets.all(10),
+                  height: 100,
+                  margin: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(11),
                       color: Colors.white),

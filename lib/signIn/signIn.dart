@@ -1,5 +1,6 @@
 import 'package:app_coffee/home/home.dart';
 import 'package:app_coffee/page/sign_in_or_sign_up.dart';
+import 'package:app_coffee/signIn/forgotPass.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -21,8 +22,8 @@ class _SignInWidgetState extends State<SignInWidget> {
       body: Container(
         padding: const EdgeInsets.all(16),
         decoration: const BoxDecoration(
-            color: Color(0xFFC3916B),
-          ),
+          color: Color(0xFFC3916B),
+        ),
         width: double.maxFinite,
         child: Container(
           alignment: Alignment.topCenter,
@@ -30,82 +31,84 @@ class _SignInWidgetState extends State<SignInWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(height: 35,),
+                const SizedBox(
+                  height: 35,
+                ),
                 Row(
                   children: [
-                    Expanded(child: 
-                      Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.only(right: 100),
-                        child: OutlinedButton(
+                    Container(
+                      padding: const EdgeInsets.only(right: 80, left: 0),
+                      child: OutlinedButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder:(context) => const SignInOrSignUp()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SignInOrSignUp()));
                           },
                           style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.all(1),
+                            padding: const EdgeInsets.all(3),
                             minimumSize: const Size(0, 0),
                             backgroundColor: const Color(0xFFC3916B),
                             side: BorderSide.none,
                           ),
-                          child: const Icon(Icons.arrow_back, color: Colors.black,) 
-                        ),
+                          child: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.black,
+                          )),
+                    ),
+                    const SizedBox(
+                      width: 160,
+                      child: Text(
+                        'Đăng nhập',
+                        style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                     ),
-                    const SizedBox(width: 21,),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.only(left: 6),
-                        child: const Text(
-                        'Sign In',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                        ),
-                      )
-                    ),
-                    const SizedBox(width: 140,)
                   ],
-                ), 
-                const SizedBox(height: 20,),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 TextFormField(
                   controller: nameController,
                   decoration: const InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                    ),
-                    labelText: "Full Name",
-                    icon: Icon(Icons.person,color: Colors.black,),
-                    labelStyle: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ) 
-                    
-                  ),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black)),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      labelText: "Username",
+                      icon: Icon(
+                        Icons.person,
+                        color: Colors.black,
+                      ),
+                      labelStyle: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      )),
                 ),
-                const SizedBox(height:40),
+                const SizedBox(height: 40),
                 TextFormField(
                   controller: passwordController,
                   obscureText: true,
                   decoration: const InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black)
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                    ),
-                    labelText: "Password",
-                    icon: Icon(Icons.lock, color: Colors.black,),
-                    labelStyle: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    )  
-                  ),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black)),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      labelText: "Mật khẩu",
+                      icon: Icon(
+                        Icons.lock,
+                        color: Colors.black,
+                      ),
+                      labelStyle: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      )),
                 ),
                 const SizedBox(height: 36),
                 Container(
@@ -139,7 +142,6 @@ class _SignInWidgetState extends State<SignInWidget> {
                               SnackBar(
                                   content: Text("Welcome ${userData['name']}")),
                             );
-
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -153,9 +155,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                               builder: (context) => HomePage(),
                             ),
                           );
-                        } 
-                        
-                        else {
+                        } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Error: ${response.body}")),
                           );
@@ -173,19 +173,45 @@ class _SignInWidgetState extends State<SignInWidget> {
                       backgroundColor: const Color(0xFFFFBE98),
                     ),
                     child: const Text(
-                    "CONTINUE",
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      height: 1.7,
-                      color: Color(0xFF000000),
-                    ),),
+                      "TIếp tục",
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        height: 1.7,
+                        color: Color(0xFF000000),
+                      ),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 120,),
+                const SizedBox(
+                  height: 3,
+                ),
                 Row(
-                  children:[
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Có quên mật khẩu?",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextButton(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Forgotpass()));
+                    }, 
+                    child: const Text("Tìm mật khẩu",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red
+                    ),),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 120,
+                ),
+                Row(children: [
                   Expanded(
                     child: Container(
                         margin: const EdgeInsets.only(left: 10.0, right: 15.0),
@@ -201,71 +227,79 @@ class _SignInWidgetState extends State<SignInWidget> {
                         child: const Divider(
                           color: Colors.black,
                           height: 16,
-                    )),
+                        )),
                   ),
                 ]),
                 Container(
-                alignment: Alignment.bottomCenter,
-                height: 100,
-                padding: const EdgeInsets.only(bottom: 0),
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.facebook,color: Color.fromRGBO(105, 155, 247, 1),),
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(15),
-                    minimumSize: const Size(400, 10),
-                    backgroundColor: const Color.fromRGBO(0, 82, 180, 1),
+                  alignment: Alignment.bottomCenter,
+                  height: 100,
+                  padding: const EdgeInsets.only(bottom: 0),
+                  child: ElevatedButton.icon(
+                    icon: const Icon(
+                      Icons.facebook,
+                      color: Color.fromRGBO(105, 155, 247, 1),
+                    ),
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(15),
+                      minimumSize: const Size(400, 10),
+                      backgroundColor: const Color.fromRGBO(0, 82, 180, 1),
+                    ),
+                    label: const Text(
+                      "Facebook",
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        height: 1.7,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  label: const Text(
-                  "Facebook",
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                    height: 1.7,
-                    color: Colors.white,
-                  ),),
                 ),
-              ),
-              Container(
-                alignment: Alignment.bottomCenter,
-                height: 80,
-                padding: const EdgeInsets.only(bottom: 0),
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.mail,color: Color.fromRGBO(228, 133, 133, 1)),
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(15),
-                    minimumSize: const Size(400, 10),
-                    backgroundColor: const Color.fromRGBO(238, 69, 69, 1),
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  height: 80,
+                  padding: const EdgeInsets.only(bottom: 0),
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.mail,
+                        color: Color.fromRGBO(228, 133, 133, 1)),
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(15),
+                      minimumSize: const Size(400, 10),
+                      backgroundColor: const Color.fromRGBO(238, 69, 69, 1),
+                    ),
+                    label: const Text(
+                      "Gmail",
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        height: 1.7,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  label: const Text(
-                  "Gmail",
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                    height: 1.7,
-                    color: Colors.white,
-                  ),),
                 ),
-              ),
-              const SizedBox(height: 70,),
-              Container(
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
                   width: 267,
                   padding: const EdgeInsets.only(bottom: 10),
                   child: const Text(
-                  textAlign: TextAlign.center,
-                  "By sign in or sign up, you agree to our Terms of Service and Privacy Policy",
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
-                    height: 1.7,
+                    textAlign: TextAlign.center,
+                    "By sign in or sign up, you agree to our Terms of Service and Privacy Policy",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                      height: 1.7,
+                    ),
                   ),
-                ),
-              )
+                )
               ],
             ),
           ),

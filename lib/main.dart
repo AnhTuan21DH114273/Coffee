@@ -2,7 +2,9 @@ import 'package:app_coffee/data/provider/cart_provider.dart';
 import 'package:app_coffee/data/provider/favorite_provider.dart';
 import 'package:app_coffee/data/provider/order_provider.dart';
 import 'package:app_coffee/mainpage.dart';
+import 'package:app_coffee/screen/language.dart';
 import 'package:app_coffee/screen/splashscreen.dart';
+import 'package:app_coffee/signIn/confirmPass.dart';
 import 'package:app_coffee/signUp/signUp.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +26,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => OrderProvider()),
       ],
       child: const MaterialApp(
-      home: SplashScreen(),
+      home: Mainpage(),
       ),
     );
   }

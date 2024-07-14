@@ -1,41 +1,78 @@
+import 'dart:convert';
+
 import 'package:app_coffee/congf/const.dart';
+import 'package:app_coffee/data/provider/cart_provider.dart';
 import 'package:app_coffee/data/provider/order_provider.dart';
 import 'package:app_coffee/home/voucher.dart';
 import 'package:app_coffee/successful/order.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class DeliveryScreen extends StatefulWidget {
-  const DeliveryScreen({super.key});
+  final int prodId;
+  const DeliveryScreen({super.key, required this.prodId});
 
   @override
   State<DeliveryScreen> createState() => _DeliveryScreenState();
 }
 
 class _DeliveryScreenState extends State<DeliveryScreen> {
+  List<dynamic> products = [];
+  Future<void> getProdbyId(int id) async {
+    try {
+      final String response =
+          await rootBundle.loadString("assets/files/product.json");
+      final List<dynamic> data = json.decode(response)["data"];
+      final List<dynamic> categorieProducts = [];
+      for (var prdouct in data) {
+        final int productCategory = prdouct["id"];
+        if (productCategory == id) {
+          categorieProducts.add(prdouct);
+        }
+      }
+      setState(() {
+        products = categorieProducts;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProdbyId(widget.prodId);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<OrderProvider>(context);
-    final order = provider.order;
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       body: Container(
-          padding:const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 10),
           color: Colors.grey.shade300,
-          child: PageView.builder(
-            itemCount: order.length,
-            itemBuilder: (context, index) {
-              final orderList = order[index];
-              return _buildScreen(orderList, context);
+          child: FutureBuilder(
+            future: getProdbyId(widget.prodId),
+            builder: (context, snapshot) {
+              return PageView.builder(
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  final product = products[index];
+                  return _buildScreen(product, context);
+                },
+              );
             },
           )),
     );
   }
 
-  Widget _buildScreen(order, BuildContext context) {
-    double deliveryFee = 0.0;
+  Widget _buildScreen(product, BuildContext context) {
+    double deliveryFee = 15000;
+    final counter = Provider.of<CartCounter>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,26 +162,50 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                urlimg + order["img"],
+                urlimg + product["img"],
               ),
-              const SizedBox(width: 25,),
+              const SizedBox(
+                width: 25,
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10,),
-                  Text(
-                    order["name"],
+                  const SizedBox(
+                    height: 10,
                   ),
                   Text(
-                    order["des"],
+                    product["name"],
+                  ),
+                  Text(
+                    product["des"],
                   ),
                 ],
-              )
+              ),
+              SizedBox(
+                width: 100,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: IconButton(
+                    icon: const Icon(Icons.remove),
+                    onPressed: counter.decreQuan),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 9),
+                child: Text(
+                  '${counter.count}',
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ),
+              IconButton(
+                  icon: const Icon(Icons.add), onPressed: counter.increQuan),
             ],
           ),
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
         Container(
           width: 411,
           height: 56,
@@ -175,8 +236,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
               ),
               IconButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Voucher()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Voucher()));
                   },
                   icon: const Icon(Icons.arrow_forward)),
             ],
@@ -201,9 +264,12 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 color: Color(0xFF313131),
               ),
             ),
-            const SizedBox(width: 310,),
+            const SizedBox(
+              width: 310,
+            ),
             Text(
-              NumberFormat("##,###.###").format(order["price"]),
+              NumberFormat("##,###.###")
+                  .format(product["price"] * counter.count),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -223,7 +289,9 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 color: Color(0xFF313131),
               ),
             ),
-            const SizedBox(width: 300,),
+            const SizedBox(
+              width: 260,
+            ),
             Text(
               NumberFormat("##,###.###").format(deliveryFee),
               style: const TextStyle(
@@ -245,6 +313,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
           height: 15,
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Text(
               "Total:",
@@ -253,9 +322,12 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 color: Color(0xFF313131),
               ),
             ),
-            const SizedBox(width: 310,),
+            const SizedBox(
+              width: 310,
+            ),
             Text(
-              NumberFormat("##,###.###").format(order["price"]),
+              NumberFormat("##,###.###")
+                  .format(deliveryFee + (product["price"] * counter.count)),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -266,70 +338,83 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
         Container(
           width: 432,
           height: 185,
-          decoration:const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))
-          ),
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
           child: Column(
             children: [
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
-                  const SizedBox(width: 10,),
-                  const Text("Delivery",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),),
-                  const SizedBox(width: 10,),
-                  Consumer<OrderProvider>(
-                    builder: (context, value, child) {
-                      return Text("${value.itemCount} Products",
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),);
-                    },
+                  const SizedBox(
+                    width: 10,
                   ),
-                  const SizedBox(width: 190,),
+                  const Text(
+                    "Delivery",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   Text(
-                    NumberFormat("##,###.###").format(order["price"]),
+                    "${counter.count} Products",
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 190,
+                  ),
+                  Text(
+                    NumberFormat("##,###.###").format(
+                        deliveryFee + (product["price"] * counter.count)),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.red,
                       fontSize: 16,
                     ),
                   ),
-                  
                 ],
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => OrderSuccessful()));
-              },
-              style: ButtonStyle(
-                  padding: WidgetStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.all(12)),
-                  minimumSize:
-                      WidgetStateProperty.all<Size>(const Size(400, 11)),
-                  backgroundColor:
-                      WidgetStateProperty.all<Color>(const Color(0xFFC67C4E)),
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          side: const BorderSide(color: Colors.grey)))),
-              child: const Text(
-                "Order",
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  height: 1.7,
-                  color: Colors.white,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OrderSuccessful()));
+                },
+                style: ButtonStyle(
+                    padding: WidgetStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.all(12)),
+                    minimumSize:
+                        WidgetStateProperty.all<Size>(const Size(400, 11)),
+                    backgroundColor:
+                        WidgetStateProperty.all<Color>(const Color(0xFFC67C4E)),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            side: const BorderSide(color: Colors.grey)))),
+                child: const Text(
+                  "Order",
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    height: 1.7,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-            ),
             ],
           ),
         ),

@@ -29,13 +29,13 @@ class CartCounter with ChangeNotifier{
   int _count = 1;
   int get count => _count;
   void increQuan(){
-    if(_count >=0){
+    if(_count >=1){
       _count++;
     }
     notifyListeners();
   }
   void decreQuan(){
-    if(_count > 0){
+    if(_count > 1){
       _count--;
     }
     notifyListeners();

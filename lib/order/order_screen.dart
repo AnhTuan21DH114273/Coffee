@@ -1,22 +1,47 @@
+import 'dart:convert';
+
 import 'package:app_coffee/order/delivery_screen.dart';
 import 'package:app_coffee/order/pickup_screen.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({super.key});
+  final int prodId;
+  const OrderScreen({super.key, required this.prodId});
 
   @override
   State<OrderScreen> createState() => _OrderScreenState();
 }
 
 class _OrderScreenState extends State<OrderScreen> with SingleTickerProviderStateMixin {
+  List<dynamic> products = [];
+  Future<void> getProdbyId(int id) async {
+    try {
+      final String response =
+          await rootBundle.loadString("assets/files/product.json");
+      final List<dynamic> data = json.decode(response)["data"];
+      final List<dynamic> categorieProducts = [];
+      for (var prdouct in data) {
+        final int productCategory = prdouct["id"];
+        if (productCategory == id) {
+          categorieProducts.add(prdouct);
+        }
+      }
+      setState(() {
+        products = categorieProducts;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
   late TabController tabController;
   @override
   void initState() {
     // TODO: implement initState
     tabController = TabController(length: 2, vsync: this);
     super.initState();
+    getProdbyId(widget.prodId);
   }
 
   @override
@@ -97,7 +122,7 @@ class _OrderScreenState extends State<OrderScreen> with SingleTickerProviderStat
             child:TabBarView(
             controller: tabController,
             children: [
-            DeliveryScreen(),
+            DeliveryScreen(prodId: widget.prodId,),
             PickupScreen()
           ])
           )

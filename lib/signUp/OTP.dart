@@ -102,18 +102,6 @@ class _OTPWidgetState extends State<OTPWidget> {
             const SizedBox(
               height: 10,
             ),
-            Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 55),
-              child: const Text(
-                "Timer",
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
             const SizedBox(
               height: 80,
             ),

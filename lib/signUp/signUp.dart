@@ -37,49 +37,38 @@ class _SignUpWidgetWidgetState extends State<SignUpWidget> {
                 const SizedBox(height: 25),
                 Row(
                   children: [
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.only(right: 100),
-                        child: OutlinedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignInOrSignUp()));
-                            },
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.all(1),
-                              minimumSize: const Size(0, 0),
-                              backgroundColor: const Color(0xFFC3916B),
-                              side: BorderSide.none,
-                            ),
-                            child: const Icon(
-                              Icons.arrow_back,
-                              color: Colors.black,
-                            )),
-                      ),
+                    Container(
+                      padding: const EdgeInsets.only(right: 100),
+                      child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SignInOrSignUp()));
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.all(1),
+                            minimumSize: const Size(0, 0),
+                            backgroundColor: const Color(0xFFC3916B),
+                            side: BorderSide.none,
+                          ),
+                          child: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.black,
+                          )),
                     ),
-                    const SizedBox(
-                      width: 21,
-                    ),
-                    Expanded(
-                        child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.only(left: 6),
+                    Container(
+                      width: 120,
                       child: const Text(
-                        'Sign up',
+                        'Đăng ký',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
-                    )),
-                    const SizedBox(
-                      width: 140,
-                    )
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -208,8 +197,7 @@ class _SignUpWidgetWidgetState extends State<SignUpWidget> {
                       try {
                         print('Sending signup request...');
                         final response = await http.post(
-                          Uri.parse(
-                              '$baseURL/api/auth/signup'),
+                          Uri.parse('$baseURL/api/auth/signup'),
                           headers: <String, String>{
                             'Content-Type': 'application/json; charset=UTF-8',
                           },

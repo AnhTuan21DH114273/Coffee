@@ -12,22 +12,22 @@ class Voucher {
 List<Voucher> voucherGrid = [
   Voucher(
     id: 1,
-    name: 'Class Membership',
+    name: 'Thành viên',
     svg: "assets/vectors/class.svg",
   ),
   Voucher(
     id: 2,
-    name: 'Bean Exchange',
+    name: 'Trao đổi hạt',
     svg: "assets/vectors/gift.svg"
   ),
   Voucher(
     id: 3,
-    name: 'Bean History',
+    name: 'Lịch sủ',
     svg: "assets/vectors/bean.svg"
   ),
   Voucher(
     id: 4,
-    name: 'Your Rights',
+    name: 'Quyền lợi của bạn',
     svg: "assets/vectors/money.svg"
   ),
 ];

@@ -28,7 +28,6 @@ class Welcome extends StatelessWidget {
           decoration: const BoxDecoration(
             color: Color(0xFFC3916B),
           ),
-         
           child: Column(
             children:[
               Container(
@@ -47,7 +46,7 @@ class Welcome extends StatelessWidget {
                     )
                   ),
                 label: const Text(
-                  "English",
+                  "Tiếng Việt",
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w400,
@@ -107,7 +106,7 @@ class Welcome extends StatelessWidget {
                     backgroundColor: const Color(0xFFFFBE98),
                   ),
                   label: const Text(
-                  "Get Started",
+                  "Bắt đầu",
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w400,
