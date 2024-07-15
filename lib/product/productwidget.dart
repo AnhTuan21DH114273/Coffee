@@ -4,6 +4,7 @@ import 'package:app_coffee/data/provider/order_provider.dart';
 import 'package:app_coffee/order/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class ProductWidget extends StatefulWidget {
@@ -41,6 +42,7 @@ class _ProductWidgetState extends State<ProductWidget> {
       print(e);
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -64,8 +66,8 @@ class _ProductWidgetState extends State<ProductWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-          width: double.maxFinite,
+      body: Container(
+          decoration: BoxDecoration(color: Colors.grey),
           child: FutureBuilder(
             future: fetchProducts(widget.objCat),
             builder: (context, snapshot) {
@@ -87,120 +89,120 @@ class _ProductWidgetState extends State<ProductWidget> {
       decoration: const BoxDecoration(
         color: Color(0xFFE3E3E3),
       ),
-      width: double.maxFinite,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Stack(
-            alignment: Alignment.topCenter,
+      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Container(
+          height: 280,
+          width: 440,
+          decoration: BoxDecoration(
+              color: Color.fromARGB(
+                  products["a"], products["r"], products["g"], products["b"]),
+              borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(300),
+                  bottomRight: Radius.circular(300))),
+          child: Column(
             children: [
-              Positioned(
-                  child: Container(
-                alignment: Alignment.topCenter,
-                height: 260,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(products["a"], products["r"],
-                        products["g"], products["b"]),
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(300),
-                        bottomRight: Radius.circular(300))),
-              )),
-              Positioned(
-                  child: Container(
-                height: 350,
-              )),
-              const Positioned(
-                  top: 50,
-                  child: Text(
-                    "DETAILS",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  )),
-              Positioned(
-                top: 160,
-                child: Image.asset(
-                  urlimg + products["img"],
-                  height: 180,
-                  fit: BoxFit.cover,
-                ),
+              Row(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(right: 0, top: 20),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.black,
+                        ),
+                      )),
+                  const SizedBox(
+                    width: 110,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 0, top: 20),
+                    child: Text(
+                      "DETAILS",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 110,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 0, top: 20),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          provider.buyNow(products);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(14),
+                          minimumSize: const Size(44, 44),
+                          backgroundColor: const Color(0xFF533A28),
+                        ),
+                        child: SvgPicture.asset("assets/vectors/Heart.svg")),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              Image.asset(
+                urlimg + products["img"],
+                height: 168,
+                fit: BoxFit.cover,
               ),
             ],
           ),
-          SizedBox(
-            width: 450,
-            child: Row(
-              children: [
-                const SizedBox(width: 10,),
-                SizedBox(
-                  width: 350,
-                  child: Text(
-                    products["name"],
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    provider.buyNow(products);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(14),
-                    minimumSize: const Size(44, 44),
-                    backgroundColor: const Color(0xFF533A28),
-                  ),
-                  child: Icon(Icons.shopping_bag_outlined, color: Colors.white,),
-                ),
-              ],
-            )
-          ),
-          const Padding(
-            padding: EdgeInsets.only(right: 380),
-            child: Text(
-              "Cold",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey),
+        ),
+        Padding(
+          padding: EdgeInsets.only(right: 280),
+          child: Text(
+            products["name"],
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          Container(
-              margin: const EdgeInsets.only(left: 9.0, right: 9.0),
-              child: const Divider(
-                color: Colors.black,
-                height: 30,
-              )),
-          const Padding(
-            padding: EdgeInsets.only(right: 320),
-            child: Text(
-              "Description",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(right: 380),
+          child: Text(
+            "Cold",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey),
+          ),
+        ),
+        Container(
+            margin: const EdgeInsets.only(left: 9.0, right: 9.0),
+            child: const Divider(
+              color: Colors.grey,
+              height: 30,
+            )),
+        const Padding(
+          padding: EdgeInsets.only(right: 320),
+          child: Text(
+            "Description",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: 100, left: 15),
-            child: SizedBox(
-              width: 327,
-              child: Text(
-                products["des"],
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(right: 100, left: 15),
+          child: Text(
+            products["desc"],
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFFA2A2A2)
             ),
           ),
-          const SizedBox(
+        ),
+        const SizedBox(
             height: 20,
           ),
           const Padding(
@@ -215,10 +217,12 @@ class _ProductWidgetState extends State<ProductWidget> {
             ),
           ),
           const SizedBox(
-            height: 8,
+            height: 20,
           ),
           sizeButton(),
-          const SizedBox(height: 109),
+          const SizedBox(
+            height: 150,
+          ),
           Container(
             alignment: Alignment.bottomCenter,
             height: 113,
@@ -290,8 +294,7 @@ class _ProductWidgetState extends State<ProductWidget> {
               ),
             ]),
           )
-        ],
-      ),
+      ]),
     );
   }
 
@@ -351,14 +354,3 @@ class _ProductWidgetState extends State<ProductWidget> {
     );
   }
 }
-/*GridView.builder(
-                  itemCount: products.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 20),
-                  itemBuilder: (context, index) {
-                    final product = products[index];
-                    return itemGridView(product);
-                  })*/
