@@ -22,15 +22,25 @@ class _AdminScreenState extends State<AdminScreen> {
         child: Column(
           children: [
             const SizedBox(
-              height: 80,
+              height: 50,
             ),
-            const Text(
-              "QUẢN LÝ CỦA ADMIN",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 28,
-              ),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }, 
+                  icon: const Icon(Icons.arrow_back, color: Colors.black,)),
+                  const SizedBox(width: 35,),
+                  const Text(
+                  "QUẢN LÝ CỦA ADMIN",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 28,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 150,
