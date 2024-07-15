@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:app_coffee/congf/const.dart';
 import 'package:app_coffee/data/provider/cart_provider.dart';
-import 'package:app_coffee/data/provider/order_provider.dart';
 import 'package:app_coffee/home/voucher.dart';
 import 'package:app_coffee/successful/order.dart';
 import 'package:dotted_line/dotted_line.dart';

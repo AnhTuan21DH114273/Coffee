@@ -51,7 +51,7 @@ class _UserState extends State<User> {
                 backgroundImage: const AssetImage("assets/images/user.png"),
                 radius: 55,
                 onBackgroundImageError: (exception, stackTrace) {
-                 Text("Nothing");
+                 const Text("Nothing");
               },),
               const SizedBox(height: 30,),
               SizedBox(

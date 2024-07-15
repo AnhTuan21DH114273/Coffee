@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:pinput/pinput.dart';
-import 'package:app_coffee/signIn/signIn.dart';
 import '../data/config/config_manager.dart';
 
 class OTPWidget extends StatefulWidget {

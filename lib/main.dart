@@ -1,7 +1,7 @@
+import 'package:app_coffee/admin/admin_screen.dart';
 import 'package:app_coffee/data/provider/cart_provider.dart';
 import 'package:app_coffee/data/provider/favorite_provider.dart';
 import 'package:app_coffee/data/provider/order_provider.dart';
-import 'package:app_coffee/mainpage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +23,7 @@ class MainApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Mainpage(),
+        home: AdminScreen(),
       ),
     );
   }
