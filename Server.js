@@ -3,6 +3,8 @@ const SignUpRouter = require("./routes/SignUp");
 const SignInRouter = require("./routes/SignIn");
 const OtpRouter = require("./routes/Otp");
 const db = require("./data/database");
+const ProductRoutes = require("./routes/Products")(db);
+const categoriesRoutes = require("./routes/Categories")(db);
 require("dotenv").config();
 
 
@@ -23,6 +25,9 @@ app.use("/api/auth", SignIn);
 // Khai báo router Otp và truyền vào db
 const Otp = OtpRouter(db);
 app.use("/api", Otp);
+
+app.use("/api", ProductRoutes)
+app.use("/api", categoriesRoutes);
 
 const server = app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
