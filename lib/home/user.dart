@@ -16,7 +16,7 @@ class _UserState extends State<User> {
     final mailController = TextEditingController();
     final addressController = TextEditingController();
     return Scaffold(
-      backgroundColor: Color(0xFFF9F9F9),
+      backgroundColor: const Color(0xFFF9F9F9),
       body: Container(
           color: Colors.grey.shade300,
           child: Column(
@@ -31,7 +31,7 @@ class _UserState extends State<User> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back),
                   ),
                   const SizedBox(
                     width: 120,
@@ -45,16 +45,18 @@ class _UserState extends State<User> {
                   ),
                 ]
               ),
-              SizedBox(height: 30,),
+              const SizedBox(height: 30,),
               CircleAvatar(
                 backgroundColor: Colors.white,
-                backgroundImage: AssetImage("assets/images/user.png"),
+                backgroundImage: const AssetImage("assets/images/user.png"),
                 radius: 55,
                 onBackgroundImageError: (exception, stackTrace) {
-                 Text("Nothing");
+                 const Text("Nothing");
               },),
-              SizedBox(height: 30,),
-              TextFormField(
+              const SizedBox(height: 30,),
+              SizedBox(
+                width: 400,
+                child:TextFormField(
                   controller: nameController,
                   decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
@@ -75,8 +77,11 @@ class _UserState extends State<User> {
                         color: Colors.black,
                       )),
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: 400,
+                child:TextFormField(
                   controller: phoneController,
                   decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
@@ -85,7 +90,7 @@ class _UserState extends State<User> {
                         borderSide: BorderSide(color: Colors.black),
                       ),
                       icon: Icon(
-                        Icons.phone,
+                        Icons.phone_outlined,
                         color: Colors.black,
                       ),
                       suffixIcon: Icon(
@@ -97,8 +102,11 @@ class _UserState extends State<User> {
                         color: Colors.black,
                       )),
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: 400,
+                child:TextFormField(
                   controller: mailController,
                   decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
@@ -107,7 +115,7 @@ class _UserState extends State<User> {
                         borderSide: BorderSide(color: Colors.black),
                       ),
                       icon: Icon(
-                        Icons.mail,
+                        Icons.mail_outline_outlined,
                         color: Colors.black,
                       ),
                       suffixIcon: Icon(
@@ -119,8 +127,11 @@ class _UserState extends State<User> {
                         color: Colors.black,
                       )),
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: 400,
+                child:TextFormField(
                   controller: addressController,
                   decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
@@ -141,10 +152,11 @@ class _UserState extends State<User> {
                         color: Colors.black,
                       )),
                 ),
-                const SizedBox(height: 35),
+              ),
+              const SizedBox(height: 35),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Mainpage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Mainpage()));
                   },
                   style: ButtonStyle(
                       padding: WidgetStateProperty.all<EdgeInsets>(
