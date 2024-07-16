@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:app_coffee/order/delivery_screen.dart';
 import 'package:app_coffee/order/pickup_screen.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
@@ -38,7 +37,6 @@ class _OrderScreenState extends State<OrderScreen> with SingleTickerProviderStat
   late TabController tabController;
   @override
   void initState() {
-    // TODO: implement initState
     tabController = TabController(length: 2, vsync: this);
     super.initState();
     getProdbyId(widget.prodId);
@@ -46,7 +44,6 @@ class _OrderScreenState extends State<OrderScreen> with SingleTickerProviderStat
 
   @override
   void dispose() {
-    // TODO: implement dispose
     tabController.dispose();
     super.dispose();
   }
@@ -57,7 +54,7 @@ class _OrderScreenState extends State<OrderScreen> with SingleTickerProviderStat
       decoration: BoxDecoration(color: Colors.grey.shade300),
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Row(
@@ -66,7 +63,7 @@ class _OrderScreenState extends State<OrderScreen> with SingleTickerProviderStat
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back),
               ),
               const SizedBox(
                 width: 130,
@@ -94,13 +91,13 @@ class _OrderScreenState extends State<OrderScreen> with SingleTickerProviderStat
               )),
             ],
           ),
-          SizedBox(height: 30,),
+          const SizedBox(height: 30,),
           ButtonsTabBar(
             backgroundColor: const Color(0xFFC67C4E),
             unselectedBackgroundColor: const Color(0xFFEDEDED),
             controller: tabController,
-            contentPadding: EdgeInsets.symmetric(horizontal: 70),
-            buttonMargin: EdgeInsets.only(right: 15, left: 15),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 60),
+            buttonMargin: const EdgeInsets.only(right: 15, left: 15),
             unselectedLabelStyle: const TextStyle(
               color: Colors.black
             ),
@@ -110,20 +107,20 @@ class _OrderScreenState extends State<OrderScreen> with SingleTickerProviderStat
             ),
             tabs:const [
               Tab(
-                text: "Delivery",
+                text: "Giao hàng",
               ),
               Tab(
-                text: "Pick Up",
+                text: "Đặt hàng",
               )
             ],
           ),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           Expanded(
             child:TabBarView(
             controller: tabController,
             children: [
             DeliveryScreen(prodId: widget.prodId,),
-            PickupScreen()
+            const PickupScreen()
           ])
           )
         ],

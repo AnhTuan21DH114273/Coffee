@@ -105,7 +105,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
         Row(
           children: [
             Container(
-                width: 140,
+                width: 130,
                 height: 26,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
@@ -119,7 +119,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                     SizedBox(
                       width: 6,
                     ),
-                    Text("Edit Address"),
+                    Text("Sửa địa chỉ"),
                   ],
                 )),
             const SizedBox(
@@ -140,7 +140,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                     SizedBox(
                       width: 6,
                     ),
-                    Text("Add Note"),
+                    Text("Ghi Note"),
                   ],
                 )),
           ],
@@ -226,11 +226,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 width: 10,
               ),
               const Text(
-                "1 Discount is Applies",
+                "1 thẻ giảm giá được áp dụng",
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
-                width: 178,
+                width: 128,
               ),
               IconButton(
                   onPressed: () {
@@ -247,7 +247,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
           height: 15,
         ),
         const Text(
-          "Payment Summary",
+          "Tóm tắt thanh toán",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
@@ -256,14 +256,14 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
         Row(
           children: [
             const Text(
-              "Price:",
+              "Giá:",
               style: TextStyle(
                 fontSize: 16,
                 color: Color(0xFF313131),
               ),
             ),
             const SizedBox(
-              width: 310,
+              width: 325,
             ),
             Text(
               NumberFormat("##,###.###")
@@ -281,14 +281,14 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
         Row(
           children: [
             const Text(
-              "Delivery Fee:",
+              "Giá giao hàng:",
               style: TextStyle(
                 fontSize: 16,
                 color: Color(0xFF313131),
               ),
             ),
             const SizedBox(
-              width: 260,
+              width: 247,
             ),
             Text(
               NumberFormat("##,###.###").format(deliveryFee),
@@ -314,7 +314,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Text(
-              "Total:",
+              "Tổng:",
               style: TextStyle(
                 fontSize: 16,
                 color: Color(0xFF313131),
@@ -333,9 +333,12 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             )
           ],
         ),
+        const SizedBox(
+          height: 10,
+        ),
         Container(
           width: 432,
-          height: 185,
+          height: 175,
           decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -351,7 +354,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                     width: 10,
                   ),
                   const Text(
-                    "Delivery",
+                    "Giao",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -361,14 +364,14 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                     width: 10,
                   ),
                   Text(
-                    "${counter.count} Products",
+                    "${counter.count} Sản Phẩm",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(
-                    width: 190,
+                    width: 210,
                   ),
                   Text(
                     NumberFormat("##,###.###").format(

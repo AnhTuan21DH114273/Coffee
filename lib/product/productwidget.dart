@@ -5,6 +5,7 @@ import 'package:app_coffee/order/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ProductWidget extends StatefulWidget {
@@ -67,7 +68,7 @@ class _ProductWidgetState extends State<ProductWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          decoration: BoxDecoration(color: Colors.grey),
+          decoration: const BoxDecoration(color: Colors.grey),
           child: FutureBuilder(
             future: fetchProducts(widget.objCat),
             builder: (context, snapshot) {
@@ -89,7 +90,10 @@ class _ProductWidgetState extends State<ProductWidget> {
       decoration: const BoxDecoration(
         color: Color(0xFFE3E3E3),
       ),
-      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start, 
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
         Container(
           height: 280,
           width: 440,
@@ -104,7 +108,7 @@ class _ProductWidgetState extends State<ProductWidget> {
               Row(
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(right: 0, top: 20),
+                      padding: const EdgeInsets.only(right: 0, top: 20),
                       child: IconButton(
                         onPressed: () {
                           Navigator.pop(context);
@@ -115,21 +119,21 @@ class _ProductWidgetState extends State<ProductWidget> {
                         ),
                       )),
                   const SizedBox(
-                    width: 110,
+                    width: 105,
                   ),
                   const Padding(
                     padding: EdgeInsets.only(right: 0, top: 20),
                     child: Text(
-                      "DETAILS",
+                      "THÔNG TIN",
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(
-                    width: 110,
+                    width: 90,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: 0, top: 20),
+                    padding: const EdgeInsets.only(right: 0, top: 20),
                     child: ElevatedButton(
                         onPressed: () {
                           provider.buyNow(products);
@@ -155,7 +159,7 @@ class _ProductWidgetState extends State<ProductWidget> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(right: 280),
+          padding: const EdgeInsets.only(left: 10),
           child: Text(
             products["name"],
             style: const TextStyle(
@@ -165,7 +169,7 @@ class _ProductWidgetState extends State<ProductWidget> {
           ),
         ),
         const Padding(
-          padding: EdgeInsets.only(right: 380),
+          padding: EdgeInsets.only(left: 10),
           child: Text(
             "Cold",
             textAlign: TextAlign.center,
@@ -173,16 +177,20 @@ class _ProductWidgetState extends State<ProductWidget> {
                 fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey),
           ),
         ),
+        const Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Icon(Icons.star, color: Colors.yellow),
+        ),
         Container(
             margin: const EdgeInsets.only(left: 9.0, right: 9.0),
             child: const Divider(
               color: Colors.grey,
-              height: 30,
+              height: 20,
             )),
         const Padding(
-          padding: EdgeInsets.only(right: 320),
+          padding: EdgeInsets.only(left: 10),
           child: Text(
-            "Description",
+            "Mô tả",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16,
@@ -191,7 +199,7 @@ class _ProductWidgetState extends State<ProductWidget> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(right: 100, left: 15),
+          padding: const EdgeInsets.only(right: 100, left: 10),
           child: Text(
             products["desc"],
             textAlign: TextAlign.left,
@@ -206,7 +214,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             height: 20,
           ),
           const Padding(
-            padding: EdgeInsets.only(right: 370),
+            padding: EdgeInsets.only(left: 10),
             child: Text(
               "Size",
               textAlign: TextAlign.center,
@@ -221,7 +229,7 @@ class _ProductWidgetState extends State<ProductWidget> {
           ),
           sizeButton(),
           const SizedBox(
-            height: 150,
+            height: 136,
           ),
           Container(
             alignment: Alignment.bottomCenter,
@@ -236,6 +244,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                 width: 18,
               ),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 15,
@@ -250,7 +259,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                     height: 8,
                   ),
                   Text(
-                    "\$${products["price"]}",
+                    NumberFormat("##,###.### VNĐ").format(products["price"]),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 20,
@@ -261,7 +270,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                 ],
               ),
               const SizedBox(
-                width: 120,
+                width: 80,
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
@@ -281,7 +290,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                               borderRadius: BorderRadius.circular(16),
                               side: const BorderSide(color: Colors.grey)))),
                   child: const Text(
-                    "Buy Now",
+                    "Mua Ngay",
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.bold,
@@ -322,15 +331,15 @@ class _ProductWidgetState extends State<ProductWidget> {
                   alignment: Alignment.center,
                   height: 41,
                   width: 96,
-                  margin: EdgeInsets.only(right: 30),
+                  margin: const EdgeInsets.only(right: 30),
                   decoration: BoxDecoration(
                       border: Border.all(
                           color: selected == index
-                              ? Color(0xFFC67C4E)
-                              : Color(0xFFE3E3E3)),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                              ? const Color(0xFFC67C4E)
+                              : const Color(0xFFE3E3E3)),
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
                       color:
-                          selected == index ? Color(0xFFF9F2ED) : Colors.white),
+                          selected == index ? const Color(0xFFF9F2ED) : Colors.white),
                   child: Padding(
                     padding: const EdgeInsets.only(
                       left: 15,
@@ -341,7 +350,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                       style: TextStyle(
                         fontSize: 14,
                         color: selected == index
-                            ? Color(0xFFC67C4E)
+                            ? const Color(0xFFC67C4E)
                             : Colors.black,
                         fontWeight: selected == index ? FontWeight.bold : null,
                       ),

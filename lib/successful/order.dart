@@ -87,7 +87,7 @@ class OrderSuccessful extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                           side: const BorderSide(color: Colors.grey)))),
               child: const Text(
-                "View Delivery",
+                "Xem thông tin giao hàng",
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.bold,

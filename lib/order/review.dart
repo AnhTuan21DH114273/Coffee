@@ -18,7 +18,7 @@ class _ReviewState extends State<Review> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color(0xFFF9F9F9)
         ),
         child: Column(
@@ -29,7 +29,7 @@ class _ReviewState extends State<Review> {
               children: [
                 IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back),
                   ),
                   const SizedBox(
                     width: 130,
@@ -47,7 +47,7 @@ class _ReviewState extends State<Review> {
             Container(
               width: 412,
               height: 41,
-              color: Color(0xFFC3916B),
+              color: const Color(0xFFC3916B),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,16 +55,16 @@ class _ReviewState extends State<Review> {
                   const SizedBox(width: 10,),
                   SvgPicture.asset("assets/vectors/bean.svg"),
                   const SizedBox(width: 10,),
-                  const Text("Rate and get up to 200 beans!",
+                  const Text("Đánh giá và nhận tới 200 hạt!",
                   style: TextStyle(
                     fontWeight: FontWeight.bold
                   ), 
                   ),
                   const SizedBox(width: 125,),
                   IconButton(onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Voucher()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Voucher()));
                   }, 
-                  icon: Icon(Icons.arrow_forward_ios, color: Colors.black, size: 16,)
+                  icon: const Icon(Icons.arrow_forward_ios, color: Colors.black, size: 16,)
                   ),
                 ],
               ),
@@ -82,12 +82,13 @@ class _ReviewState extends State<Review> {
               direction: Axis.horizontal,
               allowHalfRating: true,
               itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-              itemBuilder: (context, _) => Icon(
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              itemBuilder: (context, _) => const Icon(
                 Icons.star,
                 color: Color(0xFFFCDC94),
               ),
               onRatingUpdate: (rating) {
+                // ignore: avoid_print
                 print(rating);
               },
             ),
@@ -115,15 +116,15 @@ class _ReviewState extends State<Review> {
                 return Container(
                   width: 210,
                   height: 44,
-                  margin: EdgeInsets.only(left: 10, top: 10),
+                  margin: const EdgeInsets.only(left: 10, top: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Color(0xFFEAEAEA)
+                    color: const Color(0xFFEAEAEA)
                   ),
                   child: Center(
                     child: Text(
                       review[index],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         color: Color(0xFFAFAFAF)
                       ),
@@ -137,7 +138,7 @@ class _ReviewState extends State<Review> {
             Stack(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(bottom: 50),
+                  padding: const EdgeInsets.only(bottom: 50),
                   child: Image.asset("assets/images/FavoritePic.png")
                 ),
                 Positioned(
@@ -152,7 +153,7 @@ class _ReviewState extends State<Review> {
                     child: Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Mainpage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Mainpage()));
                         },
                         style: ButtonStyle(
                           padding: WidgetStateProperty.all<EdgeInsets>(
@@ -166,7 +167,7 @@ class _ReviewState extends State<Review> {
                                   borderRadius: BorderRadius.circular(16),
                                   side: const BorderSide(color: Colors.grey)))),
                         child: const Text(
-                          "View Delivery",
+                          "Về Trang Chủ",
                           style: TextStyle(
                             fontFamily: 'Inter',
                             fontWeight: FontWeight.bold,

@@ -28,8 +28,7 @@ class _MainpageState extends State<Mainpage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return  Scaffold(
       drawer: Drawer(),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -63,7 +62,6 @@ class _MainpageState extends State<Mainpage> {
         ),
         )
           
-      ),
-    );
+      );
   }
 }

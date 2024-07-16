@@ -1,6 +1,7 @@
 import 'package:app_coffee/category/categorywidget.dart';
 import 'package:app_coffee/home/favorite.dart';
 import 'package:app_coffee/screen/slider.dart';
+import 'package:app_coffee/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../data/model/location.dart';
@@ -30,9 +31,15 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: _scaffoldState,
+      drawer: Container(
+        width: 225,
+        child: Sidebar(),
+      ),
       body: Container(
-          decoration: const BoxDecoration(
+        decoration: const BoxDecoration(
             color: Colors.white,
           ),
           child: Column(
@@ -55,7 +62,9 @@ class _HomePageState extends State<HomePage> {
                           width: 15,
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _scaffoldState.currentState?.openDrawer();
+                          },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.all(14),
                             minimumSize: const Size(44, 44),
@@ -74,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
                                 ),
-                                hint: const Text("Chooose Location",
+                                hint: const Text("Chọn Quận",
                                     style: TextStyle(
                                       color: Colors.black,
                                     )),
