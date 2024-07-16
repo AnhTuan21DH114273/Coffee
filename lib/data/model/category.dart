@@ -1,4 +1,4 @@
-class Category{
+class Category {
   int? id;
   String? name;
   int? price;
@@ -17,24 +17,29 @@ class Category{
     this.catName,
   });
 
-  Category.fromJson(Map<String,dynamic> json){
-    id = json['id'];
-    name = json['name'];
-    price = json['price'];
-    img = json['img'];
-    des = json['des'];
-    catName = json['catName'];
+  // Factory constructor to create a Category object from JSON
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
+      id: json['id'],
+      name: json['name'],
+      price: json['price'],
+      img: json['img'],
+      des: json['des'],
+      catId: json['catId'],
+      catName: json['catName'],
+    );
   }
 
-  Map<String,dynamic> toJson(){
-    final
-    Map<String,dynamic> data = <String,dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['price'] = price;
-    data['img'] = img;
-    data['des'] = des;
-    data['catName'] = catName;
-    return data;
+  // Method to convert a Category object to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'price': price,
+      'img': img,
+      'des': des,
+      'catId': catId,
+      'catName': catName,
+    };
   }
 }
