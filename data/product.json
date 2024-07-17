@@ -1,0 +1,48 @@
+{
+"Data":[
+ {
+  "id": 1,
+  "name": "Cappuccino",
+  "des": "with chocolate",
+  "desc": "A Cappucino with chocolate is an approximately 120 ml (4 oz) beverage, with 15 ml of espresso coffee and 85ml of fresh milk",
+  "price": 60000,
+  "img": "CappuchinoMilk.png",
+  "catId": 1,
+  "catName": "Cappuchino",
+  "color": "#CFB07A"
+ },
+ {
+  "id": 2,
+  "name": "Cappuchino1",
+  "des": "Cold",
+  "desc": "A Capucino cream is an approximately 120 ml (4 oz) beverage, with 15 ml of espresso coffee and 85ml of fresh milk",
+  "price": 60000,
+  "img": "CappuchinoCold.png",
+  "catId": 1,
+  "catName": "Cappuchino",
+  "color": "#7A5101"
+ },
+ {
+  "id": 3,
+  "name": "Machiato",
+  "des": "With Milk",
+  "desc": "A Machiato milk is an approximately 120 ml (4 oz) beverage, with 15 ml of espresso coffee and 85ml of fresh milk",
+  "price": 50000,
+  "img": "Machiato_1.png",
+  "catId": 2,
+  "catName": "Machiato",
+  "color": "#CFB07A"
+ },
+ {
+  "id": 4,
+  "name": "Latte",
+  "des": "Hot(M)",
+  "desc": "A Latte Hot milk is an approximately 120 ml (4 oz) beverage, with 15 ml of espresso coffee and 85ml of fresh milk",
+  "price": 60000,
+  "img": "Latte_2.png",
+  "catId": 3,
+  "catName": "Latte",
+  "color": "#F4A261"
+ }
+]
+}
