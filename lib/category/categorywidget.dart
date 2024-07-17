@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:app_coffee/home/details.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_coffee/congf/const.dart';
 import 'package:app_coffee/data/provider/cart_provider.dart';
 import 'package:app_coffee/data/provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../product/productwidget.dart';
 import '../data/config/config_manager.dart';
+import '../data/service/product_service.dart';
+import '../data/service/product_service.dart';
+
 
 class CategoryWidget extends StatefulWidget {
   const CategoryWidget({super.key});
@@ -21,6 +24,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
   List<dynamic> products = [];
   bool isLoading = true;
   String selectedCategory = "Cappuchino";
+  
 
   @override
   void initState() {
@@ -30,15 +34,14 @@ class _CategoryWidgetState extends State<CategoryWidget> {
 
   Future<void> fetchCategories() async {
     try {
-      final response =
-          await http.get(Uri.parse('$baseURL/api/categories'));
+      final response = await http.get(Uri.parse('$baseURL/api/categories'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)["data"];
         final List<String> fetchedCategories = ["Cappuchino"];
-        for (var product in data) {
-          final String category = product["catName"];
-          if (!fetchedCategories.contains(category)) {
-            fetchedCategories.add(category);
+        for (var category in data) {
+          final String categoryName = category["catName"];
+          if (!fetchedCategories.contains(categoryName)) {
+            fetchedCategories.add(categoryName);
           }
         }
         setState(() {
@@ -57,17 +60,14 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     }
   }
 
-  void fetchCategorieProducts(String category) async {
+  void fetchCategorieProducts(String categoryId) async {
     try {
-      final response = await http.get(
-          Uri.parse('$baseURL/api/categories?name=$category'));
+      final response =
+          await http.get(Uri.parse('$baseURL/api/products/category/$categoryId'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)["data"];
-        final List<dynamic> categoryProducts =
-            data.where((product) => product["catName"] == category).toList();
         setState(() {
-          selectedCategory = category;
-          products = categoryProducts;
+          products = data;
         });
       } else {
         throw Exception('Failed to load products');
@@ -187,8 +187,8 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductWidget(
-                      objCat: product["catId"],
+                    builder: (context) => MyFoodScreen(
+                      product: product,
                     ),
                   ),
                 );
