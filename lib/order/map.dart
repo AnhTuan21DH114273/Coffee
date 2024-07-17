@@ -55,10 +55,10 @@ class _MapState extends State<MapScreen> {
             ),
           ),
           const Positioned(
-            bottom: 180,
+            bottom: 150,
             left: 0,
             right: 0,
-            child: Text("Click the Icon to see the info",
+            child: Text("Bấm vào Icon để xem thông tin",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 32,

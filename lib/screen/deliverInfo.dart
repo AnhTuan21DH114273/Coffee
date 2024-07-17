@@ -29,7 +29,7 @@ class _DeliverinfoState extends State<Deliverinfo> {
           height: 15,
         ),
         const Text(
-          "15 minutes left",
+          "15 phút",
           style: TextStyle(
             fontFamily: 'Inter',
             fontSize: 16,
@@ -41,7 +41,7 @@ class _DeliverinfoState extends State<Deliverinfo> {
           height: 10,
         ),
         const Text(
-          "Delivery to",
+          "Giao cho",
           style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
         ),
         const SizedBox(

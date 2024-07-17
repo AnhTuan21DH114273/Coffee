@@ -1,6 +1,6 @@
 List review = [
-  'Excellent product quality',
-  'Safety',
-  'Friendly Driver',
-  'Delivery on Time',
+  'Chất lượng sản phẩm hay',
+  'Sự an toàn',
+  'Tài xế thân thiện',
+  'Giao hàng đúng hạn',
 ];
