@@ -63,7 +63,7 @@ class _MyWidgetState extends State<Favorite> {
               return Stack(
                 children: [
                   Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Container(
                         height: 139,
                         width: 412,
@@ -74,13 +74,13 @@ class _MyWidgetState extends State<Favorite> {
                         child: Row(
                           children: [
                             Image.asset(urlimg + favoriteitems["img"]),
-                            SizedBox(width: 40,),
+                            const SizedBox(width: 40,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 30,),
+                                const SizedBox(height: 30,),
                                 Padding(
-                                  padding: EdgeInsets.only(right: 13),
+                                  padding: const EdgeInsets.only(right: 13),
                                   child: Text(favoriteitems["name"],
                                   style: const TextStyle(
                                     fontSize: 16,

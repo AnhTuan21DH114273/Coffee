@@ -9,12 +9,6 @@ class Sidebar extends StatefulWidget {
 }
 
 class _SidebarState extends State<Sidebar> {
-  int _selectedIndex = 0;
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -31,7 +25,6 @@ class _SidebarState extends State<Sidebar> {
             title: const Text("Trang Chủ"),
             onTap: () {
                 Navigator.pop(context);
-                _selectedIndex = 0;
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Mainpage()));
             },

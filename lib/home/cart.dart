@@ -18,7 +18,7 @@ class _CartState extends State<Cart> {
     final counter = Provider.of<CartCounter>(context);
     final cartlist = provider.cartList;
     return Scaffold(
-      backgroundColor: Color(0xFFF9F9F9),
+      backgroundColor: const Color(0xFFF9F9F9),
       body: Container(
           color: Colors.grey.shade300,
           child: Column(
@@ -32,7 +32,7 @@ class _CartState extends State<Cart> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back),
                   ),
                   const SizedBox(
                     width: 120,
@@ -55,13 +55,13 @@ class _CartState extends State<Cart> {
                         backgroundColor: const Color(0xFF533A28),
                       ),
                       child: const Icon(
-                        Icons.delete_outline,
+                        Icons.shopping_bag_outlined,
                         color: Colors.white,
                       )),
                 ],
               ),
               SizedBox(
-                height: 550,
+                height: 590,
                 child: ListView.builder(
                 itemCount: cartlist.length,
                 scrollDirection: Axis.vertical,
@@ -121,7 +121,7 @@ class _CartState extends State<Cart> {
                         IconButton(onPressed: (){
                           provider.removeFromCart(cartList);
                         }, 
-                        icon: Icon(Icons.delete, color: Colors.red,))
+                        icon: const Icon(Icons.delete, color: Colors.red,))
                       ],
                     ),
                   );

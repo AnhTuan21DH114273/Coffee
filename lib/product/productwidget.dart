@@ -24,7 +24,7 @@ class _ProductWidgetState extends State<ProductWidget> {
   List<dynamic> products = [];
   late PageController _pageController;
   int selected = 0;
-  Future<void> fetchProducts(int catId) async {
+  Future<void> getProdByCatId(int catId) async {
     try {
       final String response =
           await rootBundle.loadString("assets/files/product.json");
@@ -48,29 +48,21 @@ class _ProductWidgetState extends State<ProductWidget> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: products.length * 999);
-    fetchProducts(widget.objCat);
+    getProdByCatId(widget.objCat);
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _pageController.dispose();
     super.dispose();
   }
-
-  double get _currentOffset {
-    bool inited = _pageController.hasClients &&
-        _pageController.position.hasContentDimensions;
-    return inited ? _pageController.page! : _pageController.initialPage * 1.0;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
           decoration: const BoxDecoration(color: Colors.grey),
           child: FutureBuilder(
-            future: fetchProducts(widget.objCat),
+            future: getProdByCatId(widget.objCat),
             builder: (context, snapshot) {
               return PageView.builder(
                 itemCount: products.length,

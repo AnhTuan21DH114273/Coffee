@@ -53,7 +53,28 @@ class _UserState extends State<User> {
                 onBackgroundImageError: (exception, stackTrace) {
                  const Text("Nothing");
               },),
-              const SizedBox(height: 30,),
+              const SizedBox(height: 12,),
+              Container(
+                width: 400,
+                decoration: const BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.black))
+                ),
+                child: Row(
+                  children: [
+                    const Text(
+                      "View Orders",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    const SizedBox(width: 270,),
+                    IconButton(onPressed: (){
+
+                    }, 
+                    icon: const Icon(Icons.arrow_forward_ios))
+                  ],
+                ),
+              ),
               SizedBox(
                 width: 400,
                 child:TextFormField(
@@ -64,7 +85,7 @@ class _UserState extends State<User> {
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black),
                       ),
-                      icon: Icon(
+                      prefixIcon: Icon(
                         Icons.person,
                         color: Colors.black,
                       ),
@@ -78,7 +99,7 @@ class _UserState extends State<User> {
                       )),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               SizedBox(
                 width: 400,
                 child:TextFormField(
@@ -89,7 +110,7 @@ class _UserState extends State<User> {
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black),
                       ),
-                      icon: Icon(
+                      prefixIcon: Icon(
                         Icons.phone_outlined,
                         color: Colors.black,
                       ),
@@ -103,7 +124,7 @@ class _UserState extends State<User> {
                       )),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               SizedBox(
                 width: 400,
                 child:TextFormField(
@@ -114,7 +135,7 @@ class _UserState extends State<User> {
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black),
                       ),
-                      icon: Icon(
+                      prefixIcon: Icon(
                         Icons.mail_outline_outlined,
                         color: Colors.black,
                       ),
@@ -128,7 +149,7 @@ class _UserState extends State<User> {
                       )),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 17),
               SizedBox(
                 width: 400,
                 child:TextFormField(
@@ -139,7 +160,7 @@ class _UserState extends State<User> {
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black),
                       ),
-                      icon: Icon(
+                      prefixIcon: Icon(
                         Icons.location_pin,
                         color: Colors.black,
                       ),
@@ -153,7 +174,7 @@ class _UserState extends State<User> {
                       )),
                 ),
               ),
-              const SizedBox(height: 35),
+              const SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const Mainpage()));

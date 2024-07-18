@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:app_coffee/congf/const.dart';
+import 'package:http/http.dart' as http;
 import 'package:app_coffee/data/provider/cart_provider.dart';
 import 'package:app_coffee/data/provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
@@ -21,61 +21,59 @@ class _CategoryWidgetState extends State<CategoryWidget> {
   List<dynamic> products = [];
   bool isLoading = true;
   String selectedCategory = "Cappuchino";
+  
 
   @override
   void initState() {
     super.initState();
     fetchCategories();
+    fetchCategorieProducts(selectedCategory);
   }
 
   Future<void> fetchCategories() async {
     try {
-      final response =
-          await http.get(Uri.parse('$baseURL/api/categories'));
+      final response = await http.get(Uri.parse('$baseURL/api/categories'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)["data"];
         final List<String> fetchedCategories = ["Cappuchino"];
-        for (var product in data) {
-          final String category = product["catName"];
-          if (!fetchedCategories.contains(category)) {
-            fetchedCategories.add(category);
+        for (var category in data) {
+          final String categoryName = category["catName"];
+          if (!fetchedCategories.contains(categoryName)) {
+            fetchedCategories.add(categoryName);
           }
         }
         setState(() {
           isLoading = false;
           categories = fetchedCategories;
         });
-        fetchCategorieProducts("Cappuchino");
       } else {
         throw Exception('Failed to load categories');
       }
     } catch (e) {
       print(e);
-      setState(() {
-        isLoading = false;
-      });
     }
   }
 
   void fetchCategorieProducts(String category) async {
     try {
-      final response = await http.get(
-          Uri.parse('$baseURL/api/categories?name=$category'));
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body)["data"];
-        final List<dynamic> categoryProducts =
-            data.where((product) => product["catName"] == category).toList();
-        setState(() {
-          selectedCategory = category;
-          products = categoryProducts;
-        });
-      } else {
-        throw Exception('Failed to load products');
+      final response = await http.get(Uri.parse('$baseURL/api/products'));
+      final List<dynamic> data = json.decode(response.body)["data"];
+      final List<dynamic> categorieProducts = [];
+      for (var prodouct in data) {
+        final String productCategory = prodouct["catName"];
+        if (productCategory == category) {
+          categorieProducts.add(prodouct);
+        }
       }
+      setState(() {
+        selectedCategory = category;
+        products = categorieProducts;
+      });
     } catch (e) {
       print(e);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -86,14 +84,14 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           SizedBox(
             height: 30,
             child: isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? const Center(child: CircularProgressIndicator())
                 : ListView.builder(
                     itemCount: categories.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       final category = categories[index];
                       return Container(
-                        margin: EdgeInsets.only(left: 10),
+                        margin: const EdgeInsets.only(left: 10),
                         child: GestureDetector(
                           onTap: () {
                             fetchCategorieProducts(category);
@@ -102,9 +100,9 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14),
-                              color: category == selectedCategory
+                              color: selectedCategory == category
                                   ? const Color(0xFF7F4C2A)
-                                  : Colors.white,
+                                  : Colors.white
                             ),
                             child: Center(
                               child: Text(
@@ -115,7 +113,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                                       : FontWeight.normal,
                                   color: category == selectedCategory
                                       ? Colors.white
-                                      : Color(0xFFCCC9C9),
+                                      : const Color(0xFFCCC9C9),
                                   fontSize: 18,
                                 ),
                               ),
@@ -193,8 +191,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                   ),
                 );
               },
-              child: Image.asset(
-                'assets/images/' + product["img"],
+              child: Image.asset(urlimg + product["img"],
                 height: 110,
                 errorBuilder: (context, error, stackTrace) =>
                     const Icon(Icons.broken_image),
@@ -213,7 +210,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 0.1),
+            padding: const EdgeInsets.only(bottom: 0.1),
             child: Text(
               product["des"],
               textAlign: TextAlign.center,
@@ -226,11 +223,11 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           ),
           Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 50,
               ),
               Padding(
-                padding: EdgeInsets.only(top: 0.1),
+                padding: const EdgeInsets.only(top: 0.1),
                 child: Text(
                   NumberFormat('###,###,### VND').format(product["price"]),
                   textAlign: TextAlign.center,
@@ -242,11 +239,11 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                   selectionColor: const Color.fromARGB(255, 0, 0, 1),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Padding(
-                padding: EdgeInsets.only(top: 0.1),
+                padding: const EdgeInsets.only(top: 0.1),
                 child: ElevatedButton(
                   onPressed: () {
                     provider_1.addToCart(product);
@@ -264,7 +261,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                       ),
                     ),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.add,
                     color: Colors.black,
                     size: 20,

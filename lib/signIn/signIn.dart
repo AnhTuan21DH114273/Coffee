@@ -1,4 +1,5 @@
 import 'package:app_coffee/home/home.dart';
+import 'package:app_coffee/mainpage.dart';
 import 'package:app_coffee/page/sign_in_or_sign_up.dart';
 import 'package:app_coffee/signIn/forgotPass.dart';
 import 'package:flutter/material.dart';
@@ -144,7 +145,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                   content: Text(
                                       "User data is missing or malformed")),
                             );
@@ -152,7 +153,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomePage(),
+                              builder: (context) => const Mainpage(),
                             ),
                           );
                         } else {
@@ -198,7 +199,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                     ),
                     TextButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Forgotpass()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const Forgotpass()));
                     }, 
                     child: const Text("Tìm mật khẩu",
                     style: TextStyle(

@@ -1,39 +1,53 @@
 import 'package:flutter/material.dart';
-class FoodModel {
+
+class ProductModel {
+  int id;
   String name;
+  String des;
   String desc;
   double price;
-  String image;
-  final Color color;
-  FoodModel({
+  String img;
+  String catName;
+  int catId;
+  final String color;
+
+  ProductModel({
+    required this.id,
     required this.name,
+    required this.des,
     required this.desc,
     required this.price,
-    required this.image,
+    required this.img,
+    required this.catName,
+    required this.catId,
     required this.color,
   });
-}
 
-List<FoodModel> foodList = [
-  FoodModel(
-    name: 'Machiato with Milk',
-    desc: 'A Machiato with Milk is an approximately 120 ml (4 oz) beverage, with 15 ml of espresso coffee and 85ml of fresh milk.',
-    price: 60.000,
-    image: 'assets/images/Machiato_Milk.png',
-    color: Color(0xFFCFB07A),
-  ),
-  FoodModel(
-    name: 'Machiato',
-    desc: 'A Machiato is an approximately 130 ml (4 oz) beverage, with 15 ml of espresso coffee and 85ml of fresh milk.',
-    price: 60.000,
-    image: 'assets/images/Machiato.png',
-    color: Color(0xFFB57A51),
-  ),
-  FoodModel(
-    name: 'Machiato with Vanilla',
-    desc: 'A Machiato with Vanilla is an approximately 110 ml (4 oz) beverage, with 15 ml of espresso coffee and 85ml of fresh milk.',
-    price: 60.000,
-    image: 'assets/images/Machiato_Vanilla.png',
-    color: Color(0xFFC3AA8E),
-  ),
-];
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
+    return ProductModel(
+      id: json['id'],
+      name: json['name'],
+      des: json['des'],
+      desc: json['desc'],
+      price: json['price'].toDouble(),
+      img: json['img'],
+      catName: json['catName'],
+      catId: json['catId'],
+      color: json['color'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'des': des,
+      'desc': desc,
+      'price': price,
+      'img': img,
+      'catName': catName,
+      'catId': catId,
+      'color': color,
+    };
+  }
+}

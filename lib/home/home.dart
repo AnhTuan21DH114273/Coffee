@@ -8,7 +8,7 @@ import '../data/model/location.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -31,10 +31,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+    GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
     return Scaffold(
-      key: _scaffoldState,
-      drawer: Container(
+      key: scaffoldState,
+      drawer: const SizedBox(
         width: 225,
         child: Sidebar(),
       ),
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            _scaffoldState.currentState?.openDrawer();
+                            scaffoldState.currentState?.openDrawer();
                           },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.all(14),
@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.white,
                         ),
                         controller: textController,
-                        placeholder: 'Search coffee, tea, milk tea',
+                        placeholder: 'Tìm sản phẩm',
                         placeholderStyle: const TextStyle(
                           color: Colors.white,
                         ),
@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                 height: 180,
                 child: SliderP(),
               ),
-              Expanded(child: CategoryWidget()),
+              const Expanded(child: CategoryWidget()),
             ],
           )),
     );
