@@ -50,8 +50,4 @@ class ProductModel {
       'color': color,
     };
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459

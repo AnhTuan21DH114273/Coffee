@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 /*import 'dart:math';
 
-=======
-import 'dart:math';
->>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
 import 'package:flutter/material.dart';
 import '../data/model/product.dart';
 import '../data/service/product_service.dart';
@@ -385,13 +381,4 @@ class _MyFoodScreenState extends State<MyFoodScreen>
       ),
     );
   }
-<<<<<<< HEAD
 }*/
-=======
-
-  Color _colorFromHex(String hexColor) {
-    final hexCode = hexColor.replaceAll('#', '');
-    return Color(int.parse('FF$hexCode', radix: 16));
-  }
-}
->>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459

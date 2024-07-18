@@ -1,18 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
-<<<<<<< HEAD
-=======
 import 'package:app_coffee/home/details.dart';
+import 'package:app_coffee/product/productwidget.dart';
 import 'package:http/http.dart' as http;
->>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
 import 'package:app_coffee/congf/const.dart';
-import 'package:http/http.dart' as http;
 import 'package:app_coffee/data/provider/cart_provider.dart';
 import 'package:app_coffee/data/provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../data/config/config_manager.dart';
-import '../data/service/product_service.dart';
 import '../data/service/product_service.dart';
 
 
@@ -28,17 +24,12 @@ class _CategoryWidgetState extends State<CategoryWidget> {
   List<dynamic> products = [];
   bool isLoading = true;
   String selectedCategory = "Cappuchino";
-<<<<<<< HEAD
-  
-=======
   int selectedCategoryId = 1;
->>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
 
   @override
   void initState() {
     super.initState();
     fetchCategories();
-    fetchCategorieProducts(selectedCategory);
   }
 
   Future<void> fetchCategories() async {
@@ -46,13 +37,6 @@ class _CategoryWidgetState extends State<CategoryWidget> {
       final response = await http.get(Uri.parse('$baseURL/api/categories'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)["data"];
-<<<<<<< HEAD
-        final List<String> fetchedCategories = ["Cappuchino"];
-        for (var category in data) {
-          final String categoryName = category["catName"];
-          if (!fetchedCategories.contains(categoryName)) {
-            fetchedCategories.add(categoryName);
-=======
         final List<Map<String, dynamic>> fetchedCategories = [
           {"id": 1, "name": "Cappuchino"}
         ];
@@ -64,17 +48,13 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           if (!fetchedCategories
               .any((cat) => cat["name"] == categoryData["name"])) {
             fetchedCategories.add(categoryData);
->>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
           }
         }
         setState(() {
           isLoading = false;
           categories = fetchedCategories;
         });
-<<<<<<< HEAD
-=======
         fetchCategorieProducts(1);
->>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
       } else {
         throw Exception('Failed to load categories');
       }
@@ -85,16 +65,6 @@ class _CategoryWidgetState extends State<CategoryWidget> {
 
   void fetchCategorieProducts(int categoryId) async {
     try {
-<<<<<<< HEAD
-      final response = await http.get(Uri.parse('$baseURL/api/products'));
-      final List<dynamic> data = json.decode(response.body)["data"];
-      final List<dynamic> categorieProducts = [];
-      for (var prodouct in data) {
-        final String productCategory = prodouct["catName"];
-        if (productCategory == category) {
-          categorieProducts.add(prodouct);
-        }
-=======
       final response =
           await http.get(Uri.parse('$baseURL/api/products/category/$categoryId'));
       if (response.statusCode == 200) {
@@ -105,12 +75,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
         });
       } else {
         throw Exception('Failed to load products');
->>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
       }
-      setState(() {
-        selectedCategory = category;
-        products = categorieProducts;
-      });
     } catch (e) {
       print(e);
     }
@@ -145,11 +110,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14),
-<<<<<<< HEAD
-                              color: selectedCategory == category
-=======
                               color: selectedCategoryId == category["id"]
->>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
                                   ? const Color(0xFF7F4C2A)
                                   : Colors.white
                             ),
@@ -234,8 +195,8 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyFoodScreen(
-                      product: product,
+                    builder: (context) => ProductWidget(
+                      objCat: product["catId"],
                     ),
                   ),
                 );
