@@ -20,11 +20,11 @@ class CategoryWidget extends StatefulWidget {
 }
 
 class _CategoryWidgetState extends State<CategoryWidget> {
-  List<String> categories = [];
+  List<Map<String, dynamic>> categories = [];
   List<dynamic> products = [];
   bool isLoading = true;
   String selectedCategory = "Cappuchino";
-  
+  int selectedCategoryId = 1;
 
   @override
   void initState() {
@@ -37,18 +37,24 @@ class _CategoryWidgetState extends State<CategoryWidget> {
       final response = await http.get(Uri.parse('$baseURL/api/categories'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)["data"];
-        final List<String> fetchedCategories = ["Cappuchino"];
+        final List<Map<String, dynamic>> fetchedCategories = [
+          {"id": 1, "name": "Cappuchino"}
+        ];
         for (var category in data) {
-          final String categoryName = category["catName"];
-          if (!fetchedCategories.contains(categoryName)) {
-            fetchedCategories.add(categoryName);
+          final Map<String, dynamic> categoryData = {
+            "id": category["id"],
+            "name": category["catName"]
+          };
+          if (!fetchedCategories
+              .any((cat) => cat["name"] == categoryData["name"])) {
+            fetchedCategories.add(categoryData);
           }
         }
         setState(() {
           isLoading = false;
           categories = fetchedCategories;
         });
-        fetchCategorieProducts("Cappuchino");
+        fetchCategorieProducts(1);
       } else {
         throw Exception('Failed to load categories');
       }
@@ -60,13 +66,14 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     }
   }
 
-  void fetchCategorieProducts(String categoryId) async {
+  void fetchCategorieProducts(int categoryId) async {
     try {
       final response =
           await http.get(Uri.parse('$baseURL/api/products/category/$categoryId'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)["data"];
         setState(() {
+          selectedCategoryId = categoryId;
           products = data;
         });
       } else {
@@ -96,24 +103,27 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                         margin: EdgeInsets.only(left: 10),
                         child: GestureDetector(
                           onTap: () {
-                            fetchCategorieProducts(category);
+                            setState(() {
+                              selectedCategoryId = category["id"];
+                            });
+                            fetchCategorieProducts(category["id"]);
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14),
-                              color: category == selectedCategory
+                              color: selectedCategoryId == category["id"]
                                   ? const Color(0xFF7F4C2A)
                                   : Colors.white,
                             ),
                             child: Center(
                               child: Text(
-                                category,
+                                category["name"],
                                 style: TextStyle(
-                                  fontWeight: category == selectedCategory
+                                  fontWeight: selectedCategoryId == category["id"]
                                       ? FontWeight.bold
                                       : FontWeight.normal,
-                                  color: category == selectedCategory
+                                  color: selectedCategoryId == category["id"]
                                       ? Colors.white
                                       : Color(0xFFCCC9C9),
                                   fontSize: 18,
