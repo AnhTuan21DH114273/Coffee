@@ -21,8 +21,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   List<dynamic> products = [];
   Future<void> getProdbyId(int id) async {
     try {
-      final String response =
-          await rootBundle.loadString("assets/files/product.json");
+      final String response = await rootBundle.loadString("assets/files/product.json");
       final List<dynamic> data = json.decode(response)["data"];
       final List<dynamic> categorieProducts = [];
       for (var prdouct in data) {

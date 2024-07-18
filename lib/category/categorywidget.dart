@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:app_coffee/home/details.dart';
 import 'package:app_coffee/product/productwidget.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_coffee/congf/const.dart';
@@ -9,7 +8,6 @@ import 'package:app_coffee/data/provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../data/config/config_manager.dart';
-import '../data/service/product_service.dart';
 
 
 class CategoryWidget extends StatefulWidget {
@@ -65,8 +63,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
 
   void fetchCategorieProducts(int categoryId) async {
     try {
-      final response =
-          await http.get(Uri.parse('$baseURL/api/products/category/$categoryId'));
+      final response = await http.get(Uri.parse('$baseURL/api/products/category/$categoryId'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)["data"];
         setState(() {
