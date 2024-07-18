@@ -1,13 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
+<<<<<<< HEAD
+=======
+import 'package:app_coffee/home/details.dart';
+import 'package:http/http.dart' as http;
+>>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
 import 'package:app_coffee/congf/const.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_coffee/data/provider/cart_provider.dart';
 import 'package:app_coffee/data/provider/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../product/productwidget.dart';
 import '../data/config/config_manager.dart';
+import '../data/service/product_service.dart';
+import '../data/service/product_service.dart';
+
 
 class CategoryWidget extends StatefulWidget {
   const CategoryWidget({super.key});
@@ -17,11 +24,15 @@ class CategoryWidget extends StatefulWidget {
 }
 
 class _CategoryWidgetState extends State<CategoryWidget> {
-  List<String> categories = [];
+  List<Map<String, dynamic>> categories = [];
   List<dynamic> products = [];
   bool isLoading = true;
   String selectedCategory = "Cappuchino";
+<<<<<<< HEAD
   
+=======
+  int selectedCategoryId = 1;
+>>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
 
   @override
   void initState() {
@@ -35,17 +46,35 @@ class _CategoryWidgetState extends State<CategoryWidget> {
       final response = await http.get(Uri.parse('$baseURL/api/categories'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)["data"];
+<<<<<<< HEAD
         final List<String> fetchedCategories = ["Cappuchino"];
         for (var category in data) {
           final String categoryName = category["catName"];
           if (!fetchedCategories.contains(categoryName)) {
             fetchedCategories.add(categoryName);
+=======
+        final List<Map<String, dynamic>> fetchedCategories = [
+          {"id": 1, "name": "Cappuchino"}
+        ];
+        for (var category in data) {
+          final Map<String, dynamic> categoryData = {
+            "id": category["id"],
+            "name": category["catName"]
+          };
+          if (!fetchedCategories
+              .any((cat) => cat["name"] == categoryData["name"])) {
+            fetchedCategories.add(categoryData);
+>>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
           }
         }
         setState(() {
           isLoading = false;
           categories = fetchedCategories;
         });
+<<<<<<< HEAD
+=======
+        fetchCategorieProducts(1);
+>>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
       } else {
         throw Exception('Failed to load categories');
       }
@@ -54,8 +83,9 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     }
   }
 
-  void fetchCategorieProducts(String category) async {
+  void fetchCategorieProducts(int categoryId) async {
     try {
+<<<<<<< HEAD
       final response = await http.get(Uri.parse('$baseURL/api/products'));
       final List<dynamic> data = json.decode(response.body)["data"];
       final List<dynamic> categorieProducts = [];
@@ -64,6 +94,18 @@ class _CategoryWidgetState extends State<CategoryWidget> {
         if (productCategory == category) {
           categorieProducts.add(prodouct);
         }
+=======
+      final response =
+          await http.get(Uri.parse('$baseURL/api/products/category/$categoryId'));
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body)["data"];
+        setState(() {
+          selectedCategoryId = categoryId;
+          products = data;
+        });
+      } else {
+        throw Exception('Failed to load products');
+>>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
       }
       setState(() {
         selectedCategory = category;
@@ -94,24 +136,31 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                         margin: const EdgeInsets.only(left: 10),
                         child: GestureDetector(
                           onTap: () {
-                            fetchCategorieProducts(category);
+                            setState(() {
+                              selectedCategoryId = category["id"];
+                            });
+                            fetchCategorieProducts(category["id"]);
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14),
+<<<<<<< HEAD
                               color: selectedCategory == category
+=======
+                              color: selectedCategoryId == category["id"]
+>>>>>>> fde5943b1213fdc63634e40d46a750aeaf283459
                                   ? const Color(0xFF7F4C2A)
                                   : Colors.white
                             ),
                             child: Center(
                               child: Text(
-                                category,
+                                category["name"],
                                 style: TextStyle(
-                                  fontWeight: category == selectedCategory
+                                  fontWeight: selectedCategoryId == category["id"]
                                       ? FontWeight.bold
                                       : FontWeight.normal,
-                                  color: category == selectedCategory
+                                  color: selectedCategoryId == category["id"]
                                       ? Colors.white
                                       : const Color(0xFFCCC9C9),
                                   fontSize: 18,
@@ -185,8 +234,8 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductWidget(
-                      objCat: product["catId"],
+                    builder: (context) => MyFoodScreen(
+                      product: product,
                     ),
                   ),
                 );
