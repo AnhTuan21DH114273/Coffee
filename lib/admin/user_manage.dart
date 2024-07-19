@@ -10,6 +10,11 @@ class UserManage extends StatefulWidget {
 class _UserManageState extends State<UserManage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Quản lý tài khoản"),
+        centerTitle: true,
+      ),
+    );
   }
 }

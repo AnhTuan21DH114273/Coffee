@@ -22,13 +22,13 @@ class _CategoryWidgetState extends State<CategoryWidget> {
   List<Map<String, dynamic>> categories = [];
   List<dynamic> products = [];
   bool isLoading = true;
-  String selectedCategory = "Cappuchino";
   int selectedCategoryId = 1;
 
   @override
   void initState() {
     super.initState();
     fetchCategories();
+    fetchCategorieProducts(1);
   }
 
   Future<void> fetchCategories() async {
@@ -36,16 +36,13 @@ class _CategoryWidgetState extends State<CategoryWidget> {
       final response = await http.get(Uri.parse('$baseURL/api/categories'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)["data"];
-        final List<Map<String, dynamic>> fetchedCategories = [
-          {"id": 1, "name": "Cappuchino"}
-        ];
+        final List<Map<String, dynamic>> fetchedCategories = [];        
         for (var category in data) {
           final Map<String, dynamic> categoryData = {
             "id": category["id"],
             "name": category["catName"]
           };
-          if (!fetchedCategories
-              .any((cat) => cat["name"] == categoryData["name"])) {
+          if (!fetchedCategories.any((cat) => cat["name"] == categoryData["name"])) {
             fetchedCategories.add(categoryData);
           }
         }
@@ -53,7 +50,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           isLoading = false;
           categories = fetchedCategories;
         });
-        fetchCategorieProducts(1);
+        
       } else {
         throw Exception('Failed to load categories');
       }
