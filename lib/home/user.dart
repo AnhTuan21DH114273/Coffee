@@ -90,7 +90,7 @@ class _UserState extends State<User> {
                         color: Colors.black,
                       ),
                       suffixIcon: Icon(
-                        Icons.update,
+                        Icons.edit,
                         color: Colors.black,
                       ),
                       labelStyle: TextStyle(
@@ -115,7 +115,7 @@ class _UserState extends State<User> {
                         color: Colors.black,
                       ),
                       suffixIcon: Icon(
-                        Icons.update,
+                        Icons.edit,
                         color: Colors.black,
                       ),
                       labelStyle: TextStyle(
@@ -140,7 +140,7 @@ class _UserState extends State<User> {
                         color: Colors.black,
                       ),
                       suffixIcon: Icon(
-                        Icons.update,
+                        Icons.edit,
                         color: Colors.black,
                       ),
                       labelStyle: TextStyle(
@@ -165,7 +165,7 @@ class _UserState extends State<User> {
                         color: Colors.black,
                       ),
                       suffixIcon: Icon(
-                        Icons.update,
+                        Icons.edit,
                         color: Colors.black,
                       ),
                       labelStyle: TextStyle(

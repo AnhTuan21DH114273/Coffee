@@ -10,6 +10,11 @@ class OrderManage extends StatefulWidget {
 class _OrderManageState extends State<OrderManage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Quản lý đơn hàng"),
+        centerTitle: true,
+      ),
+    );
   }
 }

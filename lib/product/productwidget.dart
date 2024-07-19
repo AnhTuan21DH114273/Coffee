@@ -2,22 +2,20 @@ import 'dart:convert';
 import 'package:app_coffee/congf/const.dart';
 import 'package:app_coffee/data/config/config_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../data/provider/order_provider.dart';
 import '../order/order_screen.dart';
-import '../data/model/product.dart';
 import 'package:http/http.dart' as http;
 
 class ProductWidget extends StatefulWidget {
   final int objCat;
 
   const ProductWidget({
-    Key? key,
+    super.key,
     required this.objCat,
-  }) : super(key: key);
+  });
 
   @override
   State<ProductWidget> createState() => _ProductWidgetState();
