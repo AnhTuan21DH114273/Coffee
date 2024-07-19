@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../data/model/product.dart';
 
 class DeliveryScreen extends StatefulWidget {
   final int prodId;
@@ -21,28 +22,30 @@ class DeliveryScreen extends StatefulWidget {
 
 class _DeliveryScreenState extends State<DeliveryScreen> {
   List<dynamic> products = [];
+
   Future<void> getProdbyId(int id) async {
     try {
       final response = await http.get(Uri.parse('$baseURL/api/products/'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)["data"];
         final List<dynamic> categorieProducts = [];
-        for (var prdouct in data) {
-          final int productCategory = prdouct["id"];
+        for (var product in data) {
+          final int productCategory = product["id"];
           if (productCategory == id) {
-            categorieProducts.add(prdouct);
+            categorieProducts.add(product);
           }
         }
         setState(() {
           products = categorieProducts;
         });
-      }  else {
+      } else {
         throw Exception('Failed to load products');
       }
-      } catch (e) {
-        print(e);
-      }
+    } catch (e) {
+      print(e);
+    }
   }
+
   @override
   void initState() {
     super.initState();
@@ -54,11 +57,16 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       body: Container(
-          padding: const EdgeInsets.only(left: 10),
-          color: Colors.grey.shade300,
-          child: FutureBuilder(
-            future: getProdbyId(widget.prodId),
-            builder: (context, snapshot) {
+        padding: const EdgeInsets.only(left: 10),
+        color: Colors.grey.shade300,
+        child: FutureBuilder(
+          future: getProdbyId(widget.prodId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
               return PageView.builder(
                 itemCount: products.length,
                 itemBuilder: (context, index) {
@@ -66,14 +74,19 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                   return _buildScreen(product, context);
                 },
               );
-            },
-          )),
+            }
+          },
+        ),
+      ),
     );
   }
 
   Widget _buildScreen(product, BuildContext context) {
     double deliveryFee = 15000;
-    final counter = Provider.of<CartCounter>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
+    final cartItem = cartProvider.cartList.firstWhere(
+        (item) => item.product.id == product["id"],
+        orElse: () => CartItem(product: ProductModel.fromJson(product)));
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,24 +196,32 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 width: 100,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 5),
+                                padding: const EdgeInsets.only(left: 5),
                 child: IconButton(
-                    icon: const Icon(Icons.remove),
-                    onPressed: counter.decreQuan),
+                  icon: const Icon(Icons.remove),
+                  onPressed: () {
+                    cartProvider
+                        .decreaseQuantity(ProductModel.fromJson(product));
+                  },
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 9),
                 child: Text(
-                  '${counter.count}',
+                  '${cartItem.quantity}',
                   style: const TextStyle(fontSize: 20),
                 ),
               ),
               IconButton(
-                  icon: const Icon(Icons.add), onPressed: counter.increQuan),
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  cartProvider.increaseQuantity(ProductModel.fromJson(product));
+                },
+              ),
             ],
           ),
         ),
@@ -236,13 +257,12 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 width: 128,
               ),
               IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Voucher()));
-                  },
-                  icon: const Icon(Icons.arrow_forward)),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Voucher()));
+                },
+                icon: const Icon(Icons.arrow_forward),
+              ),
             ],
           ),
         ),
@@ -270,7 +290,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             ),
             Text(
               NumberFormat("##,###.###")
-                  .format(product["price"] * counter.count),
+                  .format(product["price"] * cartItem.quantity),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -328,7 +348,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             ),
             Text(
               NumberFormat("##,###.###")
-                  .format(deliveryFee + (product["price"] * counter.count)),
+                  .format(deliveryFee + (product["price"] * cartItem.quantity)),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -367,7 +387,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                     width: 10,
                   ),
                   Text(
-                    "${counter.count} Sản Phẩm",
+                    "${cartItem.quantity} Sản Phẩm",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -378,7 +398,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                   ),
                   Text(
                     NumberFormat("##,###.###").format(
-                        deliveryFee + (product["price"] * counter.count)),
+                        deliveryFee + (product["price"] * cartItem.quantity)),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.red,
@@ -398,13 +418,13 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                           builder: (context) => OrderSuccessful()));
                 },
                 style: ButtonStyle(
-                    padding: WidgetStateProperty.all<EdgeInsets>(
+                    padding: MaterialStateProperty.all<EdgeInsets>(
                         const EdgeInsets.all(12)),
                     minimumSize:
-                        WidgetStateProperty.all<Size>(const Size(400, 11)),
-                    backgroundColor:
-                        WidgetStateProperty.all<Color>(const Color(0xFFC67C4E)),
-                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                        MaterialStateProperty.all<Size>(const Size(400, 11)),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        const Color(0xFFC67C4E)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                             side: const BorderSide(color: Colors.grey)))),
@@ -426,3 +446,4 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     );
   }
 }
+

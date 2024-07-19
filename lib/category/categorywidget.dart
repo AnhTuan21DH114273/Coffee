@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:app_coffee/home/cart.dart';
 import 'package:app_coffee/product/productwidget.dart';
 import 'package:http/http.dart' as http;
 import 'package:app_coffee/congf/const.dart';
@@ -253,7 +254,13 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                 padding: const EdgeInsets.only(top: 0.1),
                 child: ElevatedButton(
                   onPressed: () {
-                    provider_1.addToCart(product);
+                    provider_1.addProductFromJson(product);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Cart(),
+                      ),
+                    );
                   },
                   style: ButtonStyle(
                     padding: WidgetStateProperty.all<EdgeInsets>(

@@ -19,7 +19,6 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => FavoriteProvider()),
         ChangeNotifierProvider(create: (context) => CartProvider()),
-        ChangeNotifierProvider(create: (context) => CartCounter()),
         ChangeNotifierProvider(create: (context) => OrderProvider()),
       ],
       child: const MaterialApp(
