@@ -23,7 +23,7 @@ class MainApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: AdminScreen(),
+        home: Mainpage(),
       ),
     );
   }

@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'cart_provider.dart';
 
-class OrderProvider with ChangeNotifier{
+class OrderProvider with ChangeNotifier {
   final List<dynamic> _order = [];
   List<dynamic> get order => _order;
-  void buyNow(dynamic products){
-    if(_order.contains(products)){
+
+  void buyNow(dynamic products) {
+    if (_order.contains(products)) {
       _order.remove(products);
     } else {
       _order.add(products);
     }
     notifyListeners();
   }
+
   int get itemCount => _order.length;
-  String calculateTotal(dynamic products) {
+
+  double calculateTotal(List<dynamic> cartList) {
     double totalPrice = 0;
-    for (int i = 0; i < products.length; i++) {
-      totalPrice += double.parse(products);
+    for (var item in cartList) {
+      totalPrice += item.quantity * item.product.price;
     }
-    return totalPrice.toStringAsFixed(2);
+    return totalPrice;
   }
 }

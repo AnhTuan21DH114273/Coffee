@@ -268,7 +268,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                 padding: const EdgeInsets.only(bottom: 20),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => OrderScreen(prodId: products["id"],)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => OrderScreen()));
                   },
                   style: ButtonStyle(
                       padding: WidgetStateProperty.all<EdgeInsets>(

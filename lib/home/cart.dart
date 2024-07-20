@@ -1,6 +1,8 @@
+import 'package:app_coffee/order/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../data/provider/cart_provider.dart';
+import '../data/provider/order_provider.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -13,6 +15,7 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
+    final orderProvider = Provider.of<OrderProvider>(context, listen: false);
     final cartList = cartProvider.cartList;
 
     return Scaffold(
@@ -128,7 +131,23 @@ class _CartState extends State<Cart> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (cartList.isNotEmpty) {
+                  orderProvider.buyNow(cartList);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          OrderScreen(),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text('Giỏ hàng của bạn đang trống')),
+                  );
+                }
+              },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(15),
                 minimumSize: const Size(double.infinity, 50),
