@@ -1,11 +1,14 @@
-import 'package:app_coffee/congf/const.dart';
+import 'dart:convert'; 
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:app_coffee/data/provider/cart_provider.dart';
 import 'package:app_coffee/home/voucher.dart';
 import 'package:app_coffee/successful/order.dart';
 import 'package:dotted_line/dotted_line.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import '../congf/const.dart';
+import '../data/config/config_manager.dart';
 
 class DeliveryScreen extends StatefulWidget {
   const DeliveryScreen({super.key});
@@ -33,22 +36,23 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       body: SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.only(left: 10),
-        color: Colors.grey.shade300,
-        child: cartList.isEmpty
-            ? Center(child: Text('Giỏ hàng của bạn đang trống'))
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildAddressSection(),
-                  _buildCartSummary(totalQuantity, totalPrice, deliveryFee),
-                  _buildPaymentSummary(totalPrice, deliveryFee),
-                  _buildCheckoutButton(context),
-                ],
-              ),
+        child: Container(
+          padding: const EdgeInsets.only(left: 10),
+          color: Colors.grey.shade300,
+          child: cartList.isEmpty
+              ? Center(child: Text('Giỏ hàng của bạn đang trống'))
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildAddressSection(),
+                    _buildCartSummary(totalQuantity, totalPrice, deliveryFee),
+                    _buildPaymentSummary(totalPrice, deliveryFee),
+                    _buildCheckoutButton(context, cartProvider),
+                  ],
+                ),
+        ),
       ),
-    ));
+    );
   }
 
   Widget _buildAddressSection() {
@@ -278,7 +282,95 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     );
   }
 
-  Widget _buildCheckoutButton(BuildContext context) {
+  Future<void> _placeOrder() async {
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final cartList = cartProvider.cartList;
+    double deliveryFee = 15000;
+
+    // Thông tin đơn hàng
+    final order = {
+      'user_id': 1, // Ví dụ: ID người dùng, bạn có thể lấy từ state hoặc auth
+      'address': '15 Võ Văn Kiệt',
+      'order_date': DateFormat('yyyy-MM-dd').format(DateTime.now()),
+      'total_price': cartList.fold<double>(
+          0, (sum, item) => sum + item.product.price * item.quantity),
+      'delivery_fee': deliveryFee,
+      'total_amount': cartList.fold<double>(
+              0, (sum, item) => sum + item.product.price * item.quantity) +
+          deliveryFee,
+      'payment_method': 'Cash', // Ví dụ: phương thức thanh toán
+      'status': 'Pending',
+      'items': cartList
+          .map((item) => {
+                'product_id': item.product.id,
+                'product_name': item.product.name,
+                'product_description': item.product.des,
+                'quantity': item.quantity,
+                'price': item.product.price,
+              })
+          .toList(),
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseURL/api/orders'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(order),
+      );
+      print('API response: ${response.body}');
+      if (response.statusCode == 201) {
+        // Giả sử rằng ID đơn hàng được trả về trong phản hồi
+        final responseData = json.decode(response.body);
+        final orderId = responseData['orderId']; // Lấy order_id từ phản hồi
+         print('Order placed successfully with ID: $orderId');
+        // Chèn các mục vào bảng order_items
+        final itemsResponse = await http.post(
+          Uri.parse('$baseURL/api/order_items'),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: json.encode({
+            'order_id': orderId,
+            'items': cartList
+                .map((item) => {
+                      'product_id': item.product.id,
+                      'product_name': item.product.name,
+                      'product_description': item.product.des,
+                      'quantity': item.quantity,
+                      'price': item.product.price,
+                    })
+                .toList(),
+          }),
+        );
+        print('Order items response: ${itemsResponse.statusCode}');
+        if (itemsResponse.statusCode == 201) {
+          // Đơn hàng và các mục đã được tạo thành công
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const OrderSuccessful()));
+        } else {
+          // Xử lý lỗi nếu không thể chèn các mục
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Error placing order items')),
+          );
+        }
+      } else {
+        // Xử lý lỗi nếu đơn hàng không được tạo thành công
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error placing order')),
+        );
+      }
+    } catch (e) {
+      // Xử lý lỗi kết nối
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error connecting to server')),
+      );
+    }
+  }
+
+
+  Widget _buildCheckoutButton(BuildContext context, CartProvider cartProvider) {
     return Container(
       width: double.infinity,
       height: 175,
@@ -299,7 +391,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
               ),
               const SizedBox(width: 10),
               Text(
-                "${Provider.of<CartProvider>(context).cartList.fold<int>(0, (sum, item) => sum + item.quantity)} Sản Phẩm",
+                "${cartProvider.cartList.fold<int>(0, (sum, item) => sum + item.quantity)} Sản Phẩm",
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
@@ -307,7 +399,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
               Text(
                 NumberFormat("##,###.###").format(
                   15000 +
-                      Provider.of<CartProvider>(context).cartList.fold<double>(
+                      cartProvider.cartList.fold<double>(
                           0,
                           (sum, item) =>
                               sum + item.product.price * item.quantity),
@@ -322,14 +414,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
           const SizedBox(height: 30),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const OrderSuccessful()));
+              _placeOrder();
             },
             style: ButtonStyle(
-              padding: WidgetStateProperty.all<EdgeInsets>(
-                  const EdgeInsets.all(12)),
+              padding:
+                  WidgetStateProperty.all<EdgeInsets>(const EdgeInsets.all(12)),
               minimumSize: WidgetStateProperty.all<Size>(const Size(400, 11)),
               backgroundColor:
                   WidgetStateProperty.all<Color>(const Color(0xFFC67C4E)),

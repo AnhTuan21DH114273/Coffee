@@ -48,7 +48,7 @@ class _UserState extends State<User> {
               const SizedBox(height: 30,),
               CircleAvatar(
                 backgroundColor: Colors.white,
-                backgroundImage: const AssetImage("assets/images/user.png"),
+                backgroundImage: const AssetImage("assets/images/avatar.png"),
                 radius: 55,
                 onBackgroundImageError: (exception, stackTrace) {
                  const Text("Nothing");
