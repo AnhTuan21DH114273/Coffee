@@ -96,7 +96,6 @@ const db = new sqlite3.Database(dbPath, (err) => {
     //   }
     // );
 
-
     db.run(
       `CREATE TABLE IF NOT EXISTS categories (
         id INTEGER PRIMARY KEY,
@@ -134,6 +133,50 @@ const db = new sqlite3.Database(dbPath, (err) => {
           // });
 
           // stmt.finalize();
+        }
+      }
+    );
+    // Tạo bảng 'orders'
+    db.run(
+      `CREATE TABLE IF NOT EXISTS orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    address TEXT NOT NULL,
+    order_date TEXT NOT NULL,
+    total_price REAL NOT NULL,
+    delivery_fee REAL NOT NULL,
+    total_amount REAL NOT NULL,
+    payment_method TEXT NOT NULL,
+    status TEXT NOT NULL,
+    notes TEXT,
+    FOREIGN KEY (user_id) REFERENCES users (id)
+  )`,
+      (err) => {
+        if (err) {
+          console.error("Error creating table 'orders': " + err.message);
+        } else {
+          console.log('Table "orders" created or already exists.');
+        }
+      }
+    );
+
+    // Tạo bảng 'order_items'
+    db.run(
+      `CREATE TABLE IF NOT EXISTS order_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    order_id INTEGER NOT NULL,
+    product_id INTEGER NOT NULL,
+    product_name TEXT NOT NULL,
+    product_description TEXT,
+    quantity INTEGER NOT NULL,
+    price REAL NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders (id)
+  )`,
+      (err) => {
+        if (err) {
+          console.error("Error creating table 'order_items': " + err.message);
+        } else {
+          console.log('Table "order_items" created or already exists.');
         }
       }
     );

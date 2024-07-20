@@ -5,6 +5,8 @@ const OtpRouter = require("./routes/Otp");
 const db = require("./data/database");
 const ProductRoutes = require("./routes/Products")(db);
 const categoriesRoutes = require("./routes/Categories")(db);
+const OrderRoutes = require("./routes/Orders")(db);
+const OrderItemRoutes = require("./routes/OrderItem")(db);
 require("dotenv").config();
 
 
@@ -28,6 +30,9 @@ app.use("/api", Otp);
 
 app.use("/api", ProductRoutes)
 app.use("/api", categoriesRoutes);
+
+app.use("/api", OrderRoutes);
+app.use("/api", OrderItemRoutes);
 
 const server = app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
