@@ -15,9 +15,6 @@ const runAsync = (db, sql, params = []) => {
 module.exports = (db) => {
   router.post("/order_items", async (req, res) => {
     const { order_id, items } = req.body;
-
-    console.log("Received order items data:", req.body);
-
     try {
       const itemsPromises = items.map((item) =>
         runAsync(
