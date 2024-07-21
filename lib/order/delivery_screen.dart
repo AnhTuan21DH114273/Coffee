@@ -9,6 +9,7 @@ import 'package:app_coffee/successful/order.dart';
 import 'package:dotted_line/dotted_line.dart';
 import '../congf/const.dart';
 import '../data/config/config_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DeliveryScreen extends StatefulWidget {
   const DeliveryScreen({super.key});
@@ -286,10 +287,12 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final cartList = cartProvider.cartList;
     double deliveryFee = 15000;
-
+    String? userId;
+    final prefs = await SharedPreferences.getInstance();
+    userId = prefs.getString('userId');
     // Thông tin đơn hàng
     final order = {
-      'user_id': 1, // Ví dụ: ID người dùng, bạn có thể lấy từ state hoặc auth
+      'user_id': userId, // Ví dụ: ID người dùng, bạn có thể lấy từ state hoặc auth
       'address': '15 Võ Văn Kiệt',
       'order_date': DateFormat('yyyy-MM-dd').format(DateTime.now()),
       'total_price': cartList.fold<double>(

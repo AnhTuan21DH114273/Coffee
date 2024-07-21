@@ -35,7 +35,7 @@ class _ViewOrderState extends State<ViewOrder> {
         });
         return;
       }
-
+      
       final response = await http.get(
         Uri.parse('$baseURL/api/orders/$userId'),
         headers: <String, String>{
