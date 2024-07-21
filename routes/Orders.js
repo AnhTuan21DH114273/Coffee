@@ -124,13 +124,12 @@ module.exports = (db) => {
       delivery_fee,
       total_amount,
       payment_method,
-      status,
-      items,
+      status
     } = req.body;
 
     try {
       // Insert đơn hàng vào bảng orders
-      const result = await runAsync(
+      const result = await queryAsync(
         db,
         `INSERT INTO orders (user_id, address, order_date, total_price, delivery_fee, total_amount, payment_method, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
         [
