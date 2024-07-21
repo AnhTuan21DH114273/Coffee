@@ -1,10 +1,10 @@
-
 import 'package:app_coffee/mainpage.dart';
 import 'package:app_coffee/page/sign_in_or_sign_up.dart';
 import 'package:app_coffee/signIn/forgotPass.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart'; // Import package
 import '../data/config/config_manager.dart';
 
 class SignInWidget extends StatefulWidget {
@@ -17,6 +17,7 @@ class SignInWidget extends StatefulWidget {
 class _SignInWidgetState extends State<SignInWidget> {
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,6 +140,20 @@ class _SignInWidgetState extends State<SignInWidget> {
                           print('User data: $userData'); // Log user data
 
                           if (userData != null && userData['name'] != null) {
+                            // Save user data to SharedPreferences
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setString('userName', userData['name']);
+                            await prefs.setString(
+                                'userPhone', userData['phone']);
+                            await prefs.setString(
+                                'userToken',
+                                responseData[
+                                    'token']);
+                                    await prefs.setString(
+                                'userId',
+                                userData['id']
+                                    .toString()); // Save any other token or data if available
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                   content: Text("Welcome ${userData['name']}")),
@@ -198,14 +213,17 @@ class _SignInWidgetState extends State<SignInWidget> {
                       ),
                     ),
                     TextButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const Forgotpass()));
-                    }, 
-                    child: const Text("Tìm mật khẩu",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red
-                    ),),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Forgotpass()));
+                      },
+                      child: const Text(
+                        "Tìm mật khẩu",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
                     )
                   ],
                 ),
