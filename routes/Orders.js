@@ -66,19 +66,15 @@ module.exports = (db) => {
     try {
       // Lấy thông tin đơn hàng
       const orderResult = await new Promise((resolve, reject) => {
-        db.all(
-        `SELECT * FROM orders WHERE id = ?`,
-        [orderId],
-        (err, rows) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(rows);
-            }
+        db.all(`SELECT * FROM orders WHERE id = ?`, [orderId], (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
           }
-      );
+        });
       });
-    
+
       console.log("Order result:", orderResult); // Log kết quả đơn hàng
 
       // Kiểm tra xem đơn hàng có tồn tại không
@@ -101,7 +97,7 @@ module.exports = (db) => {
             }
           }
         );
-    });
+      });
       console.log("Items result:", itemsResult); // Log kết quả chi tiết đơn hàng
 
       // Thêm thông tin chi tiết vào đơn hàng
@@ -124,7 +120,7 @@ module.exports = (db) => {
       delivery_fee,
       total_amount,
       payment_method,
-      status
+      status,
     } = req.body;
 
     try {
@@ -153,5 +149,90 @@ module.exports = (db) => {
       res.status(500).json({ message: "Error placing order" });
     }
   });
+  // Endpoint to delete an order by ID
+  router.delete("/orders/:id", (req, res) => {
+    const { id } = req.params;
+
+    // SQL query to delete an order
+    const sql = `DELETE FROM orders WHERE id = ?`;
+
+    // Execute the query
+    db.run(sql, [id], function (err) {
+      if (err) {
+        // Return an error if something went wrong
+        return res.status(500).json({ error: err.message });
+      }
+      // Confirm successful deletion
+      res.json({ message: "Order deleted successfully" });
+    });
+  });
+  // Endpoint to update an order by ID
+  router.put("/orders/:id", (req, res) => {
+    const { id } = req.params;
+    const {
+      user_id,
+      address,
+      order_date,
+      total_price,
+      delivery_fee,
+      total_amount,
+      payment_method,
+      status,
+      notes,
+    } = req.body;
+
+    // SQL query to update an order
+    const sql = `UPDATE orders SET 
+    user_id = ?, 
+    address = ?, 
+    order_date = ?, 
+    total_price = ?, 
+    delivery_fee = ?, 
+    total_amount = ?, 
+    payment_method = ?, 
+    status = ?, 
+    notes = ? 
+    WHERE id = ?`;
+
+    // Execute the query
+    db.run(
+      sql,
+      [
+        user_id,
+        address,
+        order_date,
+        total_price,
+        delivery_fee,
+        total_amount,
+        payment_method,
+        status,
+        notes,
+        id,
+      ],
+      function (err) {
+        if (err) {
+          // Return an error if something went wrong
+          return res.status(500).json({ error: err.message });
+        }
+        // Confirm successful update
+        res.json({
+          message: "Order updated successfully",
+          data: {
+            id,
+            user_id,
+            address,
+            order_date,
+            total_price,
+            delivery_fee,
+            total_amount,
+            payment_method,
+            status,
+            notes,
+          },
+        });
+      }
+    );
+  });
+
   return router;
 };

@@ -4,7 +4,7 @@ const router = express.Router();
 // Helper function to execute SQL queries
 const runAsync = (db, sql, params = []) => {
   return new Promise((resolve, reject) => {
-    db.get(sql, params, (err, row) => {
+    db.all(sql, params, (err, row) => {
       if (err) {
         reject(err);
       } else {
@@ -51,15 +51,15 @@ const attemptDbOperation = async (db, operation, ...args) => {
 
 module.exports = (db) => {
   // Route to get user information
-  router.get("/user/:userId", async (req, res) => {
-    const { userId } = req.params;
+  router.get("/user/:id", async (req, res) => {
+    const { id } = req.params;
 
     try {
       // Fetch user information
       const userResult = await runAsync(
         db,
         `SELECT * FROM users WHERE id = ?`,
-        [userId]
+        [id]
       );
 
       // Check if user exists
@@ -76,8 +76,8 @@ module.exports = (db) => {
   });
 
   // Route to delete user account
-  router.delete("/user/:userId", async (req, res) => {
-    const { userId } = req.params;
+  router.delete("/user/:id", async (req, res) => {
+    const { id } = req.params;
 
     try {
       // Use transaction to ensure atomic operation
@@ -88,7 +88,7 @@ module.exports = (db) => {
               db,
               runDeleteAsync,
               `DELETE FROM users WHERE id = ?`,
-              [userId]
+              [id]
             );
             resolve();
           } catch (error) {
@@ -104,5 +104,46 @@ module.exports = (db) => {
     }
   });
 
+  // Route to update user information
+  router.put("/user/:id", async (req, res) => {
+    const { id } = req.params;
+    const { name, phone, password } = req.body;
+
+    // SQL query to update a user
+    const sql = `UPDATE users SET name = ?, phone = ?, password = ? WHERE id = ?`;
+
+    try {
+      await attemptDbOperation(db, runDeleteAsync, sql, [
+        name,
+        phone,
+        password,
+        id,
+      ]);
+      res.json({
+        message: "User updated successfully",
+        data: {
+          id,
+          name,
+          phone,
+          password,
+        },
+      });
+    } catch (error) {
+      console.error("Error updating user:", error.message);
+      res.status(500).json({ message: "Error updating user" });
+    }
+  });
+  router.get("/user", async (req, res) => {
+    try {
+      // Fetch all users
+      const users = await runAsync(db, `SELECT id, name, phone FROM users`);
+
+      // Send users information
+      res.status(200).json(users);
+    } catch (error) {
+      console.error("Error fetching users:", error.message);
+      res.status(500).json({ message: "Error fetching users" });
+    }
+  });
   return router;
 };

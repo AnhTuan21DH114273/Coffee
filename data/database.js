@@ -22,7 +22,9 @@ const db = new sqlite3.Database(dbPath, (err) => {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         phone TEXT NOT NULL,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        email TEXT,
+        address TEXT
       )`,
       (err) => {
         if (err) {
@@ -42,7 +44,6 @@ const db = new sqlite3.Database(dbPath, (err) => {
         price REAL NOT NULL,
         img TEXT,
         catId INTEGER,
-        catName TEXT,
         color TEXT,
         FOREIGN KEY(catId) REFERENCES categories(id)
       )`,
