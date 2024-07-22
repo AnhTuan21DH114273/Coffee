@@ -133,7 +133,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const UserManage()));
+                        MaterialPageRoute(builder: (context) => const UserManager()));
                   },
                   style: ButtonStyle(
                       padding: WidgetStateProperty.all<EdgeInsets>(

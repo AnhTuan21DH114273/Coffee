@@ -1,5 +1,7 @@
 import 'package:app_coffee/congf/const.dart';
 import 'package:flutter/material.dart';
+import '../../data/model/product.dart';
+import '../../data/service/product_service.dart';
 
 class Addproduct extends StatefulWidget {
   const Addproduct({super.key});
@@ -14,8 +16,10 @@ class _AddproductState extends State<Addproduct> {
   final TextEditingController descController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController imgController = TextEditingController();
-  final TextEditingController catIdController =TextEditingController();
-  final TextEditingController catNameController =TextEditingController();
+  final TextEditingController catIdController = TextEditingController();
+  final TextEditingController colorController =
+      TextEditingController(); // Thêm controller cho màu
+
   @override
   void dispose() {
     super.dispose();
@@ -25,8 +29,9 @@ class _AddproductState extends State<Addproduct> {
     priceController.dispose();
     imgController.dispose();
     catIdController.dispose();
-    catNameController.dispose();
+    colorController.dispose(); // Dispose controller màu
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,10 +84,10 @@ class _AddproductState extends State<Addproduct> {
                 icon: const Icon(Icons.numbers),
               ),
               TextFieldWidget(
-                tec: catNameController,
-                label: 'Loại sản phẩm theo TÊN',
+                tec: colorController, // Thêm trường màu
+                label: 'Màu sắc',
                 hint: '',
-                icon: const Icon(Icons.abc),
+                icon: const Icon(Icons.color_lens),
               ),
               Card.outlined(
                 child: SizedBox(
@@ -99,7 +104,10 @@ class _AddproductState extends State<Addproduct> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // Xử lý thêm sản phẩm
+                    addProduct();
+                  },
                   style: const ButtonStyle(
                     backgroundColor:
                         WidgetStatePropertyAll<Color>(Colors.amber),
@@ -114,5 +122,42 @@ class _AddproductState extends State<Addproduct> {
         ),
       ),
     );
+  }
+
+  Future<void> addProduct() async {
+    // Lấy dữ liệu từ các controller
+    final name = nameController.text;
+    final des = desController.text;
+    final desc = descController.text;
+    final price = double.tryParse(priceController.text) ?? 0;
+    final image = imgController.text;
+    final catId = int.tryParse(catIdController.text) ?? 0;
+    final color = colorController.text; // Lấy dữ liệu màu
+
+    // Tạo đối tượng ProductModel
+    final product = ProductModel(
+      id: 0, // ID sẽ được gán bởi API
+      name: name,
+      des: des,
+      desc: desc,
+      price: price,
+      img: image,
+      catId: catId,
+      color: color,
+    );
+
+    try {
+      // Gọi phương thức addProduct của ProductService
+      final productService = ProductService();
+      await productService.addProduct(product);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Sản phẩm đã được thêm thành công')),
+      );
+      Navigator.pop(context); // Quay lại trang trước đó
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Thêm sản phẩm thất bại: $e')),
+      );
+    }
   }
 }

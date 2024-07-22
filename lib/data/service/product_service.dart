@@ -15,7 +15,8 @@ class ProductService {
 
       if (response.statusCode == 200) {
         // Giải mã JSON và chuyển đổi thành danh sách ProductModel
-        List<dynamic> jsonList = json.decode(response.body);
+        final Map<String, dynamic> jsonMap = json.decode(response.body);
+        List<dynamic> jsonList = jsonMap['data']; // Trích xuất trường 'data'
         List<ProductModel> products =
             jsonList.map((e) => ProductModel.fromJson(e)).toList();
         return products;
@@ -67,5 +68,49 @@ class ProductService {
       throw Exception('Failed to load products: $e');
     }
   }
+  Future<void> addProduct(ProductModel product) async {
+    try {
+      final response = await http.post(
+        Uri.parse(baseUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(product.toJson()),
+      );
+
+      if (response.statusCode != 201) {
+        throw Exception('Failed to add product: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to add product: $e');
+    }
+  }
+  Future<void> updateProduct(ProductModel product) async {
+    try {
+      final response = await http.put(
+        Uri.parse('$baseUrl/${product.id}'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(product.toJson()),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to update product: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to update product: $e');
+    }
+  }
+  Future<void> deleteProduct(int id) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('$baseUrl/$id'),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to delete product: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to delete product: $e');
+    }
+  }
+
 }
 

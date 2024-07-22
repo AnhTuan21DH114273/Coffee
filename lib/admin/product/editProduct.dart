@@ -1,53 +1,51 @@
-import 'package:app_coffee/congf/const.dart';
 import 'package:flutter/material.dart';
+import 'package:app_coffee/congf/const.dart';
+import '../../data/model/product.dart';
+import '../../data/service/product_service.dart';
 
 class Editproduct extends StatefulWidget {
-  final dynamic editproduct;
-  const Editproduct({super.key, this.editproduct});
+  final ProductModel editproduct;
+  const Editproduct({super.key, required this.editproduct});
 
   @override
   State<Editproduct> createState() => _EditproductState();
 }
 
 class _EditproductState extends State<Editproduct> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController desController = TextEditingController();
-  TextEditingController descController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
-  TextEditingController imgController = TextEditingController();
-  TextEditingController catIdController =TextEditingController();
-  TextEditingController catNameController =TextEditingController();
+  late TextEditingController nameController;
+  late TextEditingController desController;
+  late TextEditingController descController;
+  late TextEditingController priceController;
+  late TextEditingController imgController;
+  late TextEditingController catIdController;
+  late TextEditingController colorController; // Controller for color
+
   @override
   void initState() {
-    String prodName = widget.editproduct["name"];
-    String prodDes = widget.editproduct["des"];
-    String prodDesc = widget.editproduct["desc"];
-    int prodPrice = widget.editproduct["price"];
-    String prodImg = widget.editproduct["img"];
-    int prodCatId = widget.editproduct["catId"];
-    String prodCatName = widget.editproduct["catName"];
-
-    nameController = TextEditingController(text: prodName);
-    desController = TextEditingController(text: prodDes);
-    descController = TextEditingController(text: prodDesc);
-    priceController = TextEditingController(text: prodPrice.toString());
-    imgController = TextEditingController(text: prodImg);
-    catIdController = TextEditingController(text: prodCatId.toString());
-    catNameController = TextEditingController(text: prodCatName);
-
     super.initState();
+
+    // Initialize controllers with existing product data
+    final product = widget.editproduct;
+    nameController = TextEditingController(text: product.name);
+    desController = TextEditingController(text: product.des);
+    descController = TextEditingController(text: product.desc);
+    priceController = TextEditingController(text: product.price.toString());
+    imgController = TextEditingController(text: product.img);
+    catIdController = TextEditingController(text: product.catId.toString());
+    colorController = TextEditingController(
+        text: product.color); // Initialize color controller
   }
 
   @override
   void dispose() {
-    super.dispose();
     nameController.dispose();
     desController.dispose();
     descController.dispose();
     priceController.dispose();
     imgController.dispose();
     catIdController.dispose();
-    catNameController.dispose();
+    colorController.dispose();
+    super.dispose();
   }
 
   @override
@@ -102,10 +100,10 @@ class _EditproductState extends State<Editproduct> {
                 icon: const Icon(Icons.numbers),
               ),
               TextFieldWidget(
-                tec: catNameController,
-                label: 'Loại sản phẩm theo TÊN',
+                tec: colorController, // Added color field
+                label: 'Màu sắc',
                 hint: '',
-                icon: const Icon(Icons.abc),
+                icon: const Icon(Icons.color_lens),
               ),
               Card.outlined(
                 child: SizedBox(
@@ -123,15 +121,15 @@ class _EditproductState extends State<Editproduct> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    setState(() {});
+                    updateProduct();
                   },
                   style: const ButtonStyle(
                     backgroundColor:
-                        WidgetStatePropertyAll<Color>(Colors.amber),
+                        MaterialStatePropertyAll<Color>(Colors.amber),
                     foregroundColor:
-                        WidgetStatePropertyAll<Color>(Colors.black),
+                        MaterialStatePropertyAll<Color>(Colors.black),
                   ),
-                  child: const Text('Chỉnh Sửa'),
+                  child: const Text('Chỉnh sửa'),
                 ),
               ),
             ],
@@ -139,5 +137,39 @@ class _EditproductState extends State<Editproduct> {
         ),
       ),
     );
+  }
+
+  Future<void> updateProduct() async {
+    final name = nameController.text;
+    final des = desController.text;
+    final desc = descController.text;
+    final price = double.tryParse(priceController.text) ?? 0;
+    final img = imgController.text;
+    final catId = int.tryParse(catIdController.text) ?? 0;
+    final color = colorController.text;
+
+    final updatedProduct = ProductModel(
+      id: widget.editproduct.id, // Use existing product ID
+      name: name,
+      des: des,
+      desc: desc,
+      price: price,
+      img: img,
+      catId: catId,
+      color: color,
+    );
+
+    try {
+      final productService = ProductService();
+      await productService.updateProduct(updatedProduct);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Sản phẩm đã được cập nhật thành công')),
+      );
+      Navigator.pop(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Cập nhật sản phẩm thất bại: $e')),
+      );
+    }
   }
 }

@@ -5,7 +5,6 @@ class ProductModel {
   String desc;
   double price;
   String img;
-  String catName;
   int catId;
   final String color;
 
@@ -16,7 +15,6 @@ class ProductModel {
     required this.desc,
     required this.price,
     required this.img,
-    required this.catName,
     required this.catId,
     required this.color,
   });
@@ -29,7 +27,6 @@ class ProductModel {
       desc: json['desc'],
       price: json['price'].toDouble(),
       img: json['img'],
-      catName: json['catName'],
       catId: json['catId'],
       color: json['color'],
     );
@@ -43,7 +40,6 @@ class ProductModel {
       'desc': desc,
       'price': price,
       'img': img,
-      'catName': catName,
       'catId': catId,
       'color': color,
     };
