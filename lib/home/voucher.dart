@@ -1,3 +1,4 @@
+import 'package:app_coffee/mainpage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,7 +15,7 @@ class _VoucherState extends State<Voucher> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: Colors.grey.shade100,
       body: Column(
         children: [
           Container(
@@ -26,14 +27,14 @@ class _VoucherState extends State<Voucher> {
                   top: 30,
                   child: IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
-                      }, icon: const Icon(Icons.arrow_back)),
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Mainpage()));
+                      }, icon: const Icon(Icons.arrow_back, color: Colors.black,)),
                 ),
                 const Positioned(
                     top: 38,
-                    right: 140,
+                    right: 130,
                     child: Text(
-                      "Mã Giảm Giá",
+                      "Mã khuyến mãi",
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -59,7 +60,7 @@ class _VoucherState extends State<Voucher> {
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: const Center(
                         child: Text(
-                          "0 hạt",
+                          "200 Xu",
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.black,
@@ -191,8 +192,8 @@ class _VoucherState extends State<Voucher> {
                   );
                 }),
           ),
-          const Padding(padding: EdgeInsets.only(right: 320),
-            child: Text("Mã giảm giá",
+          const Padding(padding: EdgeInsets.only(right: 250),
+            child: Text("Mã giảm giá của bạn",
             style: TextStyle(
               color: Color(0xFF7F4C2A),
               fontSize: 16,

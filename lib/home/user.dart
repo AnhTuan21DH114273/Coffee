@@ -1,3 +1,4 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print
 import 'package:app_coffee/mainpage.dart';
 import 'package:app_coffee/order/view_order.dart';
 import 'package:app_coffee/signIn/signIn.dart';
@@ -100,7 +101,7 @@ class _UserState extends State<User> {
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Thông tin đã được cập nhật"),
             backgroundColor: Colors.green,
           ),
@@ -111,7 +112,7 @@ class _UserState extends State<User> {
     } catch (e) {
       print(e);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Cập nhật thông tin không thành công"),
           backgroundColor: Colors.red,
         ),
@@ -167,7 +168,7 @@ class _UserState extends State<User> {
         final prefs = await SharedPreferences.getInstance();
         await prefs.remove('userId');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Xoá tài khoản thành công"),
             backgroundColor: Colors.green,
           ),
@@ -182,7 +183,7 @@ class _UserState extends State<User> {
     } catch (e) {
       print(e);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Xoá tài khoản không thành công"),
           backgroundColor: Colors.red,
         ),
@@ -193,10 +194,9 @@ class _UserState extends State<User> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xFFF9F9F9),
         body: SingleChildScrollView(
           child: Container(
-            color: Colors.grey.shade300,
+            color: Colors.grey.shade100,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -205,7 +205,7 @@ class _UserState extends State<User> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Mainpage()));
                       },
                       icon: const Icon(Icons.arrow_back),
                     ),
@@ -237,12 +237,13 @@ class _UserState extends State<User> {
                   child: Row(
                     children: [
                       const Text(
-                        "View Orders",
+                        "Xem đơn hàng",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
+                          fontSize: 16,
                         ),
                       ),
-                      const SizedBox(width: 270),
+                      const Spacer(),
                       IconButton(
                         onPressed: () {
                           Navigator.push(
@@ -279,6 +280,7 @@ class _UserState extends State<User> {
                       labelStyle: TextStyle(
                         fontSize: 18,
                         color: Colors.black,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                   ),
@@ -306,6 +308,7 @@ class _UserState extends State<User> {
                       labelStyle: TextStyle(
                         fontSize: 18,
                         color: Colors.black,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                   ),
@@ -333,6 +336,7 @@ class _UserState extends State<User> {
                       labelStyle: TextStyle(
                         fontSize: 18,
                         color: Colors.black,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                   ),
@@ -360,6 +364,7 @@ class _UserState extends State<User> {
                       labelStyle: TextStyle(
                         fontSize: 18,
                         color: Colors.black,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                   ),
@@ -374,7 +379,7 @@ class _UserState extends State<User> {
                     minimumSize:
                         WidgetStateProperty.all<Size>(const Size(400, 11)),
                     backgroundColor:
-                        WidgetStateProperty.all<Color>(const Color(0xFFC67C4E)),
+                        WidgetStateProperty.all<Color>(Colors.green),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
@@ -394,14 +399,17 @@ class _UserState extends State<User> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                ElevatedButton(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
                   onPressed: _logout,
                   style: ButtonStyle(
                     padding: WidgetStateProperty.all<EdgeInsets>(
                       const EdgeInsets.all(12),
                     ),
                     minimumSize:
-                        WidgetStateProperty.all<Size>(const Size(400, 11)),
+                        WidgetStateProperty.all<Size>(const Size(180, 11)),
                     backgroundColor:
                         WidgetStateProperty.all<Color>(const Color(0xFFC67C4E)),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
@@ -422,7 +430,7 @@ class _UserState extends State<User> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(width: 40),
                 ElevatedButton(
                   onPressed: _deleteAccount,
                   style: ButtonStyle(
@@ -430,9 +438,9 @@ class _UserState extends State<User> {
                       const EdgeInsets.all(12),
                     ),
                     minimumSize:
-                        WidgetStateProperty.all<Size>(const Size(400, 11)),
+                        WidgetStateProperty.all<Size>(const Size(180, 11)),
                     backgroundColor: WidgetStateProperty.all<Color>(
-                        Colors.red), // Màu đỏ cho nút xoá tài khoản
+                       const Color(0xFFC67C4E)), // Màu đỏ cho nút xoá tài khoản
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
@@ -450,6 +458,8 @@ class _UserState extends State<User> {
                       color: Colors.white,
                     ),
                   ),
+                ),
+                  ],
                 ),
                 Image.asset("assets/images/FavoritePic.png"),
               ],

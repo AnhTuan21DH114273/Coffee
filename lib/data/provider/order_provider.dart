@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'cart_provider.dart';
 
 class OrderProvider with ChangeNotifier {
   final List<dynamic> _order = [];

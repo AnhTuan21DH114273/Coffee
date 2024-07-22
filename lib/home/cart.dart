@@ -1,3 +1,4 @@
+import 'package:app_coffee/mainpage.dart';
 import 'package:app_coffee/order/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,14 +22,16 @@ class _CartState extends State<Cart> {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
       body: Container(
-        color: Colors.grey.shade300,
+        color: Colors.grey.shade100,
         child: Column(
           children: [
             const SizedBox(height: 30),
             Row(
               children: [
                 IconButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Mainpage()));
+                  },
                   icon: const Icon(Icons.arrow_back),
                 ),
                 const SizedBox(width: 120),
@@ -52,6 +55,7 @@ class _CartState extends State<Cart> {
                     color: Colors.white,
                   ),
                 ),
+                const Padding(padding: const EdgeInsets.only(left: 10))
               ],
             ),
             Expanded(
@@ -138,7 +142,7 @@ class _CartState extends State<Cart> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          OrderScreen(),
+                          const OrderScreen(),
                     ),
                   );
                 } else {
@@ -150,7 +154,7 @@ class _CartState extends State<Cart> {
               },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(15),
-                minimumSize: const Size(double.infinity, 50),
+                minimumSize: const Size(412, 50),
                 backgroundColor: const Color(0xFFC67C4E),
               ),
               child: const Text(
@@ -163,6 +167,7 @@ class _CartState extends State<Cart> {
                 ),
               ),
             ),
+            const Padding(padding: EdgeInsets.only(bottom: 50))
           ],
         ),
       ),

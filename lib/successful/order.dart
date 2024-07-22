@@ -1,10 +1,33 @@
-import 'package:app_coffee/order/map.dart';
+import 'package:app_coffee/mainpage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class OrderSuccessful extends StatelessWidget {
+class OrderSuccessful extends StatefulWidget {
   const OrderSuccessful({super.key});
 
+  @override
+  State<OrderSuccessful> createState() => _OrderSuccessfulState();
+}
+
+class _OrderSuccessfulState extends State<OrderSuccessful> {
+  @override
+  void initState() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    Future.delayed(const Duration(seconds: 2), (){
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (_) => const Mainpage(),
+      ));
+    });
+    super.initState();
+  }
+  @override
+  void dispose(){
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: SystemUiOverlay.values
+    );
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +78,7 @@ class OrderSuccessful extends StatelessWidget {
                   top: 380,
                   bottom: 0,
                   child: Text(
-                    "Successful",
+                    "Thành công",
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w600,
@@ -69,33 +92,6 @@ class OrderSuccessful extends StatelessWidget {
             ),
             const SizedBox(
               height: 100,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => MapScreen()));
-              },
-              style: ButtonStyle(
-                  padding: WidgetStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.all(12)),
-                  minimumSize:
-                      WidgetStateProperty.all<Size>(const Size(400, 11)),
-                  backgroundColor:
-                      WidgetStateProperty.all<Color>(const Color(0xFFC67C4E)),
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          side: const BorderSide(color: Colors.grey)))),
-              child: const Text(
-                "Xem thông tin giao hàng",
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  height: 1.7,
-                  color: Colors.white,
-                ),
-              ),
             ),
           ],
         ),

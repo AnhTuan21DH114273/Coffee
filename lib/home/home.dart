@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       key: scaffoldState,
       drawer: const SizedBox(
         width: 225,
@@ -54,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 35,
+                      height: 25,
                     ),
                     Row(
                       children: [
@@ -137,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.white,
                         ),
                         controller: textController,
-                        placeholder: 'Tìm sản phẩm',
+                        placeholder: 'Tìm kiếm cà phê,...',
                         placeholderStyle: const TextStyle(
                           color: Colors.white,
                         ),

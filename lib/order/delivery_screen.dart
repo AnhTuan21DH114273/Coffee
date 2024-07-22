@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print
+
 import 'dart:convert'; 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -19,6 +21,96 @@ class DeliveryScreen extends StatefulWidget {
 }
 
 class _DeliveryScreenState extends State<DeliveryScreen> {
+  Future<void> _placeOrder() async {
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final cartList = cartProvider.cartList;
+    double deliveryFee = 15000;
+    String? userId;
+    final prefs = await SharedPreferences.getInstance();
+    userId = prefs.getString('userId');
+    // Thông tin đơn hàng
+    final order = {
+      'user_id': userId, // Ví dụ: ID người dùng, bạn có thể lấy từ state hoặc auth
+      'address': '15 Võ Văn Kiệt',
+      'order_date': DateFormat('yyyy-MM-dd').format(DateTime.now()),
+      'total_price': cartList.fold<double>(
+          0, (sum, item) => sum + item.product.price * item.quantity),
+      'delivery_fee': deliveryFee,
+      'total_amount': cartList.fold<double>(
+              0, (sum, item) => sum + item.product.price * item.quantity) +
+          deliveryFee,
+      'payment_method': 'Tiền mặt', // Ví dụ: phương thức thanh toán
+      'status': 'Đang giao hàng',
+      'items': cartList
+          .map((item) => {
+                'product_id': item.product.id,
+                'product_name': item.product.name,
+                'product_description': item.product.des,
+                'quantity': item.quantity,
+                'price': item.product.price,
+              })
+          .toList(),
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseURL/api/orders'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(order),
+      );
+      print('API response: ${response.body}');
+      if (response.statusCode == 201) {
+        // Giả sử rằng ID đơn hàng được trả về trong phản hồi
+        final responseData = json.decode(response.body);
+        final orderId = responseData['orderId']; // Lấy order_id từ phản hồi
+        print('Order placed successfully with ID: $orderId');
+        // Chèn các mục vào bảng order_items
+        final itemsResponse = await http.post(
+          Uri.parse('$baseURL/api/order_items'),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: json.encode({
+            'order_id': orderId,
+            'items': cartList
+                .map((item) => {
+                      'product_id': item.product.id,
+                      'product_name': item.product.name,
+                      'product_description': item.product.des,
+                      'quantity': item.quantity,
+                      'price': item.product.price,
+                    })
+                .toList(),
+          }),
+        );
+        print('Order items response: ${itemsResponse.statusCode}');
+        if (itemsResponse.statusCode == 201) {
+          // Đơn hàng và các mục đã được tạo thành công
+          cartList.clear();
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const OrderSuccessful()));
+          
+        } else {
+          // Xử lý lỗi nếu không thể chèn các mục
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Error placing order items')),
+          );
+        }
+      } else {
+        // Xử lý lỗi nếu đơn hàng không được tạo thành công
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error placing order')),
+        );
+      }
+    } catch (e) {
+      // Xử lý lỗi kết nối
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error connecting to server')),
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
@@ -41,7 +133,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
           padding: const EdgeInsets.only(left: 10),
           color: Colors.grey.shade300,
           child: cartList.isEmpty
-              ? Center(child: Text('Giỏ hàng của bạn đang trống'))
+              ? const Center(child: Text('Giỏ hàng của bạn đang trống'))
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -129,7 +221,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
       int totalQuantity, double totalPrice, double deliveryFee) {
     return Container(
       padding: const EdgeInsets.all(10),
-      color: Colors.white,
+      color: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -207,7 +299,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             },
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 9),
+            padding: const EdgeInsets.only(top: 3),
             child: Text(
               '${cartItem.quantity}',
               style: const TextStyle(fontSize: 20),
@@ -242,9 +334,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             ),
             const Spacer(),
             Text(
-              NumberFormat("##,###.###").format(totalPrice),
+              NumberFormat("###,###.### VND").format(totalPrice),
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
+            const Padding(padding: EdgeInsets.only(left: 10)),
           ],
         ),
         const SizedBox(height: 15),
@@ -256,9 +349,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             ),
             const Spacer(),
             Text(
-              NumberFormat("##,###.###").format(deliveryFee),
+              NumberFormat("###,###.### VND").format(deliveryFee),
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
+            const Padding(padding: EdgeInsets.only(left: 10)),
           ],
         ),
         const SizedBox(height: 15),
@@ -269,110 +363,22 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
           children: [
             const Text(
               "Tổng:",
-              style: TextStyle(fontSize: 16, color: Color(0xFF313131)),
+              style: TextStyle(fontSize: 16, color: Color(0xFF313131), fontWeight: FontWeight.bold),
             ),
             const Spacer(),
             Text(
-              NumberFormat("##,###.###").format(totalPrice + deliveryFee),
+              NumberFormat("###,###.### VND").format(totalPrice + deliveryFee),
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
+            const Padding(padding: EdgeInsets.only(left: 10)),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 40),
       ],
     );
   }
 
-  Future<void> _placeOrder() async {
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    final cartList = cartProvider.cartList;
-    double deliveryFee = 15000;
-    String? userId;
-    final prefs = await SharedPreferences.getInstance();
-    userId = prefs.getString('userId');
-    // Thông tin đơn hàng
-    final order = {
-      'user_id': userId, // Ví dụ: ID người dùng, bạn có thể lấy từ state hoặc auth
-      'address': '15 Võ Văn Kiệt',
-      'order_date': DateFormat('yyyy-MM-dd').format(DateTime.now()),
-      'total_price': cartList.fold<double>(
-          0, (sum, item) => sum + item.product.price * item.quantity),
-      'delivery_fee': deliveryFee,
-      'total_amount': cartList.fold<double>(
-              0, (sum, item) => sum + item.product.price * item.quantity) +
-          deliveryFee,
-      'payment_method': 'Cash', // Ví dụ: phương thức thanh toán
-      'status': 'Pending',
-      'items': cartList
-          .map((item) => {
-                'product_id': item.product.id,
-                'product_name': item.product.name,
-                'product_description': item.product.des,
-                'quantity': item.quantity,
-                'price': item.product.price,
-              })
-          .toList(),
-    };
-
-    try {
-      final response = await http.post(
-        Uri.parse('$baseURL/api/orders'),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: json.encode(order),
-      );
-      print('API response: ${response.body}');
-      if (response.statusCode == 201) {
-        // Giả sử rằng ID đơn hàng được trả về trong phản hồi
-        final responseData = json.decode(response.body);
-        final orderId = responseData['orderId']; // Lấy order_id từ phản hồi
-         print('Order placed successfully with ID: $orderId');
-        // Chèn các mục vào bảng order_items
-        final itemsResponse = await http.post(
-          Uri.parse('$baseURL/api/order_items'),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: json.encode({
-            'order_id': orderId,
-            'items': cartList
-                .map((item) => {
-                      'product_id': item.product.id,
-                      'product_name': item.product.name,
-                      'product_description': item.product.des,
-                      'quantity': item.quantity,
-                      'price': item.product.price,
-                    })
-                .toList(),
-          }),
-        );
-        print('Order items response: ${itemsResponse.statusCode}');
-        if (itemsResponse.statusCode == 201) {
-          // Đơn hàng và các mục đã được tạo thành công
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const OrderSuccessful()));
-        } else {
-          // Xử lý lỗi nếu không thể chèn các mục
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Error placing order items')),
-          );
-        }
-      } else {
-        // Xử lý lỗi nếu đơn hàng không được tạo thành công
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Error placing order')),
-        );
-      }
-    } catch (e) {
-      // Xử lý lỗi kết nối
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error connecting to server')),
-      );
-    }
-  }
-
-
+  
   Widget _buildCheckoutButton(BuildContext context, CartProvider cartProvider) {
     return Container(
       width: double.infinity,
@@ -384,23 +390,23 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 10),
+          const SizedBox(height: 30),
           Row(
             children: [
               const SizedBox(width: 10),
               const Text(
-                "Giao",
+                "Giao hàng",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(width: 10),
               Text(
-                "${cartProvider.cartList.fold<int>(0, (sum, item) => sum + item.quantity)} Sản Phẩm",
+                "${cartProvider.cartList.fold<int>(0, (sum, item) => sum + item.quantity)} sản phẩm",
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const Spacer(),
               Text(
-                NumberFormat("##,###.###").format(
+                NumberFormat("###,###.### VND").format(
                   15000 +
                       cartProvider.cartList.fold<double>(
                           0,
@@ -412,12 +418,18 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                     color: Colors.red,
                     fontSize: 16),
               ),
+              const Padding(padding: EdgeInsets.only(left: 10)),
             ],
           ),
           const SizedBox(height: 30),
           ElevatedButton(
             onPressed: () {
               _placeOrder();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  backgroundColor: Colors.green,
+                  content: Text('Đặt hàng thành công')),
+              );
             },
             style: ButtonStyle(
               padding:

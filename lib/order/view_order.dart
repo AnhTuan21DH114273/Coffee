@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/config/config_manager.dart';
 import 'order_detail.dart';
@@ -35,7 +36,7 @@ class _ViewOrderState extends State<ViewOrder> {
         });
         return;
       }
-      
+
       final response = await http.get(
         Uri.parse('$baseURL/api/orders/$userId'),
         headers: <String, String>{
@@ -112,23 +113,27 @@ class _ViewOrderState extends State<ViewOrder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('View Orders'),
-        backgroundColor: const Color(0xFFC67C4E),
+        title: const Text('Thông tin đơn hàng'),
+        centerTitle: true,
+        backgroundColor: Colors.white
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : errorMessage.isNotEmpty
               ? Center(child: Text(errorMessage))
-              : ListView.builder(
+              : Container(
+                color: Colors.grey.shade100,
+                child: ListView.builder(
                   itemCount: orders.length,
                   itemBuilder: (context, index) {
                     final order = orders[index];
                     print('Order: $order'); // Log each order to verify data
                     return Card(
-                      margin: const EdgeInsets.all(8.0),
+                      color: Colors.white,
+                      margin: const EdgeInsets.all(20.0),
                       elevation: 4.0,
                       child: ListTile(
-                        contentPadding: const EdgeInsets.all(16.0),
+                        contentPadding: const EdgeInsets.all(20.0),
                         leading: CircleAvatar(
                           backgroundColor: Colors.grey.shade300,
                           child: Text(
@@ -136,18 +141,40 @@ class _ViewOrderState extends State<ViewOrder> {
                             style: const TextStyle(color: Colors.black),
                           ),
                         ),
-                        title: Text('Order ID: ${order['id']}'),
+                        title: Text(
+                          'Mã đơn hàng: ${order['id']}',
+                          style: const TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Total Price: ${order['total_price']}'),
-                            Text('Delivery Fee: ${order['delivery_fee']}'),
-                            Text('Total Amount: ${order['total_amount']}'),
-                            Text('Order Date: ${order['order_date']}'),
-                            Text('Address: ${order['address']}'),
-                            Text('Payment Method: ${order['payment_method']}'),
-                            Text('Status: ${order['status']}'),
-                            Text('Notes: ${order['notes'] ?? 'N/A'}'),
+                            Text('Ngày đặt hàng: ${order['order_date']}',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  'Tổng:',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  width: 2,
+                                ),
+                                Text(
+                                  NumberFormat('###,###.### VND').format(order['total_amount']),
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                )
+                              ],
+                            )
                           ],
                         ),
                         trailing: IconButton(
@@ -160,6 +187,7 @@ class _ViewOrderState extends State<ViewOrder> {
                     );
                   },
                 ),
+              )
     );
   }
 }

@@ -17,7 +17,7 @@ List<Voucher> voucherGrid = [
   ),
   Voucher(
     id: 2,
-    name: 'Trao đổi hạt',
+    name: 'Thay đổi hạt',
     svg: "assets/vectors/gift.svg"
   ),
   Voucher(

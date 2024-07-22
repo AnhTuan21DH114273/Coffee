@@ -1,3 +1,4 @@
+import 'package:app_coffee/admin/admin_screen.dart';
 import 'package:app_coffee/mainpage.dart';
 import 'package:app_coffee/page/sign_in_or_sign_up.dart';
 import 'package:app_coffee/signIn/forgotPass.dart';
@@ -171,9 +172,17 @@ class _SignInWidgetState extends State<SignInWidget> {
                               builder: (context) => const Mainpage(),
                             ),
                           );
-                        } else {
+                        } else  {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Error: ${response.body}")),
+                              const SnackBar(
+                                  content: Text(
+                                      "Xin chào Admin")),
+                          );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AdminScreen(),
+                            ),
                           );
                         }
                       } catch (e) {
@@ -305,11 +314,11 @@ class _SignInWidgetState extends State<SignInWidget> {
                   height: 20,
                 ),
                 Container(
-                  width: 267,
+                  width: 396,
                   padding: const EdgeInsets.only(bottom: 10),
                   child: const Text(
                     textAlign: TextAlign.center,
-                    "By sign in or sign up, you agree to our Terms of Service and Privacy Policy",
+                    "Bằng cách đăng nhập hoặc đăng ký, bạn đồng ý với Điều khoản của chúng tôi",
                     style: TextStyle(
                       fontSize: 12,
                       fontFamily: 'Inter',

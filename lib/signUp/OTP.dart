@@ -59,7 +59,7 @@ class _OTPWidgetState extends State<OTPWidget> {
               height: 60,
             ),
             const Text(
-              "OTP Verification",
+              "Xác minh OTP",
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontWeight: FontWeight.w700,
@@ -74,7 +74,7 @@ class _OTPWidgetState extends State<OTPWidget> {
               width: 279.81,
               padding: const EdgeInsets.only(bottom: 5),
               child: Text(
-                "Enter the code from the sms we sent to +84 ${widget.phoneNumber}",
+                "Nhập mã từ tin nhắn chúng tôi gửi tới +84 ${widget.phoneNumber}",
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontFamily: 'Inter',
@@ -150,7 +150,7 @@ class _OTPWidgetState extends State<OTPWidget> {
                   backgroundColor: const Color(0xFFFFBE98),
                 ),
                 child: const Text(
-                  "VERIFY",
+                  "Xác nhận",
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.bold,
@@ -168,7 +168,7 @@ class _OTPWidgetState extends State<OTPWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "I didn't receive any code.",
+                  "Tôi không nhận được bất kỳ mã nào.",
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 14,
@@ -180,7 +180,7 @@ class _OTPWidgetState extends State<OTPWidget> {
                     // Logic để gửi lại OTP ở đây
                   },
                   child: const Text(
-                    "Resend",
+                    "GỬI LẠI",
                     style: TextStyle(
                       decoration: TextDecoration.underline,
                       decorationColor: Colors.red,

@@ -76,7 +76,7 @@ class _SignupSuccessfulState extends State<SignupSuccessful> {
                 top: 250,
                 bottom: 0,
                 child: Align(alignment: Alignment.center,
-                  child: Text("Successful Authentication",
+                  child: Text("Xác thực thành công",
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontWeight: FontWeight.w600,

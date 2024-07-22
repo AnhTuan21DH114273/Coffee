@@ -80,7 +80,7 @@ class _SignUpWidgetWidgetState extends State<SignUpWidget> {
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black),
                       ),
-                      labelText: "Họ và tên",
+                      labelText: "Tên đăng nhập",
                       icon: Icon(
                         Icons.person,
                         color: Colors.black,
@@ -119,9 +119,11 @@ class _SignUpWidgetWidgetState extends State<SignUpWidget> {
                         icon: hidden
                             ? const Icon(
                                 Icons.visibility_off,
+                                color: Colors.black,
                               )
                             : const Icon(
                                 Icons.visibility,
+                                color: Colors.black,
                               ),
                         onPressed: () {
                           setState(() {
@@ -154,9 +156,11 @@ class _SignUpWidgetWidgetState extends State<SignUpWidget> {
                         icon: hidden
                             ? const Icon(
                                 Icons.visibility_off,
+                                color: Colors.black,
                               )
                             : const Icon(
                                 Icons.visibility,
+                                color: Colors.black,
                               ),
                         onPressed: () {
                           setState(() {
@@ -259,7 +263,7 @@ class _SignUpWidgetWidgetState extends State<SignUpWidget> {
                       backgroundColor: const Color(0xFFFFBE98),
                     ),
                     child: const Text(
-                      "CONTINUE",
+                      "Tiếp tục",
                       style: TextStyle(
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.bold,
@@ -278,16 +282,16 @@ class _SignUpWidgetWidgetState extends State<SignUpWidget> {
                   height: 25,
                 ),
                 Container(
-                  width: 267,
+                  width: 396,
                   padding: const EdgeInsets.only(bottom: 10),
                   child: const Text(
                     textAlign: TextAlign.center,
-                    "By sign in or sign up, you agree to our Terms of Service and Privacy Policy",
+                    "Bằng cách đăng nhập hoặc đăng ký, bạn đồng ý với Điều khoản của chúng tôi",
                     style: TextStyle(
                       fontSize: 12,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w400,
-                      color: Colors.black,
+                      color: Colors.white,
                       height: 1.7,
                     ),
                   ),

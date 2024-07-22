@@ -124,7 +124,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                     const Padding(
                       padding: EdgeInsets.only(right: 0, top: 20),
                       child: Text(
-                        "THÔNG TIN",
+                        "Chi tiết",
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -183,8 +183,8 @@ class _ProductWidgetState extends State<ProductWidget> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
+          const Padding(
+            padding: EdgeInsets.only(left: 10),
             child: Row(
               children: [
                 // Số điểm đánh giá
@@ -196,10 +196,10 @@ class _ProductWidgetState extends State<ProductWidget> {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                     width: 5), // Khoảng cách giữa số điểm và icon sao
                 Icon(Icons.star, color: Colors.yellow),
-                const SizedBox(
+                SizedBox(
                     width: 5), // Khoảng cách giữa icon sao và số người đánh giá
                 Text(
                   '(283)', // Số người đánh giá
@@ -265,11 +265,11 @@ class _ProductWidgetState extends State<ProductWidget> {
           ),
           Container(
             alignment: Alignment.bottomCenter,
-            height: 113,
+            height: 160,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
               ),
               color: Colors.white,
             ),
@@ -283,12 +283,13 @@ class _ProductWidgetState extends State<ProductWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(
-                      height: 15,
+                      height: 45,
                     ),
                     const Text(
                       "Price",
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(
@@ -309,7 +310,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                   width: 80,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
+                  padding: const EdgeInsets.only(bottom: 15),
                   child: ElevatedButton(
                     onPressed: () {
                       // Thêm sản phẩm vào giỏ hàng
@@ -318,7 +319,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Cart(),
+                          builder: (context) => const Cart(),
                         ),
                       );
                     },

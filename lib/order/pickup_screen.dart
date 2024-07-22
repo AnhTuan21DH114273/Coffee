@@ -57,7 +57,7 @@ class _PickupScreenState extends State<PickupScreen> {
                       const Text(
                         "BEAR'S COFFEE",
                         style: TextStyle(
-                          color: Color(0xFFCFCECE)
+                          color: Colors.grey
                         ),
                       ),
                       Text(

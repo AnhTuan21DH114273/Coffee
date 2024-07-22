@@ -1,5 +1,10 @@
+import 'dart:convert';
+
+import 'package:app_coffee/data/config/config_manager.dart';
 import 'package:app_coffee/order/review.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class Deliverinfo extends StatefulWidget {
   const Deliverinfo({super.key});
@@ -10,6 +15,61 @@ class Deliverinfo extends StatefulWidget {
 
 class _DeliverinfoState extends State<Deliverinfo> {
   String selectedLanguage = 'Tiếng Việt';
+  String? userId;
+  String name = '';
+  Map<String, dynamic>? userData;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserIdAndFetchData(); // Lấy dữ liệu người dùng khi khởi tạo state
+  }
+
+  Future<void> _loadUserIdAndFetchData() async {
+    final prefs = await SharedPreferences.getInstance();
+    userId = prefs.getString('userId');
+    if (userId != null) {
+      await _fetchUserData();
+    } else {
+      // Handle the case where userId is not set or is null
+      print("No user ID found in SharedPreferences.");
+    }
+  }
+
+  Future<void> _fetchUserData() async {
+    if (userId == null) {
+      print("User ID is not set.");
+      return;
+    }
+
+    try {
+      final response = await http.get(Uri.parse('$baseURL/api/user/$userId'));
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+
+        // Extract the list of users
+        final List<dynamic> users = responseData['user'];
+
+        if (users.isNotEmpty) {
+          // Get the first user in the list
+          final userData = users[0]; // This is a map with user details
+
+          // Update the controllers with the user data
+          setState(() {
+            name = userData['name'] ?? '';
+          });
+        } else {
+          print("No user data available.");
+        }
+      } else {
+        throw Exception('Failed to load user data');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,7 +92,7 @@ class _DeliverinfoState extends State<Deliverinfo> {
           "15 phút",
           style: TextStyle(
             fontFamily: 'Inter',
-            fontSize: 16,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -40,10 +100,22 @@ class _DeliverinfoState extends State<Deliverinfo> {
         const SizedBox(
           height: 10,
         ),
-        const Text(
-          "Giao cho",
-          style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
-        ),
+        RichText(
+            text: TextSpan(children: <TextSpan>[
+          const TextSpan(
+              text: 'Giao cho ',
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey)),
+          TextSpan(
+              text: name,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ))
+        ])),
         const SizedBox(
           height: 25,
         ),
@@ -146,12 +218,77 @@ class _DeliverinfoState extends State<Deliverinfo> {
             ],
           ),
         ),
+        SizedBox(height: 20,),
+        Container(
+          width: 412,
+          height: 77,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.white),
+          ),
+          child: Row(
+            children: [
+              const SizedBox(
+                width: 10,
+              ),
+              Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: const Color(0xFFE3E3E3)),
+                      color: Colors.white),
+                  child: Image.asset("assets/images/avatar.png")),
+              const SizedBox(
+                width: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 243,
+                    child: Text(
+                      "Chuyển phát nhanh cá nhân",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Container(
+                width: 44,
+                height: 44,
+                decoration:
+                    BoxDecoration(border: Border.all(color: Color(0xFFE3E3E3))),
+                child: Icon(Icons.phone_outlined),
+              ),
+              Padding(padding: EdgeInsets.only(left: 10))
+            ],
+          ),
+        ),
         const SizedBox(
           height: 120,
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const Review()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Review()));
           },
           style: ButtonStyle(
               padding:
@@ -164,7 +301,7 @@ class _DeliverinfoState extends State<Deliverinfo> {
                       borderRadius: BorderRadius.circular(16),
                       side: const BorderSide(color: Colors.grey)))),
           child: const Text(
-            "Đã giao hàng",
+            "Đã nhận hàng",
             style: TextStyle(
               fontFamily: 'Inter',
               fontWeight: FontWeight.bold,

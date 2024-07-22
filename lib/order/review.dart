@@ -35,7 +35,7 @@ class _ReviewState extends State<Review> {
                     width: 130,
                   ),
                   const Text(
-                    "Review",
+                    "Đánh giá",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -100,7 +100,7 @@ class _ReviewState extends State<Review> {
                 expands: true,
                 keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
-                  filled: true, hintText: 'Enter a message',
+                  filled: true, hintText: 'Đánh giá',
                   fillColor: Colors.white,
                   focusColor: Colors.white,
                   hoverColor: Colors.white,
@@ -167,7 +167,7 @@ class _ReviewState extends State<Review> {
                                   borderRadius: BorderRadius.circular(16),
                                   side: const BorderSide(color: Colors.grey)))),
                         child: const Text(
-                          "Về Trang Chủ",
+                          "Đánh giá",
                           style: TextStyle(
                             fontFamily: 'Inter',
                             fontWeight: FontWeight.bold,

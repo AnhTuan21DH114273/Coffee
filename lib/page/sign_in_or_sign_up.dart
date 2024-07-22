@@ -22,7 +22,7 @@ class SignInOrSignUp extends StatelessWidget {
               child: Image.asset("assets/images/LogoCoffee.png", width: 412, height: 275,)
             ),
             const Text(
-              "Enjoy your favourite coffee",
+              "Thưởng thức cà phê yêu thích của bạn",
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontWeight: FontWeight.w400,
@@ -82,16 +82,16 @@ class SignInOrSignUp extends StatelessWidget {
             Expanded(
               child: Container(
                 alignment: Alignment.bottomCenter,
-                width: 267,
+                width: 396,
                 padding: const EdgeInsets.only(bottom: 10),
                 child: const Text(
                 textAlign: TextAlign.center,
-                "By sign in or sign up, you agree to our Terms of Service and Privacy Policy",
+                "Bằng cách đăng nhập hoặc đăng ký, bạn đồng ý với Điều khoản của chúng tôi",
                 style: TextStyle(
                   fontSize: 12,
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w400,
-                  color: Colors.black,
+                  color: Colors.white,
                   height: 1.7,
                 ),
               ),

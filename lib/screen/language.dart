@@ -132,7 +132,7 @@ class _LanguageState extends State<Language> {
               backgroundColor: const Color(0xFFFFBE98),
             ),
             child: const Text(
-              "USE",
+              "Chọn",
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontWeight: FontWeight.w600,

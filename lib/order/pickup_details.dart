@@ -49,6 +49,7 @@ class _PickupDetailsState extends State<PickupDetails> {
       _shop = shop;
     });
   }
+
   Future<void> _placeOrder() async {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final cartList = cartProvider.cartList;
@@ -58,12 +59,15 @@ class _PickupDetailsState extends State<PickupDetails> {
     userId = prefs.getString('userId');
     // Thông tin đơn hàng
     final order = {
-      'user_id': userId, // Ví dụ: ID người dùng, bạn có thể lấy từ state hoặc auth
+      'user_id':
+          userId, // Ví dụ: ID người dùng, bạn có thể lấy từ state hoặc auth
       'address': _shop?.address,
       'order_date': DateFormat('yyyy-MM-dd').format(DateTime.now()),
-      'total_price': cartList.fold<double>(0, (sum, item) => sum + item.product.price * item.quantity),
+      'total_price': cartList.fold<double>(
+          0, (sum, item) => sum + item.product.price * item.quantity),
       'delivery_fee': deliveryFee,
-      'total_amount': cartList.fold<double>(0, (sum, item) => sum + item.product.price * item.quantity) +
+      'total_amount': cartList.fold<double>(
+              0, (sum, item) => sum + item.product.price * item.quantity) +
           deliveryFee,
       'payment_method': 'Tiền mặt', // Ví dụ: phương thức thanh toán
       'status': 'Chờ nhận hàng',
@@ -91,7 +95,7 @@ class _PickupDetailsState extends State<PickupDetails> {
         // Giả sử rằng ID đơn hàng được trả về trong phản hồi
         final responseData = json.decode(response.body);
         final orderId = responseData['orderId']; // Lấy order_id từ phản hồi
-         print('Order placed successfully with ID: $orderId');
+        print('Order placed successfully with ID: $orderId');
         // Chèn các mục vào bảng order_items
         final itemsResponse = await http.post(
           Uri.parse('$baseURL/api/order_items'),
@@ -117,7 +121,6 @@ class _PickupDetailsState extends State<PickupDetails> {
           cartProvider.clearCart();
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const OrderSuccessful()));
-          
         } else {
           // Xử lý lỗi nếu không thể chèn các mục
           ScaffoldMessenger.of(context).showSnackBar(
@@ -137,6 +140,7 @@ class _PickupDetailsState extends State<PickupDetails> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
@@ -195,7 +199,9 @@ class _PickupDetailsState extends State<PickupDetails> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 16,),
+        const SizedBox(
+          height: 16,
+        ),
         Text(
           "${_shop?.name}",
           style: const TextStyle(
@@ -209,6 +215,22 @@ class _PickupDetailsState extends State<PickupDetails> {
           style: const TextStyle(
             fontSize: 12,
             color: Color(0xFFA2A2A2),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          "15 - 30 phút",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+        Text(
+          "Sớm nhất có thể",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+            color: Colors.grey
           ),
         ),
         const SizedBox(height: 10),
@@ -232,7 +254,7 @@ class _PickupDetailsState extends State<PickupDetails> {
             ),
             const SizedBox(width: 10),
             Container(
-              width: 105,
+              width: 145,
               height: 26,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
@@ -243,16 +265,17 @@ class _PickupDetailsState extends State<PickupDetails> {
                   SizedBox(width: 6),
                   Icon(Icons.note),
                   SizedBox(width: 6),
-                  Text("Ghi Note"),
+                  Text("Thêm ghi chú"),
                 ],
               ),
             ),
           ],
         ),
-        const SizedBox(height: 45),
+        const SizedBox(height: 25),
       ],
     );
   }
+
   Widget _buildCartSummary(
       int totalQuantity, double totalPrice, double deliveryFee) {
     return Container(
@@ -322,8 +345,17 @@ class _PickupDetailsState extends State<PickupDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
-              Text(product.name),
-              Text(product.des),
+              Text(
+                product.name,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(
+                product.des,
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
           const Spacer(),
@@ -335,7 +367,7 @@ class _PickupDetailsState extends State<PickupDetails> {
             },
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 9),
+            padding: const EdgeInsets.only(top: 3),
             child: Text(
               '${cartItem.quantity}',
               style: const TextStyle(fontSize: 20),
@@ -357,7 +389,6 @@ class _PickupDetailsState extends State<PickupDetails> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 25),
         const Text(
           "Tóm tắt thanh toán",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -371,9 +402,10 @@ class _PickupDetailsState extends State<PickupDetails> {
             ),
             const Spacer(),
             Text(
-              NumberFormat("##,###.###").format(totalPrice),
+              NumberFormat("###,###.### VND").format(totalPrice),
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
+            const Padding(padding: EdgeInsets.only(left: 10)),
           ],
         ),
         const SizedBox(height: 15),
@@ -385,29 +417,34 @@ class _PickupDetailsState extends State<PickupDetails> {
             ),
             const Spacer(),
             Text(
-              NumberFormat("##,###.###").format(deliveryFee),
+              NumberFormat("###,###.### VND").format(deliveryFee),
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
+            const Padding(padding: EdgeInsets.only(left: 10)),
           ],
         ),
         const SizedBox(height: 15),
         const DottedLine(
             dashColor: Colors.black87, lineLength: 410, lineThickness: 1.5),
-        const SizedBox(height: 15),
+        const SizedBox(height: 25),
         Row(
           children: [
             const Text(
               "Tổng:",
-              style: TextStyle(fontSize: 16, color: Color(0xFF313131)),
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Color(0xFF313131),
+                  fontWeight: FontWeight.bold),
             ),
             const Spacer(),
             Text(
-              NumberFormat("##,###.###").format(totalPrice + deliveryFee),
+              NumberFormat("###,###.### VND").format(totalPrice + deliveryFee),
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
+            const Padding(padding: EdgeInsets.only(left: 10)),
           ],
         ),
-        const SizedBox(height: 50),
+        const SizedBox(height: 40),
       ],
     );
   }
@@ -415,7 +452,7 @@ class _PickupDetailsState extends State<PickupDetails> {
   Widget _buildCheckoutButton(BuildContext context, CartProvider cartProvider) {
     return Container(
       width: double.infinity,
-      height: 175,
+      height: 195,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -423,23 +460,23 @@ class _PickupDetailsState extends State<PickupDetails> {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 10),
+          const SizedBox(height: 30),
           Row(
             children: [
               const SizedBox(width: 10),
               const Text(
-                "Giao",
+                "Giao hàng",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(width: 10),
               Text(
-                "${cartProvider.cartList.fold<int>(0, (sum, item) => sum + item.quantity)} Sản Phẩm",
+                "${cartProvider.cartList.fold<int>(0, (sum, item) => sum + item.quantity)} sản phẩm",
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const Spacer(),
               Text(
-                NumberFormat("##,###.###").format(
+                NumberFormat("###,###.### VND").format(
                   15000 +
                       cartProvider.cartList.fold<double>(
                           0,
@@ -451,6 +488,7 @@ class _PickupDetailsState extends State<PickupDetails> {
                     color: Colors.red,
                     fontSize: 16),
               ),
+              const Padding(padding: EdgeInsets.only(left: 10)),
             ],
           ),
           const SizedBox(height: 30),
@@ -458,7 +496,9 @@ class _PickupDetailsState extends State<PickupDetails> {
             onPressed: () {
               _placeOrder();
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Đặt hàng thành công')),
+                const SnackBar(
+                    backgroundColor: Colors.green,
+                    content: Text('Đặt hàng thành công')),
               );
             },
             style: ButtonStyle(

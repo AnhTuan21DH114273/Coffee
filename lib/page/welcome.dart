@@ -59,12 +59,13 @@ class Welcome extends StatelessWidget {
               Image.asset('assets/images/welcome.png',height:350, width: 430,),
               const Text(
                 textAlign: TextAlign.center,
-                "Welcome to",
+                "Xin chào",
                 style: TextStyle(
                   height: 3.1,
                   letterSpacing: 2,
                   color: Colors.black,
                   fontSize: 34,
+                  fontWeight: FontWeight.bold,
                   fontFamily: 'Inter',
                 ),
               ),
@@ -80,17 +81,23 @@ class Welcome extends StatelessWidget {
                   fontFamily: 'Inter',
                 ),
               ),
-              const Text(
-                "The best grain, the finest roast, the powerful flavor",
+              SizedBox(height: 30,),
+              const SizedBox(
+                width: 326,
+                height: 44,
+                child: Text(
+                "Ngũ cốc ngon nhất, món nướng ngon nhất, hương vị mạnh mẽ",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
-                  height: 5,
                   letterSpacing: 1,
                   color: Colors.black,
                 ),
               ),
+              ),
+              SizedBox(height: 30,),
               Container(
                 alignment: Alignment.bottomCenter,
                 height: 100,

@@ -16,13 +16,17 @@ class ProductManage extends StatefulWidget {
 class _ProductManageState extends State<ProductManage> {
   List<ProductModel> products = [];
   final ProductService _productService = ProductService();
-
+  late Future <void> product;
   @override
   void initState() {
     super.initState();
     getProdbyId();
   }
-
+  Future refresh() async {
+    products.clear();
+    product = getProdbyId();
+    return product;
+  }
   Future<void> getProdbyId() async {
     try {
       final productList = await _productService.fetchProducts();
@@ -58,6 +62,12 @@ class _ProductManageState extends State<ProductManage> {
         centerTitle: true,
         backgroundColor: Colors.white,
         actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              refresh();
+            },
+            icon: const Icon(Icons.refresh),
+          ),
           IconButton(
             onPressed: () {
               Navigator.push(context,
@@ -96,7 +106,7 @@ class _ProductManageState extends State<ProductManage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Image.asset(
-            'assets/images/${product.img}',
+            urlimg + product.img,
             width: 90,
             height: 90,
             fit: BoxFit.cover,

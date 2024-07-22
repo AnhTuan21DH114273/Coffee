@@ -2,9 +2,6 @@ import 'package:app_coffee/order/delivery_screen.dart';
 import 'package:app_coffee/order/pickup_screen.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../data/provider/cart_provider.dart';
-import '../data/provider/order_provider.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
@@ -31,11 +28,6 @@ class _OrderScreenState extends State<OrderScreen>
 
   @override
   Widget build(BuildContext context) {
-    final cartProvider = Provider.of<CartProvider>(context);
-    final orderProvider = Provider.of<OrderProvider>(context);
-    final cartList = cartProvider.cartList;
-    final totalAmount = orderProvider.calculateTotal(cartList);
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(color: Colors.grey.shade300),
@@ -53,17 +45,17 @@ class _OrderScreenState extends State<OrderScreen>
                   icon: const Icon(Icons.arrow_back),
                 ),
                 const SizedBox(
-                  width: 130,
+                  width: 110,
                 ),
                 const Text(
-                  "Order",
+                  "Đơn hàng",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(
-                  width: 140,
+                  width: 100,
                 ),
                 ElevatedButton(
                   onPressed: () {},
@@ -98,7 +90,7 @@ class _OrderScreenState extends State<OrderScreen>
                   text: "Giao hàng",
                 ),
                 Tab(
-                  text: "Đặt hàng",
+                  text: "Đến lấy",
                 )
               ],
             ),
