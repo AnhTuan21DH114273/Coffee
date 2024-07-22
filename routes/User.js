@@ -104,19 +104,19 @@ module.exports = (db) => {
     }
   });
 
-  // Route to update user information
   router.put("/user/:id", async (req, res) => {
     const { id } = req.params;
-    const { name, phone, password } = req.body;
+    const { name, phone, email, address } = req.body;
 
     // SQL query to update a user
-    const sql = `UPDATE users SET name = ?, phone = ?, password = ? WHERE id = ?`;
+    const sql = `UPDATE users SET name = ?, phone = ?, email = ?, address = ? WHERE id = ?`;
 
     try {
       await attemptDbOperation(db, runDeleteAsync, sql, [
         name,
         phone,
-        password,
+        email,
+        address,
         id,
       ]);
       res.json({
@@ -125,7 +125,8 @@ module.exports = (db) => {
           id,
           name,
           phone,
-          password,
+          email,
+          address,
         },
       });
     } catch (error) {
@@ -133,6 +134,8 @@ module.exports = (db) => {
       res.status(500).json({ message: "Error updating user" });
     }
   });
+
+
   router.get("/user", async (req, res) => {
     try {
       // Fetch all users
