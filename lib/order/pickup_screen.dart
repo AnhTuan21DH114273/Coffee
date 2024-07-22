@@ -1,4 +1,5 @@
 import 'package:app_coffee/data/model/shop.dart';
+import 'package:app_coffee/order/pickup_details.dart';
 import 'package:flutter/material.dart';
 
 class PickupScreen extends StatefulWidget {
@@ -29,16 +30,31 @@ class _PickupScreenState extends State<PickupScreen> {
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white
               ),
-              margin: EdgeInsets.all(8),
+              margin: const EdgeInsets.all(8),
               child: Row(
                 children: [
-                  Image.asset("assets/images/shopList.png"),
-                  SizedBox(width: 40,),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PickupDetails(
+                            shopId: lists.id,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Image.asset("assets/images/shopList.png",
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.broken_image),
+                    ),
+                  ),
+                  const SizedBox(width: 40,),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "BEAR'S COFFEE",
                         style: TextStyle(
                           color: Color(0xFFCFCECE)
@@ -46,7 +62,7 @@ class _PickupScreenState extends State<PickupScreen> {
                       ),
                       Text(
                         lists.name,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold
                         ),
