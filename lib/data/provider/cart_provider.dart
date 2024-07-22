@@ -63,6 +63,10 @@ class CartProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+   void clearCart() {
+    _cartList.clear();
+    notifyListeners(); // Notify listeners to update the UI
+  }
 
   static CartProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<CartProvider>(context, listen: listen);
