@@ -125,9 +125,9 @@ class _EditproductState extends State<Editproduct> {
                   },
                   style: const ButtonStyle(
                     backgroundColor:
-                        MaterialStatePropertyAll<Color>(Colors.amber),
+                        WidgetStatePropertyAll<Color>(Colors.amber),
                     foregroundColor:
-                        MaterialStatePropertyAll<Color>(Colors.black),
+                        WidgetStatePropertyAll<Color>(Colors.black),
                   ),
                   child: const Text('Chỉnh sửa'),
                 ),
@@ -163,7 +163,10 @@ class _EditproductState extends State<Editproduct> {
       final productService = ProductService();
       await productService.updateProduct(updatedProduct);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Sản phẩm đã được cập nhật thành công')),
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Text('Sản phẩm đã được cập nhật thành công'
+        )),
       );
       Navigator.pop(context);
     } catch (e) {

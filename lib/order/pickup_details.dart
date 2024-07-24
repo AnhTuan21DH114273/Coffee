@@ -218,14 +218,14 @@ class _PickupDetailsState extends State<PickupDetails> {
           ),
         ),
         const SizedBox(height: 10),
-        Text(
+        const Text(
           "15 - 30 phút",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18,
           ),
         ),
-        Text(
+        const Text(
           "Sớm nhất có thể",
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -347,11 +347,11 @@ class _PickupDetailsState extends State<PickupDetails> {
               const SizedBox(height: 10),
               Text(
                 product.name,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
                 product.des,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.grey,
                   fontWeight: FontWeight.bold,
                 ),

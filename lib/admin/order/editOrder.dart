@@ -68,7 +68,10 @@ class _EditOrderState extends State<EditOrder> {
     try {
       await _orderService.updateOrder(updatedOrder);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Đơn hàng đã được cập nhật')),
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Text('Đơn hàng đã được cập nhật',
+        )),
       );
       Navigator.pop(context);
     } catch (e) {
@@ -84,48 +87,150 @@ class _EditOrderState extends State<EditOrder> {
       appBar: AppBar(
         title: const Text('Chỉnh sửa đơn hàng'),
         centerTitle: true,
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8),
         child: Column(
           children: [
             TextField(
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
               controller: _addressController,
-              decoration: const InputDecoration(labelText: 'Địa chỉ'),
+              decoration: const InputDecoration(
+                labelText: 'Địa chỉ',
+                labelStyle: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+              ),
+              enabled: false,
             ),
             TextField(
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
               controller: _totalPriceController,
-              decoration: const InputDecoration(labelText: 'Tổng tiền'),
+              decoration: const InputDecoration(
+                labelText: 'Tổng tiền',
+                labelStyle: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+              ),
               keyboardType: TextInputType.number,
+              enabled: false,
             ),
             TextField(
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
               controller: _deliveryFeeController,
-              decoration: const InputDecoration(labelText: 'Phí giao hàng'),
+              decoration: const InputDecoration(
+                labelText: 'Phí giao hàng',
+                labelStyle: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+              ),
               keyboardType: TextInputType.number,
+              enabled: false,
             ),
             TextField(
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
               controller: _totalAmountController,
-              decoration: const InputDecoration(labelText: 'Tổng số tiền'),
+              decoration: const InputDecoration(
+                labelText: 'Tổng số tiền',
+                labelStyle: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+              ),
               keyboardType: TextInputType.number,
+              enabled: false,
             ),
             TextField(
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
               controller: _paymentMethodController,
-              decoration:
-                  const InputDecoration(labelText: 'Phương thức thanh toán'),
+              decoration: const InputDecoration(
+                labelText: 'Phương thức thanh toán',
+                labelStyle: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+              ),
+              enabled: false,
             ),
             TextField(
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
               controller: _statusController,
-              decoration: const InputDecoration(labelText: 'Trạng thái'),
+              decoration: const InputDecoration(
+                labelText: 'Trạng thái',
+                labelStyle: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+              ),
             ),
             TextField(
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
               controller: _notesController,
-              decoration: const InputDecoration(labelText: 'Ghi chú'),
-              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: 'Ghi chú',
+                labelStyle: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+              ),
             ),
+            const SizedBox(height: 80,),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: _updateOrder,
+                style: const ButtonStyle(
+                    backgroundColor:
+                        WidgetStatePropertyAll<Color>(Colors.amber),
+                    foregroundColor:
+                        WidgetStatePropertyAll<Color>(Colors.black),
+                  ),
                 child: const Text('Cập nhật'),
               ),
             ),

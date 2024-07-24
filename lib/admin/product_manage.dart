@@ -16,17 +16,19 @@ class ProductManage extends StatefulWidget {
 class _ProductManageState extends State<ProductManage> {
   List<ProductModel> products = [];
   final ProductService _productService = ProductService();
-  late Future <void> product;
+  late Future<void> product;
   @override
   void initState() {
     super.initState();
     getProdbyId();
   }
+
   Future refresh() async {
     products.clear();
     product = getProdbyId();
     return product;
   }
+
   Future<void> getProdbyId() async {
     try {
       final productList = await _productService.fetchProducts();
@@ -118,13 +120,36 @@ class _ProductManageState extends State<ProductManage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 15),
-                Text("Tên SP: ${product.name}"),
                 Text(
-                  "Mô tả: ${product.des}",
-                  style: const TextStyle(color: Colors.black),
+                  "Tên SP: ${product.name}",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
                 ),
                 Text(
-                    "Giá: ${NumberFormat("##,###.### VNĐ").format(product.price)}")
+                  "Mô tả: ${product.des}",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                ),
+                RichText(
+                    text: TextSpan(children: <TextSpan>[
+                  const TextSpan(
+                      text: 'Giá: ',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                  TextSpan(
+                      text: NumberFormat('###,###.### VNĐ').format(product.price),
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ))
+                ])),
               ],
             ),
           ),

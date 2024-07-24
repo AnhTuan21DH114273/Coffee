@@ -57,7 +57,7 @@ class _UserManagerState extends State<UserManager> {
     return Container(
       width: double.infinity,
       height: 100,
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -66,12 +66,25 @@ class _UserManagerState extends State<UserManager> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Tên: ${user.name}"),
-                Text("Điện thoại: ${user.phone}"),
+                Text(
+                  "Tên: ${user.name}",
+                  style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
+                ),
+                Text(
+                  "Điện thoại: ${user.phone}",
+                  style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16),
+                ),
               ],
             ),
           ),

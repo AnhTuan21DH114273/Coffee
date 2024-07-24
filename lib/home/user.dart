@@ -261,6 +261,11 @@ class _UserState extends State<User> {
                 SizedBox(
                   width: 400,
                   child: TextFormField(
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16
+                    ),
                     controller: nameController,
                     decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
@@ -274,7 +279,7 @@ class _UserState extends State<User> {
                         color: Colors.black,
                       ),
                       suffixIcon: Icon(
-                        Icons.edit,
+                        Icons.edit_outlined,
                         color: Colors.black,
                       ),
                       labelStyle: TextStyle(
@@ -289,6 +294,11 @@ class _UserState extends State<User> {
                 SizedBox(
                   width: 400,
                   child: TextFormField(
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16
+                    ),
                     controller: phoneController,
                     decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
@@ -302,7 +312,7 @@ class _UserState extends State<User> {
                         color: Colors.black,
                       ),
                       suffixIcon: Icon(
-                        Icons.edit,
+                        Icons.edit_outlined,
                         color: Colors.black,
                       ),
                       labelStyle: TextStyle(
@@ -317,6 +327,11 @@ class _UserState extends State<User> {
                 SizedBox(
                   width: 400,
                   child: TextFormField(
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16
+                    ),
                     controller: mailController,
                     decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
@@ -330,7 +345,7 @@ class _UserState extends State<User> {
                         color: Colors.black,
                       ),
                       suffixIcon: Icon(
-                        Icons.edit,
+                        Icons.edit_outlined,
                         color: Colors.black,
                       ),
                       labelStyle: TextStyle(
@@ -345,6 +360,11 @@ class _UserState extends State<User> {
                 SizedBox(
                   width: 400,
                   child: TextFormField(
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16
+                    ),
                     controller: addressController,
                     decoration: const InputDecoration(
                       focusedBorder: UnderlineInputBorder(
@@ -358,7 +378,7 @@ class _UserState extends State<User> {
                         color: Colors.black,
                       ),
                       suffixIcon: Icon(
-                        Icons.edit,
+                        Icons.edit_outlined,
                         color: Colors.black,
                       ),
                       labelStyle: TextStyle(

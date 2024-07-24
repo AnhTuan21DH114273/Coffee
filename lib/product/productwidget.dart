@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:app_coffee/congf/const.dart';
 import 'package:app_coffee/data/config/config_manager.dart';
+import 'package:app_coffee/home/favorite.dart';
+import 'package:app_coffee/order/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import '../data/provider/order_provider.dart';
-import '../data/provider/cart_provider.dart'; // Import CartProvider
-import '../home/cart.dart';
+import '../data/provider/cart_provider.dart';
 import 'package:http/http.dart' as http;
 
 class ProductWidget extends StatefulWidget {
@@ -81,9 +81,7 @@ class _ProductWidgetState extends State<ProductWidget> {
   }
 
   Widget _buildScreen(products, BuildContext context) {
-    final orderProvider = Provider.of<OrderProvider>(context);
     final cartProvider = Provider.of<CartProvider>(context);
-
     return Container(
       decoration: const BoxDecoration(
         color: Color(0xFFE3E3E3),
@@ -132,13 +130,13 @@ class _ProductWidgetState extends State<ProductWidget> {
                       ),
                     ),
                     const SizedBox(
-                      width: 90,
+                      width: 130,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 0, top: 20),
                       child: ElevatedButton(
                         onPressed: () {
-                          orderProvider.buyNow(products);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Favorite()));
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(14),
@@ -248,7 +246,7 @@ class _ProductWidgetState extends State<ProductWidget> {
           const Padding(
             padding: EdgeInsets.only(left: 10),
             child: Text(
-              "Size",
+              "Kích cỡ",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
@@ -260,12 +258,10 @@ class _ProductWidgetState extends State<ProductWidget> {
             height: 20,
           ),
           sizeButton(),
-          const SizedBox(
-            height: 136,
-          ),
+          Spacer(),
           Container(
-            alignment: Alignment.bottomCenter,
-            height: 160,
+            alignment: Alignment.centerLeft,
+            height: 130,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30),
@@ -283,10 +279,10 @@ class _ProductWidgetState extends State<ProductWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(
-                      height: 45,
+                      height: 25,
                     ),
                     const Text(
-                      "Price",
+                      "Giá",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
@@ -313,13 +309,11 @@ class _ProductWidgetState extends State<ProductWidget> {
                   padding: const EdgeInsets.only(bottom: 15),
                   child: ElevatedButton(
                     onPressed: () {
-                      // Thêm sản phẩm vào giỏ hàng
                       cartProvider.addProductFromJson(products);
-                      // Chuyển hướng đến màn hình giỏ hàng
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Cart(),
+                          builder: (context) => const OrderScreen(),
                         ),
                       );
                     },
@@ -365,7 +359,7 @@ class _ProductWidgetState extends State<ProductWidget> {
   Widget sizeButton() {
     List<String> sizes = ["S", "M", "L"]; // Example sizes
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 13),
       child: Row(
         children: sizes.map((size) {
           int index = sizes.indexOf(size);

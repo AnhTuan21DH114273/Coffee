@@ -154,6 +154,11 @@ class _ReviewState extends State<Review> {
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const Mainpage()));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text('Xim cảm ơn quý khách đã đánh giá')),
+                          );
                         },
                         style: ButtonStyle(
                           padding: WidgetStateProperty.all<EdgeInsets>(

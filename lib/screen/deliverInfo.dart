@@ -283,7 +283,7 @@ class _DeliverinfoState extends State<Deliverinfo> {
           ),
         ),
         const SizedBox(
-          height: 120,
+          height: 40,
         ),
         ElevatedButton(
           onPressed: () {
@@ -306,7 +306,6 @@ class _DeliverinfoState extends State<Deliverinfo> {
               fontFamily: 'Inter',
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              height: 1.7,
               color: Colors.white,
             ),
           ),

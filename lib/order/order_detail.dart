@@ -24,13 +24,16 @@ class OrderDetail extends StatelessWidget {
             children: [
               Container(
                 width: 412,
-                height: 120,
+                height: 150,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15), color: Colors.white),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(width: 10,),
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -45,10 +48,13 @@ class OrderDetail extends StatelessWidget {
                               fontSize: 14, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          'Địa chỉ: ${order['address']}',
-                          style: const TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
+                        SizedBox(
+                          width: 280,
+                          child: Text(
+                            'Địa chỉ: ${order['address']}',
+                            style: const TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
                         ),
                         const SizedBox(height: 8),
                         RichText(
@@ -96,6 +102,7 @@ class OrderDetail extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final item = order['items'][index];
                     return Container(
+                      alignment: Alignment.centerLeft,
                       margin: const EdgeInsets.all(8),
                       width: 411,
                       height: 86,
@@ -109,7 +116,7 @@ class OrderDetail extends StatelessWidget {
                           title: Text(
                             item['product_name'],
                             style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
                           ), // Correct field name
@@ -117,14 +124,15 @@ class OrderDetail extends StatelessWidget {
                             '${item['product_description']} x ${item['quantity']}',
                             style: const TextStyle(
                                 color: Color(0xFFA2A2A2),
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
                           ),
                           trailing: RichText(
                               text: TextSpan(children: <TextSpan>[
                             const TextSpan(
                                 text: 'Giá: ',
                                 style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black)),
                             TextSpan(
@@ -132,7 +140,7 @@ class OrderDetail extends StatelessWidget {
                                 style: const TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 14,
+                                  fontSize: 18,
                                 ))
                           ]))),
                     );

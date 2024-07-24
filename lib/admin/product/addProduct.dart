@@ -151,7 +151,10 @@ class _AddproductState extends State<Addproduct> {
       final productService = ProductService();
       await productService.addProduct(product);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Sản phẩm đã được thêm thành công')),
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Text('Sản phẩm đã được thêm thành công'
+        )),
       );
       Navigator.pop(context); // Quay lại trang trước đó
     } catch (e) {

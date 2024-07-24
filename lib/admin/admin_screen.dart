@@ -1,6 +1,7 @@
 import 'package:app_coffee/admin/order_manage.dart';
 import 'package:app_coffee/admin/product_manage.dart';
 import 'package:app_coffee/admin/user_manage.dart';
+import 'package:app_coffee/signIn/signIn.dart';
 import 'package:flutter/material.dart';
 
 class AdminScreen extends StatefulWidget {
@@ -28,12 +29,18 @@ class _AdminScreenState extends State<AdminScreen> {
               children: [
                 IconButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInWidget()));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text('Tạm biệt Admin nha')
+                      ),
+                    );
                   }, 
                   icon: const Icon(Icons.arrow_back, color: Colors.black,)),
-                  const SizedBox(width: 35,),
+                  const SizedBox(width: 75,),
                   const Text(
-                  "QUẢN LÝ CỦA ADMIN",
+                  "Quản lý Admin",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -71,11 +78,11 @@ class _AdminScreenState extends State<AdminScreen> {
                               borderRadius: BorderRadius.circular(16),
                               side: const BorderSide(color: Color(0xFFC67C4E))))),
                   child: const Text(
-                    "QUẢN LÝ SẢN PHẨM",
+                    "Quản lý sản phẩm",
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 20,
                       height: 1.7,
                       color: Colors.white,
                     ),
@@ -109,11 +116,11 @@ class _AdminScreenState extends State<AdminScreen> {
                               borderRadius: BorderRadius.circular(16),
                               side: const BorderSide(color: Color(0xFFC67C4E))))),
                   child: const Text(
-                    "QUẢN LÝ ĐƠN HÀNG",
+                    "Quản lý đơn hàng",
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 20,
                       height: 1.7,
                       color: Colors.white,
                     ),
@@ -147,11 +154,11 @@ class _AdminScreenState extends State<AdminScreen> {
                               borderRadius: BorderRadius.circular(16),
                               side: const BorderSide(color: Color(0xFFC67C4E))))),
                   child: const Text(
-                    "QUẢN LÝ TÀI KHOẢN",
+                    "Quản lý tài khoản",
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 20,
                       height: 1.7,
                       color: Colors.white,
                     ),

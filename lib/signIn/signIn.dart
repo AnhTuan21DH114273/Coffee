@@ -83,7 +83,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black),
                       ),
-                      labelText: "Username",
+                      labelText: "Tên đăng nhập",
                       icon: Icon(
                         Icons.person,
                         color: Colors.black,
@@ -157,7 +157,7 @@ class _SignInWidgetState extends State<SignInWidget> {
 
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                  content: Text("Welcome ${userData['name']}")),
+                                  content: Text("Xin chào khách ${userData['name']}")),
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -248,7 +248,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                           height: 16,
                         )),
                   ),
-                  const Text("Or"),
+                  const Text("Hoặc"),
                   Expanded(
                     child: Container(
                         margin: const EdgeInsets.only(left: 15.0, right: 10.0),

@@ -21,6 +21,58 @@ class DeliveryScreen extends StatefulWidget {
 }
 
 class _DeliveryScreenState extends State<DeliveryScreen> {
+  String? userId;
+  String address = '';
+  @override
+  void initState() {
+    super.initState();
+    _loadUserIdAndFetchData(); // Lấy dữ liệu người dùng khi khởi tạo state
+  }
+
+  Future<void> _loadUserIdAndFetchData() async {
+    final prefs = await SharedPreferences.getInstance();
+    userId = prefs.getString('userId');
+    if (userId != null) {
+      await _fetchUserData();
+    } else {
+      // Handle the case where userId is not set or is null
+      print("No user ID found in SharedPreferences.");
+    }
+  }
+
+  Future<void> _fetchUserData() async {
+    if (userId == null) {
+      print("User ID is not set.");
+      return;
+    }
+
+    try {
+      final response = await http.get(Uri.parse('$baseURL/api/user/$userId'));
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+
+        // Extract the list of users
+        final List<dynamic> users = responseData['user'];
+
+        if (users.isNotEmpty) {
+          // Get the first user in the list
+          final userData = users[0]; // This is a map with user details
+
+          // Update the controllers with the user data
+          setState(() {
+            address = userData['address'] ?? '';
+          });
+        } else {
+          print("No user data available.");
+        }
+      } else {
+        throw Exception('Failed to load user data');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
   Future<void> _placeOrder() async {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final cartList = cartProvider.cartList;
@@ -31,7 +83,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     // Thông tin đơn hàng
     final order = {
       'user_id': userId, // Ví dụ: ID người dùng, bạn có thể lấy từ state hoặc auth
-      'address': '15 Võ Văn Kiệt',
+      'address': address,
       'order_date': DateFormat('yyyy-MM-dd').format(DateTime.now()),
       'total_price': cartList.fold<double>(
           0, (sum, item) => sum + item.product.price * item.quantity),
@@ -152,26 +204,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "15 Võ Văn Kiệt",
-          style: TextStyle(
+        Text(
+          address,
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 10),
-        const Text(
-          "Nguyễn Văn A",
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const Text(
-          "phường 7, quận 6, Thành phố Hồ Chí Minh",
-          style: TextStyle(
-            fontSize: 12,
-            color: Color(0xFFA2A2A2),
           ),
         ),
         const SizedBox(height: 10),
@@ -445,7 +482,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
               ),
             ),
             child: const Text(
-              "Order",
+              "Đặt hàng",
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontWeight: FontWeight.bold,

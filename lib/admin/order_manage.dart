@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../data/service/order_service.dart';
 import '../data/model/order.dart';
 import '../admin/order/editOrder.dart'; // Import the edit order screen
@@ -57,8 +58,8 @@ class _OrderManageState extends State<OrderManage> {
   Widget listView(OrderModel order, BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 100,
-      margin: const EdgeInsets.all(8),
+      height: 120,
+      margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -69,13 +70,56 @@ class _OrderManageState extends State<OrderManage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Khách hàng: ${order.id}"),
-                Text("Tổng tiền: ${order.totalAmount.toStringAsFixed(2)} VNĐ"),
-                Text("Trạng thái: ${order.status}"),
                 Text(
-                    "Ngày: ${order.orderDate.toLocal().toString().split(' ')[0]}"),
+                  "Đơn hàng: ${order.id}",
+                  style: const TextStyle(
+                      fontSize: 16, 
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                RichText(
+                    text: TextSpan(children: <TextSpan>[
+                  const TextSpan(
+                      text: 'Tổng tiền: ',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                  TextSpan(
+                      text: NumberFormat('###,###.### VNĐ')
+                          .format(order.totalAmount),
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ))
+                ])),
+                RichText(
+                    text: TextSpan(children: <TextSpan>[
+                  const TextSpan(
+                      text: 'Trạng thái: ',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                  TextSpan(
+                      text: order.status,
+                      style: const TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ))
+                ])),
+                Text(
+                    "Ngày đặt hàng: ${order.orderDate.toLocal().toString().split(' ')[0]}",
+                    style: const TextStyle(
+                      fontSize: 16, 
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
               ],
             ),
           ),

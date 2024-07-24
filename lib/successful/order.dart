@@ -46,26 +46,6 @@ class _OrderSuccessfulState extends State<OrderSuccessful> {
                     alignment: Alignment.topCenter,
                     image: AssetImage("assets/images/Order.png")),
                 Positioned(
-                  top: 0,
-                  left: 0,
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.only(right: 100),
-                    child: OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.all(1),
-                          minimumSize: const Size(0, 0),
-                          backgroundColor: const Color(0xFFC3916B),
-                          side: BorderSide.none,
-                        ),
-                        child: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.black,
-                        )),
-                  ),
-                ),
-                Positioned(
                   top: 100,
                   bottom: 0,
                   child: SvgPicture.asset(
